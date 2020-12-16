@@ -40,8 +40,15 @@ export default {
         counter[id] = counter[id] ? counter[id] + 1 : 1;
       }
 
+      const seen = {};
       for (const activity of activities) {
         const id = activity.activityId;
+        if (seen[id]) {
+          continue;
+        } else {
+          seen[id] = true;
+        }
+
         const overlay = document.createElement('span');
         overlay.innerText = counter[id];
         overlay.className = "badge";

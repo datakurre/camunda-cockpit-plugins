@@ -1,3 +1,5 @@
+import simpleheat from "./simpleheat.js";
+
 const headers = (api) => {
   return {
     "Accept": "application/json",
@@ -26,7 +28,8 @@ export default {
   // what to render, specific objects that you can pass into render function to use
   render: (viewer, { api, processDefinitionId}) => {
     (async () => {
-      window.viewer = viewer;
+      // window.viewer = viewer;
+      // window.simpleheat = simpleheat;
       const overlays = viewer.get('overlays');
 
       const definition = await get(
@@ -61,8 +64,15 @@ export default {
         counter[id] = counter[id] ? counter[id] + 1 : 1;
       }
 
+      const seen = {};
       for (const activity of activities) {
         const id = activity.activityId;
+        if (seen[id]) {
+          continue;
+        } else {
+          seen[id] = true;
+        }
+
         const overlay = document.createElement('span');
         overlay.innerText = counter[id];
         overlay.className = "badge";
