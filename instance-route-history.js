@@ -26524,6 +26524,47 @@ var Container = function (_a) {
         react.createElement("div", { className: "ctn-content-container" }, children)));
 };
 
+var History = function (_a) {
+    var instances = _a.instances;
+    var columns = react.useMemo(function () { return [
+        {
+            Header: 'ID',
+            Cell: function (_a) {
+                var value = _a.value;
+                return react.createElement("a", { href: "#/history/process-instance/" + value }, value);
+            },
+            accessor: 'id',
+        },
+        {
+            Header: 'End Time',
+            accessor: 'endTime',
+        },
+        {
+            Header: 'Business Key',
+            accessor: 'businessKey',
+        },
+    ]; }, []);
+    var data = react.useMemo(function () {
+        return instances.map(function (instance) {
+            return {
+                id: instance.id,
+                businessKey: instance.businessKey,
+                endDate: instance.endTime ? instance.endTime.split('.')[0] : '',
+            };
+        });
+    }, []);
+    var tableInstance = reactTable.useTable({ columns: columns, data: data });
+    var getTableProps = tableInstance.getTableProps, getTableBodyProps = tableInstance.getTableBodyProps, headerGroups = tableInstance.headerGroups, rows = tableInstance.rows, prepareRow = tableInstance.prepareRow;
+    return (react.createElement("table", __assign({ className: "cam-table" }, getTableProps()),
+        react.createElement("thead", null, headerGroups.map(function (headerGroup) { return (react.createElement("tr", __assign({}, headerGroup.getHeaderGroupProps()), headerGroup.headers.map(function (column) { return (react.createElement("th", __assign({}, column.getHeaderProps()), column.render('Header'))); }))); })),
+        react.createElement("tbody", __assign({}, getTableBodyProps()), rows.map(function (row) {
+            prepareRow(row);
+            return (react.createElement("tr", __assign({}, row.getRowProps()), row.cells.map(function (cell) {
+                return react.createElement("td", __assign({}, cell.getCellProps()), cell.render('Cell'));
+            })));
+        }))));
+};
+
 var Page = function (_a) {
     var children = _a.children;
     return react.createElement("div", { className: "ctn-main" }, children);
@@ -26558,99 +26599,133 @@ var Variables = function (_a) {
         }))));
 };
 
-var instanceRouteHistory = {
-    id: 'instanceRouteHistory',
-    pluginPoint: 'cockpit.route',
-    properties: {
-        label: '/history',
-    },
-    render: function (node, _a) {
-        var _b, _c;
-        var api = _a.api;
-        var hash = (_c = (_b = window === null || window === void 0 ? void 0 : window.location) === null || _b === void 0 ? void 0 : _b.hash) !== null && _c !== void 0 ? _c : '';
-        var match = hash.match(/\/history\/process-instance\/([^\/]*)/);
-        var processInstanceId = match ? match[1] : null;
-        if (processInstanceId) {
+var instanceRouteHistory = [
+    {
+        id: 'definitionTabHistoricInstances',
+        pluginPoint: 'cockpit.processDefinition.runtime.tab',
+        properties: {
+            label: 'History',
+        },
+        render: function (node, _a) {
+            var api = _a.api, processDefinitionId = _a.processDefinitionId;
             (function () { return __awaiter(void 0, void 0, void 0, function () {
-                var instance, _a, diagram, activities, variables;
-                return __generator(this, function (_b) {
-                    switch (_b.label) {
-                        case 0: return [4 /*yield*/, get(api, "/history/process-instance/" + processInstanceId)];
+                var definition, instances;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, get(api, "/process-definition/" + processDefinitionId)];
                         case 1:
-                            instance = _b.sent();
-                            return [4 /*yield*/, Promise.all([
-                                    get(api, "/process-definition/" + instance.processDefinitionId + "/xml"),
-                                    get(api, '/history/activity-instance', { processInstanceId: processInstanceId }),
-                                    get(api, '/history/variable-instance', { processInstanceId: processInstanceId }),
-                                ])];
+                            definition = _a.sent();
+                            return [4 /*yield*/, get(api, '/history/process-instance', {
+                                    processDefinitionKey: definition.key,
+                                    // finished: true,
+                                    sortBy: 'endTime',
+                                    sortOrder: 'desc',
+                                    maxResults: '100',
+                                })];
                         case 2:
-                            _a = _b.sent(), diagram = _a[0], activities = _a[1], variables = _a[2];
-                            activities.sort(function (a, b) {
-                                a = a.endTime ? new Date(a.endTime) : new Date();
-                                b = b.endTime ? new Date(b.endTime) : new Date();
-                                if (a > b) {
-                                    return -1;
-                                }
-                                if (a < b) {
-                                    return 1;
-                                }
-                                return 0;
-                            });
-                            variables.sort(function (a, b) {
-                                a = a.name;
-                                b = b.name;
-                                if (a > b) {
-                                    return 1;
-                                }
-                                if (a < b) {
-                                    return -1;
-                                }
-                                return 0;
-                            });
+                            instances = _a.sent();
                             reactDom.render(react.createElement(react.StrictMode, null,
-                                react.createElement(Page, null,
-                                    react.createElement(BreadcrumbsPanel, { processDefinitionId: instance.processDefinitionId, processDefinitionName: instance.processDefinitionName, processInstanceId: processInstanceId }),
-                                    react.createElement(Container, null,
-                                        react.createElement(SplitPane, { split: "vertical", size: 200 },
-                                            react.createElement("div", { className: "ctn-column" },
-                                                react.createElement("dl", { className: "process-information" },
-                                                    react.createElement("dt", null, "Instance ID:"),
-                                                    react.createElement("dd", null, instance.id),
-                                                    react.createElement("dt", null, "Business Key:"),
-                                                    react.createElement("dd", null, instance.businessKey || 'null'),
-                                                    react.createElement("dt", null, "Definition Version:"),
-                                                    react.createElement("dd", null, instance.processDefinitionVersion),
-                                                    react.createElement("dt", null, "Definition ID:"),
-                                                    react.createElement("dd", null, instance.processDefinitionId),
-                                                    react.createElement("dt", null, "Definition Key:"),
-                                                    react.createElement("dd", null, instance.processDefinitionKey),
-                                                    react.createElement("dt", null, "Definition Name:"),
-                                                    react.createElement("dd", null, instance.processDefinitionName),
-                                                    react.createElement("dt", null, "Tenant ID:"),
-                                                    react.createElement("dd", null, instance.tenantId || 'null'),
-                                                    react.createElement("dt", null, "Super Process Instance ID:"),
-                                                    react.createElement("dd", null, instance.superProcessInstanceId || 'null'),
-                                                    react.createElement("dt", null, "State"),
-                                                    react.createElement("dd", null, instance.state))),
-                                            react.createElement(SplitPane, { split: "horizontal", size: 300 },
-                                                react.createElement(BPMN, { activities: activities, diagramXML: diagram.bpmn20Xml, style: { width: '100%' } }),
-                                                react.createElement(Tabs, { className: "ctn-row ctn-content-bottom ctn-tabbed", selectedTabClassName: "active" },
-                                                    react.createElement(TabList, { className: "nav nav-tabs" },
-                                                        react.createElement(Tab, null,
-                                                            react.createElement("a", null, "Audit Log")),
-                                                        react.createElement(Tab, null,
-                                                            react.createElement("a", null, "Variables"))),
-                                                    react.createElement(TabPanel, { className: "ctn-tabbed-content ctn-scroll" },
-                                                        react.createElement(AuditLog, { activities: activities })),
-                                                    react.createElement(TabPanel, { className: "ctn-tabbed-content ctn-scroll" },
-                                                        react.createElement(Variables, { variables: variables })),
-                                                    react.createElement(TabPanel, null))))))), node);
+                                react.createElement(History, { instances: instances })), node);
                             return [2 /*return*/];
                     }
                 });
             }); })();
-        }
+        },
     },
-};
+    {
+        id: 'instanceRouteHistory',
+        pluginPoint: 'cockpit.route',
+        properties: {
+            label: '/history',
+        },
+        render: function (node, _a) {
+            var _b, _c;
+            var api = _a.api;
+            var hash = (_c = (_b = window === null || window === void 0 ? void 0 : window.location) === null || _b === void 0 ? void 0 : _b.hash) !== null && _c !== void 0 ? _c : '';
+            var match = hash.match(/\/history\/process-instance\/([^\/]*)/);
+            var processInstanceId = match ? match[1] : null;
+            if (processInstanceId) {
+                (function () { return __awaiter(void 0, void 0, void 0, function () {
+                    var instance, _a, diagram, activities, variables;
+                    return __generator(this, function (_b) {
+                        switch (_b.label) {
+                            case 0: return [4 /*yield*/, get(api, "/history/process-instance/" + processInstanceId)];
+                            case 1:
+                                instance = _b.sent();
+                                return [4 /*yield*/, Promise.all([
+                                        get(api, "/process-definition/" + instance.processDefinitionId + "/xml"),
+                                        get(api, '/history/activity-instance', { processInstanceId: processInstanceId }),
+                                        get(api, '/history/variable-instance', { processInstanceId: processInstanceId }),
+                                    ])];
+                            case 2:
+                                _a = _b.sent(), diagram = _a[0], activities = _a[1], variables = _a[2];
+                                activities.sort(function (a, b) {
+                                    a = a.endTime ? new Date(a.endTime) : new Date();
+                                    b = b.endTime ? new Date(b.endTime) : new Date();
+                                    if (a > b) {
+                                        return -1;
+                                    }
+                                    if (a < b) {
+                                        return 1;
+                                    }
+                                    return 0;
+                                });
+                                variables.sort(function (a, b) {
+                                    a = a.name;
+                                    b = b.name;
+                                    if (a > b) {
+                                        return 1;
+                                    }
+                                    if (a < b) {
+                                        return -1;
+                                    }
+                                    return 0;
+                                });
+                                reactDom.render(react.createElement(react.StrictMode, null,
+                                    react.createElement(Page, null,
+                                        react.createElement(BreadcrumbsPanel, { processDefinitionId: instance.processDefinitionId, processDefinitionName: instance.processDefinitionName, processInstanceId: processInstanceId }),
+                                        react.createElement(Container, null,
+                                            react.createElement(SplitPane, { split: "vertical", size: 200 },
+                                                react.createElement("div", { className: "ctn-column" },
+                                                    react.createElement("dl", { className: "process-information" },
+                                                        react.createElement("dt", null, "Instance ID:"),
+                                                        react.createElement("dd", null, instance.id),
+                                                        react.createElement("dt", null, "Business Key:"),
+                                                        react.createElement("dd", null, instance.businessKey || 'null'),
+                                                        react.createElement("dt", null, "Definition Version:"),
+                                                        react.createElement("dd", null, instance.processDefinitionVersion),
+                                                        react.createElement("dt", null, "Definition ID:"),
+                                                        react.createElement("dd", null, instance.processDefinitionId),
+                                                        react.createElement("dt", null, "Definition Key:"),
+                                                        react.createElement("dd", null, instance.processDefinitionKey),
+                                                        react.createElement("dt", null, "Definition Name:"),
+                                                        react.createElement("dd", null, instance.processDefinitionName),
+                                                        react.createElement("dt", null, "Tenant ID:"),
+                                                        react.createElement("dd", null, instance.tenantId || 'null'),
+                                                        react.createElement("dt", null, "Super Process Instance ID:"),
+                                                        react.createElement("dd", null, instance.superProcessInstanceId || 'null'),
+                                                        react.createElement("dt", null, "State"),
+                                                        react.createElement("dd", null, instance.state))),
+                                                react.createElement(SplitPane, { split: "horizontal", size: 300 },
+                                                    react.createElement(BPMN, { activities: activities, diagramXML: diagram.bpmn20Xml, style: { width: '100%' } }),
+                                                    react.createElement(Tabs, { className: "ctn-row ctn-content-bottom ctn-tabbed", selectedTabClassName: "active" },
+                                                        react.createElement(TabList, { className: "nav nav-tabs" },
+                                                            react.createElement(Tab, null,
+                                                                react.createElement("a", null, "Audit Log")),
+                                                            react.createElement(Tab, null,
+                                                                react.createElement("a", null, "Variables"))),
+                                                        react.createElement(TabPanel, { className: "ctn-tabbed-content ctn-scroll" },
+                                                            react.createElement(AuditLog, { activities: activities })),
+                                                        react.createElement(TabPanel, { className: "ctn-tabbed-content ctn-scroll" },
+                                                            react.createElement(Variables, { variables: variables })),
+                                                        react.createElement(TabPanel, null))))))), node);
+                                return [2 /*return*/];
+                        }
+                    });
+                }); })();
+            }
+        },
+    },
+];
 
 export default instanceRouteHistory;

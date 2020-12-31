@@ -16,11 +16,11 @@
  */
 export default {
    customScripts: [
-    'scripts/definition-diagram-historic-activities.js',
-    'scripts/definition-tab-historic-activities.js',
-    'scripts/definition-tab-historic-instances.js',
-    'scripts/instance-diagram-historic-activities.js',
-    'scripts/instance-tab-historic-activities.js',
+    'scripts/definition-historic-activities.js',
+//    'scripts/definition-tab-historic-activities.js',
+    'scripts/instance-historic-activities.js',
+//    'scripts/instance-tab-historic-activities.js',
+//    'scripts/definition-tab-historic-instances.js',
     'scripts/instance-route-history.js',
   ],
   // locales: {

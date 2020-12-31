@@ -1,8 +1,9 @@
-from SimpleHTTPServer import SimpleHTTPRequestHandler, test
+#!/usr/bin/env python2
+from SimpleHTTPServer import SimpleHTTPRequestHandler
+from SimpleHTTPServer import test
 
 
 class CORSHTTPRequestHandler(SimpleHTTPRequestHandler):
-
     def end_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
         SimpleHTTPRequestHandler.end_headers(self)

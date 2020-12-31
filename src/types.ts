@@ -6,3 +6,8 @@ export interface API {
 export interface RouteParams {
   api: API;
 }
+
+export interface TabParams {
+  api: API;
+  processDefinitionId: string;
+}

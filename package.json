@@ -1,7 +1,7 @@
 {
-  "name": "cockpit-greetings-plugin",
+  "name": "camunda-cockpit-plugins",
+  "private": true,
   "version": "0.0.1",
-  "main": "src/plugin.js",
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -w -c",
