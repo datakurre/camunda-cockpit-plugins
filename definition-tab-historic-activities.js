@@ -120,23 +120,34 @@ export default {
       thead.appendChild(th);
       thead.setAttribute("sortable-table-head", "");
 
+      th = document.createElement('th');
+      th.textContent = "Median";
+      thead.appendChild(th);
+      thead.setAttribute("sortable-table-head", "");
+
       const tbody = document.createElement('tbody');
       table.appendChild(tbody);
 
+      const totals = {};
       const durations = {};
       for (const activity of activities) {
         const duration = new Date(activity.endTime) - new Date(activity.startTime);
-        durations[activity.activityName] =
-          durations[activity.activityName]
-          ? durations[activity.activityName] + duration
+        totals[activity.activityName] =
+          totals[activity.activityName]
+          ? totals[activity.activityName] + duration
           : duration;
+        if (!durations[activity.activityName]) {
+          durations[activity.activityName] = [duration];
+        } else {
+          durations[activity.activityName].push(duration);
+        }
       }
 
-      const activityNames = Object.keys(durations);
+      const activityNames = Object.keys(totals);
       activityNames.sort((a, b) => {
-        if (durations[a] > durations[b]) {
+        if (totals[a] > totals[b]) {
           return -1;
-        } else if (durations[a] < durations[b]) {
+        } else if (totals[a] < totals[b]) {
           return 1;
         }
         return 0;
@@ -157,11 +168,24 @@ export default {
         row.appendChild(td);
 
         td = document.createElement('td');
-        td.textContent = asctime(durations[activityName]);
+        td.textContent = asctime(totals[activityName]);
         row.appendChild(td);
 
         td = document.createElement('td');
-        td.textContent = asctime(durations[activityName] / counter[activityName]);
+        td.textContent = asctime(totals[activityName] / counter[activityName]);
+        row.appendChild(td);
+
+        durations[activityNames].sort((a, b) => {
+          if (durations[a] > durations[b]) {
+            return -1;
+          } else if (durations[a] < durations[b]) {
+            return 1;
+          }
+          return 0;
+        });
+
+        td = document.createElement('td');
+        td.textContent = asctime(durations[activityName][Math.floor(durations[activityName].length / 2)]);
         row.appendChild(td);
       }
 

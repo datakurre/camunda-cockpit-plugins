@@ -18,31 +18,29 @@ export default {
    customScripts: [
     'scripts/definition-diagram-historic-activities.js',
     'scripts/definition-tab-historic-activities.js',
+    'scripts/definition-tab-historic-instances.js',
     'scripts/instance-diagram-historic-activities.js',
     'scripts/instance-tab-historic-activities.js',
-  ]
-  // customScripts: [
-  //   // If you have a folder called 'my-custom-script' (in the 'cockpit' folder)
-  //   // with a file called 'customScript.js' in it
-  //   // 'my-custom-script/customScript'
-  // ],
+    'scripts/instance-route-history.js',
+  ],
   // locales: {
   //   availableLocales: ['en', 'de'],
   //   fallbackLocale: 'en'
   // },
   // csrfCookieName: 'XSRF-TOKEN',
-  // bpmnJs: {
-  //   additionalModules: [
-  //     // If you have a folder called 'my-custom-module' (in the 'cockpit' folder)
-  //     // with a file called 'module.js' in it
-  //     // 'my-custom-module/module'
-  //   ],
+  bpmnJs: {
+    additionalModules: [
+      'scripts/robot-module.js'
+      // If you have a folder called 'my-custom-module' (in the 'cockpit' folder)
+      // with a file called 'module.js' in it
+      // 'my-custom-module/module'
+    ],
   //   moddleExtensions: {
   //     // If you have a folder called 'my-custom-moddle' (in the 'cockpit' folder)
   //     // with a file called 'camunda.json' in it defining the 'camunda' moddle extension
   //     // camunda: 'my-custom-moddle/camunda'
   //   }
-  // },
+  },
   // skipCustomListeners: {
   //   default: true,
   //   hidden: false
@@ -74,6 +72,6 @@ export default {
   //     event: 'started'
   //   }
   // },
-  // disableWelcomeMessage: false,
+  disableWelcomeMessage: true,
   // userOperationLogAnnotationLength: 4000
 };
