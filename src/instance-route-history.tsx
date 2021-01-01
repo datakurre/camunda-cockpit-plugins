@@ -115,7 +115,7 @@ export default [
                       </dl>
                     </div>
                     <SplitPane split="horizontal" size={300}>
-                      <BPMN activities={activities} diagramXML={diagram.bpmn20Xml} style={{ width: '100%' }} />
+                      <BPMN activities={activities} diagramXML={diagram.bpmn20Xml} className="ctn-content" style={{ width: '100%' }} />
                       <Tabs className="ctn-row ctn-content-bottom ctn-tabbed" selectedTabClassName="active">
                         <TabList className="nav nav-tabs">
                           <Tab>

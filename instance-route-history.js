@@ -26712,7 +26712,7 @@ var instanceRouteHistory = [
                                                         react.createElement("dt", null, "State"),
                                                         react.createElement("dd", null, instance.state))),
                                                 react.createElement(SplitPane, { split: "horizontal", size: 300 },
-                                                    react.createElement(BPMN, { activities: activities, diagramXML: diagram.bpmn20Xml, style: { width: '100%' } }),
+                                                    react.createElement(BPMN, { activities: activities, diagramXML: diagram.bpmn20Xml, className: "ctn-content", style: { width: '100%' } }),
                                                     react.createElement(Tabs, { className: "ctn-row ctn-content-bottom ctn-tabbed", selectedTabClassName: "active" },
                                                         react.createElement(TabList, { className: "nav nav-tabs" },
                                                             react.createElement(Tab, null,
