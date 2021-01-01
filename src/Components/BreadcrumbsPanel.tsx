@@ -26,7 +26,7 @@ const BreadcrumbsPanel: React.FC<Props> = ({ processDefinitionId, processDefinit
           <a className="text" href={`#/process-definition/${processDefinitionId}/runtime`}>
             {processDefinitionName}
           </a>{' '}
-          :{processInstanceId} : History
+          : {processInstanceId} : History
         </li>
       </ul>
     </div>

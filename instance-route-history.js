@@ -3954,7 +3954,7 @@ var asctime = function (duration) {
     return hours_ + ':' + minutes_ + ':' + seconds_ + '.' + milliseconds;
 };
 
-var AuditLog = function (_a) {
+var AuditLogTable = function (_a) {
     var activities = _a.activities;
     var columns = react.useMemo(function () { return [
         {
@@ -26513,7 +26513,7 @@ var BreadcrumbsPanel = function (_a) {
                 react.createElement("span", { className: "divider" }, "\u00BB"),
                 react.createElement("a", { className: "text", href: "#/process-definition/" + processDefinitionId + "/runtime" }, processDefinitionName),
                 ' ',
-                ":",
+                ": ",
                 processInstanceId,
                 " : History"))));
 };
@@ -26524,16 +26524,20 @@ var Container = function (_a) {
         react.createElement("div", { className: "ctn-content-container" }, children)));
 };
 
-var History = function (_a) {
+var HistoryTable = function (_a) {
     var instances = _a.instances;
     var columns = react.useMemo(function () { return [
         {
-            Header: 'ID',
+            Header: 'Instance ID',
             Cell: function (_a) {
                 var value = _a.value;
                 return react.createElement("a", { href: "#/history/process-instance/" + value }, value);
             },
             accessor: 'id',
+        },
+        {
+            Header: 'Start Time',
+            accessor: 'startTime',
         },
         {
             Header: 'End Time',
@@ -26549,7 +26553,8 @@ var History = function (_a) {
             return {
                 id: instance.id,
                 businessKey: instance.businessKey,
-                endDate: instance.endTime ? instance.endTime.split('.')[0] : '',
+                startTime: instance.startTime.split('.')[0],
+                endTime: instance.endTime ? instance.endTime.split('.')[0] : '',
             };
         });
     }, []);
@@ -26570,7 +26575,7 @@ var Page = function (_a) {
     return react.createElement("div", { className: "ctn-main" }, children);
 };
 
-var Variables = function (_a) {
+var VariablesTable = function (_a) {
     var variables = _a.variables;
     var columns = react.useMemo(function () { return [
         {
@@ -26625,7 +26630,7 @@ var instanceRouteHistory = [
                         case 2:
                             instances = _a.sent();
                             reactDom.render(react.createElement(react.StrictMode, null,
-                                react.createElement(History, { instances: instances })), node);
+                                react.createElement(HistoryTable, { instances: instances })), node);
                             return [2 /*return*/];
                     }
                 });
@@ -26715,9 +26720,9 @@ var instanceRouteHistory = [
                                                             react.createElement(Tab, null,
                                                                 react.createElement("a", null, "Variables"))),
                                                         react.createElement(TabPanel, { className: "ctn-tabbed-content ctn-scroll" },
-                                                            react.createElement(AuditLog, { activities: activities })),
+                                                            react.createElement(AuditLogTable, { activities: activities })),
                                                         react.createElement(TabPanel, { className: "ctn-tabbed-content ctn-scroll" },
-                                                            react.createElement(Variables, { variables: variables })),
+                                                            react.createElement(VariablesTable, { variables: variables })),
                                                         react.createElement(TabPanel, null))))))), node);
                                 return [2 /*return*/];
                         }

@@ -17,10 +17,7 @@
 export default {
    customScripts: [
     'scripts/definition-historic-activities.js',
-//    'scripts/definition-tab-historic-activities.js',
     'scripts/instance-historic-activities.js',
-//    'scripts/instance-tab-historic-activities.js',
-//    'scripts/definition-tab-historic-instances.js',
     'scripts/instance-route-history.js',
   ],
   // locales: {

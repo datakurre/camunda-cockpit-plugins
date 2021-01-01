@@ -1,55 +1,41 @@
 import React from 'react';
 import { useTable } from 'react-table';
 
-import { asctime } from '../utils';
-
 interface Props {
-  activities: any[];
+  instances: any[];
 }
 
-const AuditLog: React.FC<Props> = ({ activities }) => {
+const HistoryTable: React.FC<Props> = ({ instances }) => {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Activity Name',
-        accessor: 'activityName',
+        Header: 'Instance ID',
+        Cell: ({ value }: any) => <a href={`#/history/process-instance/${value}`}>{value}</a>,
+        accessor: 'id',
       },
       {
-        Header: 'Start Date',
-        accessor: 'startDate',
+        Header: 'Start Time',
+        accessor: 'startTime',
       },
       {
-        Header: 'End Date',
-        accessor: 'endDate',
+        Header: 'End Time',
+        accessor: 'endTime',
       },
       {
-        Header: 'Duration',
-        accessor: 'duration',
-      },
-      {
-        Header: 'Type',
-        accessor: 'type',
-      },
-      {
-        Header: 'Canceled',
-        accessor: 'canceled',
+        Header: 'Business Key',
+        accessor: 'businessKey',
       },
     ],
     []
   );
   const data = React.useMemo(
     () =>
-      activities.map((activity: any) => {
-        console.log(activity);
+      instances.map((instance: any) => {
         return {
-          activityName: activity.activityName,
-          startDate: activity.startTime.split('.')[0],
-          endDate: activity.endTime ? activity.endTime.split('.')[0] : '',
-          duration: activity.endTime
-            ? asctime(new Date(activity.endTime).getTime() - new Date(activity.startTime).getTime())
-            : '',
-          type: activity.activityType,
-          canceled: activity.canceled ? 'true' : 'false',
+          id: instance.id,
+          businessKey: instance.businessKey,
+          startTime: instance.startTime.split('.')[0],
+          endTime: instance.endTime ? instance.endTime.split('.')[0] : '',
         };
       }),
     []
@@ -83,4 +69,4 @@ const AuditLog: React.FC<Props> = ({ activities }) => {
   );
 };
 
-export default AuditLog;
+export default HistoryTable;

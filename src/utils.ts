@@ -36,7 +36,7 @@ export const asctime = (duration: number): string => {
 
   return hours_ + ':' + minutes_ + ':' + seconds_ + '.' + milliseconds;
 };
-const filter: <T>(iterable: T[], condition: (x: T) => boolean) => T[] = (iterable, condition) => {
+export const filter: <T>(iterable: T[], condition: (x: T) => boolean) => T[] = (iterable, condition) => {
   const result = [];
   for (const item of iterable) {
     if (condition(item)) {

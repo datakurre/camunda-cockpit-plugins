@@ -28,6 +28,27 @@ const plugins = [
 
 export default [
   {
+    input: "src/RobotModule/index.ts",
+    output: {
+      file: "robot-module.js",
+    },
+    plugins,
+  },
+  {
+    input: "src/instance-historic-activities.tsx",
+    output: {
+      file: "instance-historic-activities.js",
+    },
+    plugins,
+  },
+  {
+    input: "src/definition-historic-activities.tsx",
+    output: {
+      file: "definition-historic-activities.js",
+    },
+    plugins,
+  },
+  {
     input: "src/instance-route-history.tsx",
     output: {
       file: "instance-route-history.js",

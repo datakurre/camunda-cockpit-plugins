@@ -5,14 +5,14 @@ import ReactDOM from 'react-dom';
 import SplitPane from 'react-split-pane';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
-import AuditLog from './Components/AuditLog';
+import AuditLogTable from './Components/AuditLogTable';
 import BPMN from './Components/BPMN';
 import BreadcrumbsPanel from './Components/BreadcrumbsPanel';
 import Container from './Components/Container';
-import History from './Components/History';
+import HistoryTable from './Components/HistoryTable';
 import Page from './Components/Page';
-import Variables from './Components/Variables';
-import { RouteParams, TabParams } from './types';
+import VariablesTable from './Components/VariablesTable';
+import { DefinitionPluginParams, RoutePluginParams } from './types';
 import { get } from './utils';
 
 export default [
@@ -22,7 +22,7 @@ export default [
     properties: {
       label: 'History',
     },
-    render: (node: Element, { api, processDefinitionId }: TabParams) => {
+    render: (node: Element, { api, processDefinitionId }: DefinitionPluginParams) => {
       (async () => {
         const definition = await get(api, `/process-definition/${processDefinitionId}`);
         const instances = await get(api, '/history/process-instance', {
@@ -34,7 +34,7 @@ export default [
         });
         ReactDOM.render(
           <React.StrictMode>
-            <History instances={instances} />
+            <HistoryTable instances={instances} />
           </React.StrictMode>,
           node
         );
@@ -48,7 +48,7 @@ export default [
       label: '/history',
     },
 
-    render: (node: Element, { api }: RouteParams) => {
+    render: (node: Element, { api }: RoutePluginParams) => {
       const hash = window?.location?.hash ?? '';
       const match = hash.match(/\/history\/process-instance\/([^\/]*)/);
       const processInstanceId = match ? match[1] : null;
@@ -126,10 +126,10 @@ export default [
                           </Tab>
                         </TabList>
                         <TabPanel className="ctn-tabbed-content ctn-scroll">
-                          <AuditLog activities={activities} />
+                          <AuditLogTable activities={activities} />
                         </TabPanel>
                         <TabPanel className="ctn-tabbed-content ctn-scroll">
-                          <Variables variables={variables} />
+                          <VariablesTable variables={variables} />
                         </TabPanel>
                         <TabPanel></TabPanel>
                       </Tabs>

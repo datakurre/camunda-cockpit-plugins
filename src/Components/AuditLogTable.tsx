@@ -4,28 +4,56 @@ import { useTable } from 'react-table';
 import { asctime } from '../utils';
 
 interface Props {
-  variables: any[];
+  activities: any[];
 }
 
-const Variables: React.FC<Props> = ({ variables }) => {
+const AuditLogTable: React.FC<Props> = ({ activities }) => {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Name',
-        accessor: 'name',
+        Header: 'Activity Name',
+        accessor: 'activityName',
       },
       {
-        Header: 'Value',
-        accessor: 'value',
+        Header: 'Start Date',
+        accessor: 'startDate',
       },
       {
-        Header: 'State',
-        accessor: 'state',
+        Header: 'End Date',
+        accessor: 'endDate',
+      },
+      {
+        Header: 'Duration',
+        accessor: 'duration',
+      },
+      {
+        Header: 'Type',
+        accessor: 'type',
+      },
+      {
+        Header: 'Canceled',
+        accessor: 'canceled',
       },
     ],
     []
   );
-  const data = React.useMemo(() => variables, []);
+  const data = React.useMemo(
+    () =>
+      activities.map((activity: any) => {
+        console.log(activity);
+        return {
+          activityName: activity.activityName,
+          startDate: activity.startTime.split('.')[0],
+          endDate: activity.endTime ? activity.endTime.split('.')[0] : '',
+          duration: activity.endTime
+            ? asctime(new Date(activity.endTime).getTime() - new Date(activity.startTime).getTime())
+            : '',
+          type: activity.activityType,
+          canceled: activity.canceled ? 'true' : 'false',
+        };
+      }),
+    []
+  );
   const tableInstance = useTable({ columns: columns as any, data });
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
   return (
@@ -55,4 +83,4 @@ const Variables: React.FC<Props> = ({ variables }) => {
   );
 };
 
-export default Variables;
+export default AuditLogTable;

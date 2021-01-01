@@ -3,11 +3,16 @@ export interface API {
   CSRFToken: string;
 }
 
-export interface RouteParams {
+export interface RoutePluginParams {
   api: API;
 }
 
-export interface TabParams {
+export interface DefinitionPluginParams {
   api: API;
   processDefinitionId: string;
+}
+
+export interface InstancePluginParams {
+  api: API;
+  processInstanceId: string;
 }

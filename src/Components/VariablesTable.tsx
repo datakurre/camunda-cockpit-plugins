@@ -1,40 +1,31 @@
 import React from 'react';
 import { useTable } from 'react-table';
 
+import { asctime } from '../utils';
+
 interface Props {
-  instances: any[];
+  variables: any[];
 }
 
-const History: React.FC<Props> = ({ instances }) => {
+const VariablesTable: React.FC<Props> = ({ variables }) => {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'ID',
-        Cell: ({ value }: any) => <a href={`#/history/process-instance/${value}`}>{value}</a>,
-        accessor: 'id',
+        Header: 'Name',
+        accessor: 'name',
       },
       {
-        Header: 'End Time',
-        accessor: 'endTime',
+        Header: 'Value',
+        accessor: 'value',
       },
       {
-        Header: 'Business Key',
-        accessor: 'businessKey',
+        Header: 'State',
+        accessor: 'state',
       },
     ],
     []
   );
-  const data = React.useMemo(
-    () =>
-      instances.map((instance: any) => {
-        return {
-          id: instance.id,
-          businessKey: instance.businessKey,
-          endDate: instance.endTime ? instance.endTime.split('.')[0] : '',
-        };
-      }),
-    []
-  );
+  const data = React.useMemo(() => variables, []);
   const tableInstance = useTable({ columns: columns as any, data });
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
   return (
@@ -64,4 +55,4 @@ const History: React.FC<Props> = ({ instances }) => {
   );
 };
 
-export default History;
+export default VariablesTable;
