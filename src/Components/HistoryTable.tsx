@@ -9,6 +9,10 @@ const HistoryTable: React.FC<Props> = ({ instances }) => {
   const columns = React.useMemo(
     () => [
       {
+        Header: 'State',
+        accessor: 'state',
+      },
+      {
         Header: 'Instance ID',
         Cell: ({ value }: any) => <a href={`#/history/process-instance/${value}`}>{value}</a>,
         accessor: 'id',
@@ -32,6 +36,7 @@ const HistoryTable: React.FC<Props> = ({ instances }) => {
     () =>
       instances.map((instance: any) => {
         return {
+          state: instance.state,
           id: instance.id,
           businessKey: instance.businessKey,
           startTime: instance.startTime.split('.')[0],

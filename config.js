@@ -27,7 +27,7 @@ export default {
   // csrfCookieName: 'XSRF-TOKEN',
   bpmnJs: {
     additionalModules: [
-      'scripts/robot-module.js'
+      // 'scripts/robot-module.js'
       // If you have a folder called 'my-custom-module' (in the 'cockpit' folder)
       // with a file called 'module.js' in it
       // 'my-custom-module/module'

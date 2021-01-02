@@ -26528,6 +26528,10 @@ var HistoryTable = function (_a) {
     var instances = _a.instances;
     var columns = react.useMemo(function () { return [
         {
+            Header: 'State',
+            accessor: 'state',
+        },
+        {
             Header: 'Instance ID',
             Cell: function (_a) {
                 var value = _a.value;
@@ -26551,6 +26555,7 @@ var HistoryTable = function (_a) {
     var data = react.useMemo(function () {
         return instances.map(function (instance) {
             return {
+                state: instance.state,
                 id: instance.id,
                 businessKey: instance.businessKey,
                 startTime: instance.startTime.split('.')[0],
