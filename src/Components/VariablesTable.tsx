@@ -17,6 +17,7 @@ const VariablesTable: React.FC<Props> = ({ variables }) => {
       {
         Header: 'Value',
         accessor: 'value',
+        Cell: ({ value }: any) => typeof value === "string" || typeof value === "number" ? value : JSON.stringify(value)
       },
       {
         Header: 'State',

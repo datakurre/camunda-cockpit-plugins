@@ -26585,6 +26585,10 @@ var VariablesTable = function (_a) {
         {
             Header: 'Value',
             accessor: 'value',
+            Cell: function (_a) {
+                var value = _a.value;
+                return typeof value === "string" || typeof value === "number" ? value : JSON.stringify(value);
+            }
         },
         {
             Header: 'State',
