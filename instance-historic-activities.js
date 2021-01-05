@@ -78,6 +78,14 @@ function __generator(thisArg, body) {
     }
 }
 
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+}
+
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function createCommonjsModule(fn) {
@@ -587,44 +595,6 @@ var reactTable = createCommonjsModule(function (module) {
 }
 });
 
-var headers = function (api) {
-    return {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': api.CSRFToken,
-    };
-};
-var get = function (api, path, params) { return __awaiter(void 0, void 0, void 0, function () {
-    var query, res, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                query = new URLSearchParams(params || {}).toString();
-                if (!query) return [3 /*break*/, 2];
-                return [4 /*yield*/, fetch("" + api.engineApi + path + "?" + query, {
-                        method: 'get',
-                        headers: headers(api),
-                    })];
-            case 1:
-                _a = _b.sent();
-                return [3 /*break*/, 4];
-            case 2: return [4 /*yield*/, fetch("" + api.engineApi + path, {
-                    method: 'get',
-                    headers: headers(api),
-                })];
-            case 3:
-                _a = _b.sent();
-                _b.label = 4;
-            case 4:
-                res = _a;
-                if (!(res.headers.get('Content-Type') === 'application/json')) return [3 /*break*/, 6];
-                return [4 /*yield*/, res.json()];
-            case 5: return [2 /*return*/, _b.sent()];
-            case 6: return [4 /*yield*/, res.text()];
-            case 7: return [2 /*return*/, _b.sent()];
-        }
-    });
-}); };
 var asctime = function (duration) {
     var milliseconds = parseInt("" + (duration % 1000) / 100, 10), seconds = Math.floor((duration / 1000) % 60), minutes = Math.floor((duration / (1000 * 60)) % 60), hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
     var hours_ = hours < 10 ? '0' + hours : hours;
@@ -673,7 +643,6 @@ var AuditLogTable = function (_a) {
     ]; }, []);
     var data = react.useMemo(function () {
         return activities.map(function (activity) {
-            console.log(activity);
             return {
                 activityName: activity.activityName,
                 startDate: activity.startTime.split('.')[0],
@@ -698,6 +667,756 @@ var AuditLogTable = function (_a) {
         }))));
 };
 
+var headers = function (api) {
+    return {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-XSRF-TOKEN': api.CSRFToken,
+    };
+};
+var get = function (api, path, params) { return __awaiter(void 0, void 0, void 0, function () {
+    var query, res, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                query = new URLSearchParams(params || {}).toString();
+                if (!query) return [3 /*break*/, 2];
+                return [4 /*yield*/, fetch("" + api.engineApi + path + "?" + query, {
+                        method: 'get',
+                        headers: headers(api),
+                    })];
+            case 1:
+                _a = _b.sent();
+                return [3 /*break*/, 4];
+            case 2: return [4 /*yield*/, fetch("" + api.engineApi + path, {
+                    method: 'get',
+                    headers: headers(api),
+                })];
+            case 3:
+                _a = _b.sent();
+                _b.label = 4;
+            case 4:
+                res = _a;
+                if (!(res.headers.get('Content-Type') === 'application/json')) return [3 /*break*/, 6];
+                return [4 /*yield*/, res.json()];
+            case 5: return [2 /*return*/, _b.sent()];
+            case 6: return [4 /*yield*/, res.text()];
+            case 7: return [2 /*return*/, _b.sent()];
+        }
+    });
+}); };
+
+/**
+ * Flatten array, one level deep.
+ *
+ * @param {Array<?>} arr
+ *
+ * @return {Array<?>}
+ */
+
+var nativeToString = Object.prototype.toString;
+var nativeHasOwnProperty = Object.prototype.hasOwnProperty;
+function isUndefined(obj) {
+  return obj === undefined;
+}
+function isArray(obj) {
+  return nativeToString.call(obj) === '[object Array]';
+}
+function isFunction(obj) {
+  var tag = nativeToString.call(obj);
+  return tag === '[object Function]' || tag === '[object AsyncFunction]' || tag === '[object GeneratorFunction]' || tag === '[object AsyncGeneratorFunction]' || tag === '[object Proxy]';
+}
+/**
+ * Return true, if target owns a property with the given key.
+ *
+ * @param {Object} target
+ * @param {String} key
+ *
+ * @return {Boolean}
+ */
+
+function has(target, key) {
+  return nativeHasOwnProperty.call(target, key);
+}
+/**
+ * Find element in collection.
+ *
+ * @param  {Array|Object} collection
+ * @param  {Function} matcher
+ *
+ * @return {Array} result
+ */
+
+function filter$1(collection, matcher) {
+  var result = [];
+  forEach(collection, function (val, key) {
+    if (matcher(val, key)) {
+      result.push(val);
+    }
+  });
+  return result;
+}
+/**
+ * Iterate over collection; returning something
+ * (non-undefined) will stop iteration.
+ *
+ * @param  {Array|Object} collection
+ * @param  {Function} iterator
+ *
+ * @return {Object} return result that stopped the iteration
+ */
+
+function forEach(collection, iterator) {
+  var val, result;
+
+  if (isUndefined(collection)) {
+    return;
+  }
+
+  var convertKey = isArray(collection) ? toNum : identity;
+
+  for (var key in collection) {
+    if (has(collection, key)) {
+      val = collection[key];
+      result = iterator(val, convertKey(key));
+
+      if (result === false) {
+        return val;
+      }
+    }
+  }
+}
+/**
+ * Transform a collection into another collection
+ * by piping each member through the given fn.
+ *
+ * @param  {Object|Array}   collection
+ * @param  {Function} fn
+ *
+ * @return {Array} transformed collection
+ */
+
+function map(collection, fn) {
+  var result = [];
+  forEach(collection, function (val, key) {
+    result.push(fn(val, key));
+  });
+  return result;
+}
+/**
+ * Group collection members by attribute.
+ *
+ * @param  {Object|Array} collection
+ * @param  {Function} extractor
+ *
+ * @return {Object} map with { attrValue => [ a, b, c ] }
+ */
+
+function groupBy(collection, extractor) {
+  var grouped = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  extractor = toExtractor(extractor);
+  forEach(collection, function (val) {
+    var discriminator = extractor(val) || '_';
+    var group = grouped[discriminator];
+
+    if (!group) {
+      group = grouped[discriminator] = [];
+    }
+
+    group.push(val);
+  });
+  return grouped;
+}
+function uniqueBy(extractor) {
+  extractor = toExtractor(extractor);
+  var grouped = {};
+
+  for (var _len = arguments.length, collections = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    collections[_key - 1] = arguments[_key];
+  }
+
+  forEach(collections, function (c) {
+    return groupBy(c, extractor, grouped);
+  });
+  var result = map(grouped, function (val, key) {
+    return val[0];
+  });
+  return result;
+}
+
+function toExtractor(extractor) {
+  return isFunction(extractor) ? extractor : function (e) {
+    return e[extractor];
+  };
+}
+
+function identity(arg) {
+  return arg;
+}
+
+function toNum(arg) {
+  return Number(arg);
+}
+
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+/**
+ * Convenience wrapper for `Object.assign`.
+ *
+ * @param {Object} target
+ * @param {...Object} others
+ *
+ * @return {Object} the target
+ */
+
+function assign(target) {
+  for (var _len = arguments.length, others = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    others[_key - 1] = arguments[_key];
+  }
+
+  return _extends.apply(void 0, [target].concat(others));
+}
+
+/**
+ * Set attribute `name` to `val`, or get attr `name`.
+ *
+ * @param {Element} el
+ * @param {String} name
+ * @param {String} [val]
+ * @api public
+ */
+
+/**
+ * Tests for browser support.
+ */
+
+var innerHTMLBug = false;
+var bugTestDiv;
+if (typeof document !== 'undefined') {
+  bugTestDiv = document.createElement('div');
+  // Setup
+  bugTestDiv.innerHTML = '  <link/><table></table><a href="/a">a</a><input type="checkbox"/>';
+  // Make sure that link elements get serialized correctly by innerHTML
+  // This requires a wrapper element in IE
+  innerHTMLBug = !bugTestDiv.getElementsByTagName('link').length;
+  bugTestDiv = undefined;
+}
+
+function query(selector, el) {
+  el = el || document;
+
+  return el.querySelector(selector);
+}
+
+function ensureImported(element, target) {
+
+  if (element.ownerDocument !== target.ownerDocument) {
+    try {
+      // may fail on webkit
+      return target.ownerDocument.importNode(element, true);
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  return element;
+}
+
+/**
+ * appendTo utility
+ */
+
+/**
+ * Append a node to a target element and return the appended node.
+ *
+ * @param  {SVGElement} element
+ * @param  {SVGElement} target
+ *
+ * @return {SVGElement} the appended node
+ */
+function appendTo(element, target) {
+  return target.appendChild(ensureImported(element, target));
+}
+
+/**
+ * append utility
+ */
+
+/**
+ * Append a node to an element
+ *
+ * @param  {SVGElement} element
+ * @param  {SVGElement} node
+ *
+ * @return {SVGElement} the element
+ */
+function append(target, node) {
+  appendTo(node, target);
+  return target;
+}
+
+/**
+ * attribute accessor utility
+ */
+
+var LENGTH_ATTR = 2;
+
+var CSS_PROPERTIES = {
+  'alignment-baseline': 1,
+  'baseline-shift': 1,
+  'clip': 1,
+  'clip-path': 1,
+  'clip-rule': 1,
+  'color': 1,
+  'color-interpolation': 1,
+  'color-interpolation-filters': 1,
+  'color-profile': 1,
+  'color-rendering': 1,
+  'cursor': 1,
+  'direction': 1,
+  'display': 1,
+  'dominant-baseline': 1,
+  'enable-background': 1,
+  'fill': 1,
+  'fill-opacity': 1,
+  'fill-rule': 1,
+  'filter': 1,
+  'flood-color': 1,
+  'flood-opacity': 1,
+  'font': 1,
+  'font-family': 1,
+  'font-size': LENGTH_ATTR,
+  'font-size-adjust': 1,
+  'font-stretch': 1,
+  'font-style': 1,
+  'font-variant': 1,
+  'font-weight': 1,
+  'glyph-orientation-horizontal': 1,
+  'glyph-orientation-vertical': 1,
+  'image-rendering': 1,
+  'kerning': 1,
+  'letter-spacing': 1,
+  'lighting-color': 1,
+  'marker': 1,
+  'marker-end': 1,
+  'marker-mid': 1,
+  'marker-start': 1,
+  'mask': 1,
+  'opacity': 1,
+  'overflow': 1,
+  'pointer-events': 1,
+  'shape-rendering': 1,
+  'stop-color': 1,
+  'stop-opacity': 1,
+  'stroke': 1,
+  'stroke-dasharray': 1,
+  'stroke-dashoffset': 1,
+  'stroke-linecap': 1,
+  'stroke-linejoin': 1,
+  'stroke-miterlimit': 1,
+  'stroke-opacity': 1,
+  'stroke-width': LENGTH_ATTR,
+  'text-anchor': 1,
+  'text-decoration': 1,
+  'text-rendering': 1,
+  'unicode-bidi': 1,
+  'visibility': 1,
+  'word-spacing': 1,
+  'writing-mode': 1
+};
+
+
+function getAttribute(node, name) {
+  if (CSS_PROPERTIES[name]) {
+    return node.style[name];
+  } else {
+    return node.getAttributeNS(null, name);
+  }
+}
+
+function setAttribute(node, name, value) {
+  var hyphenated = name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+
+  var type = CSS_PROPERTIES[hyphenated];
+
+  if (type) {
+    // append pixel unit, unless present
+    if (type === LENGTH_ATTR && typeof value === 'number') {
+      value = String(value) + 'px';
+    }
+
+    node.style[hyphenated] = value;
+  } else {
+    node.setAttributeNS(null, name, value);
+  }
+}
+
+function setAttributes(node, attrs) {
+
+  var names = Object.keys(attrs), i, name;
+
+  for (i = 0, name; (name = names[i]); i++) {
+    setAttribute(node, name, attrs[name]);
+  }
+}
+
+/**
+ * Gets or sets raw attributes on a node.
+ *
+ * @param  {SVGElement} node
+ * @param  {Object} [attrs]
+ * @param  {String} [name]
+ * @param  {String} [value]
+ *
+ * @return {String}
+ */
+function attr(node, name, value) {
+  if (typeof name === 'string') {
+    if (value !== undefined) {
+      setAttribute(node, name, value);
+    } else {
+      return getAttribute(node, name);
+    }
+  } else {
+    setAttributes(node, name);
+  }
+
+  return node;
+}
+
+var ns = {
+  svg: 'http://www.w3.org/2000/svg'
+};
+
+/**
+ * DOM parsing utility
+ */
+
+var SVG_START = '<svg xmlns="' + ns.svg + '"';
+
+function parse(svg) {
+
+  var unwrap = false;
+
+  // ensure we import a valid svg document
+  if (svg.substring(0, 4) === '<svg') {
+    if (svg.indexOf(ns.svg) === -1) {
+      svg = SVG_START + svg.substring(4);
+    }
+  } else {
+    // namespace svg
+    svg = SVG_START + '>' + svg + '</svg>';
+    unwrap = true;
+  }
+
+  var parsed = parseDocument(svg);
+
+  if (!unwrap) {
+    return parsed;
+  }
+
+  var fragment = document.createDocumentFragment();
+
+  var parent = parsed.firstChild;
+
+  while (parent.firstChild) {
+    fragment.appendChild(parent.firstChild);
+  }
+
+  return fragment;
+}
+
+function parseDocument(svg) {
+
+  var parser;
+
+  // parse
+  parser = new DOMParser();
+  parser.async = false;
+
+  return parser.parseFromString(svg, 'text/xml');
+}
+
+/**
+ * Create utility for SVG elements
+ */
+
+
+/**
+ * Create a specific type from name or SVG markup.
+ *
+ * @param {String} name the name or markup of the element
+ * @param {Object} [attrs] attributes to set on the element
+ *
+ * @returns {SVGElement}
+ */
+function create(name, attrs) {
+  var element;
+
+  if (name.charAt(0) === '<') {
+    element = parse(name).firstChild;
+    element = document.importNode(element, true);
+  } else {
+    element = document.createElementNS(ns.svg, name);
+  }
+
+  if (attrs) {
+    attr(element, attrs);
+  }
+
+  return element;
+}
+
+/**
+ * Geometry helpers
+ */
+
+// fake node used to instantiate svg geometry elements
+var node = create('svg');
+
+var DEFAULT_ATTRS = {
+  fill: 'none',
+  stroke: 'black',
+  strokeWidth: 2
+};
+
+/**
+ * @typedef {Object} Point
+ *
+ * @param {number} point.x
+ * @param {number} point.y
+ */
+
+/**
+ * Create SVG curve.
+ *
+ * @param {Array<Point>} points
+ * @param {Object} [attrs]
+ */
+function createCurve(points, attrs = {}) {
+  var path = create('path');
+
+  var data = getData(points);
+
+  attr(path, assign({}, DEFAULT_ATTRS, attrs, {
+    d: data
+  }));
+
+  return path;
+}
+
+function getData(points) {
+  var segments = getSegments(points);
+
+  if (segments.length === 1) {
+    return getSingleSegmentData(segments[0]);
+  }
+
+  var startSegment = segments.shift();
+
+  return [
+    moveTo(startSegment.start),
+    quadraticCurve(startSegment.controlPoint, startSegment.end)
+  ].concat(map(segments, function(segment) {
+    return sameCurve(segment.controlPoint, segment.end);
+  })).join(' ');
+}
+
+function getSingleSegmentData(segment) {
+  var { start, controlPoint, end } = segment;
+
+  return [
+    moveTo(start),
+    quadraticCurve(controlPoint, end)
+  ].join(' ');
+}
+
+function getSegments(points) {
+  if (points.length === 2) {
+    return [
+      {
+        start: points[0],
+        controlPoint: getMid(points[0], points[1]),
+        end: points[1]
+      }
+    ];
+  }
+
+  if (points.length === 3) {
+    return [
+      {
+        start: points[0],
+        controlPoint: points[1],
+        end: points[2]
+      }
+    ];
+  }
+
+  return [ getStartSegment(points) ]
+    .concat(getMiddleSegments(points))
+    .concat([ getEndSegment(points) ]);
+}
+
+function getStartSegment(points) {
+  return {
+    start: points[0],
+    controlPoint: points[1],
+    end: getMid(points[1], points[2])
+  };
+}
+
+function getMiddleSegments(points) {
+  var segments = [];
+
+  for (var i = 1; i < points.length - 3; i++) {
+    segments.push({
+      start: getMid(points[ i ], points[ i + 1 ]),
+      controlPoint: points[ i + 1 ],
+      end: getMid(points[ i + 1 ], points[ i + 2 ])
+    });
+  }
+
+  return segments;
+}
+
+function getEndSegment(points) {
+  return {
+    start: getMid(points[points.length - 3], points[points.length - 2]),
+    controlPoint: points[points.length - 2],
+    end: points[points.length - 1]
+  };
+}
+
+function moveTo(a) {
+  return [ 'M', a.x, a.y ].join(' ');
+}
+
+function quadraticCurve(a, b) {
+  return [ 'Q', a.x, a.y, b.x, b.y ].join(' ');
+}
+
+function sameCurve(a, b) {
+  return [ 'S', a.x, a.y, b.x, b.y ].join(' ');
+}
+
+function getMid(a, b) {
+  return {
+    x: Math.round((a.x + b.x) / 2),
+    y: Math.round((a.y + b.y) / 2)
+  };
+}
+
+var FILL = '#52B415';
+var getConnections = function (activities, elementRegistry) {
+    var activityById = new Map(map(activities, function (activity) {
+        return [activity.activityId, activity];
+    }));
+    var elementById = new Map(map(activities, function (activity) {
+        return [activity.activityId, elementRegistry.get(activity.activityId)];
+    }));
+    var getActivityConnections = function (activityId) {
+        var element = elementById.get(activityId);
+        if (element) {
+            var incoming = filter$1(element.incoming, function (connection) { var _a; return !!((_a = activityById.get(connection.source.id)) === null || _a === void 0 ? void 0 : _a.endTime); });
+            var outgoing = filter$1(element.incoming, function (connection) { var _a; return !!((_a = activityById.get(connection.source.id)) === null || _a === void 0 ? void 0 : _a.endTime); });
+            return __spreadArrays(incoming, outgoing);
+        }
+        else {
+            return [];
+        }
+    };
+    var connections = [];
+    forEach(Array.from(elementById.keys()), function (activityId) {
+        connections = uniqueBy('id', __spreadArrays(connections, getActivityConnections(activityId)));
+    });
+    return connections;
+};
+var getMid$1 = function (shape) {
+    return {
+        x: shape.x + shape.width / 2,
+        y: shape.y + shape.height / 2,
+    };
+};
+var getDottedConnections = function (connections) {
+    var dottedConnections = [];
+    connections.forEach(function (connection) {
+        var target = connection.target;
+        connections.forEach(function (c) {
+            var source = c.source;
+            if (source === target) {
+                dottedConnections.push({
+                    waypoints: [connection.waypoints[connection.waypoints.length - 1], getMid$1(target), c.waypoints[0]],
+                });
+            }
+        });
+    });
+    return dottedConnections;
+};
+var renderSequenceFlow = function (viewer, activities) {
+    var registry = viewer.get('elementRegistry');
+    var canvas = viewer.get('canvas');
+    var layer = canvas.getLayer('processInstance', 1);
+    var connections = getConnections(activities !== null && activities !== void 0 ? activities : [], registry);
+    var defs = query('defs', canvas._svg);
+    if (!defs) {
+        defs = create('defs');
+        append(canvas._svg, defs);
+    }
+    var marker = create('marker');
+    var path = create('path');
+    attr(marker, {
+        id: 'arrow',
+        viewBox: '0 0 10 10',
+        refX: 7,
+        refY: 5,
+        markerWidth: 4,
+        markerHeight: 4,
+        orient: 'auto-start-reverse',
+    });
+    attr(path, {
+        d: 'M 0 0 L 10 5 L 0 10 z',
+        fill: FILL,
+        stroke: 'blue',
+        strokeWidth: 0,
+    });
+    append(marker, path);
+    append(defs, marker);
+    for (var _i = 0, connections_1 = connections; _i < connections_1.length; _i++) {
+        var connection = connections_1[_i];
+        append(layer, createCurve(connection.waypoints, {
+            markerEnd: 'url(#arrow)',
+            stroke: FILL,
+            strokeWidth: 4,
+        }));
+    }
+    var connections_ = getDottedConnections(connections);
+    for (var _a = 0, connections_2 = connections_; _a < connections_2.length; _a++) {
+        var connection = connections_2[_a];
+        append(layer, createCurve(connection.waypoints, {
+            strokeDasharray: '1 8',
+            strokeLinecap: 'round',
+            stroke: FILL,
+            strokeWidth: 4,
+        }));
+    }
+};
+
 var instanceHistoricActivities = [
     {
         id: 'instanceDiagramHistoricActivities',
@@ -713,6 +1432,7 @@ var instanceHistoricActivities = [
                             return [4 /*yield*/, get(api, '/history/activity-instance', { processInstanceId: processInstanceId })];
                         case 1:
                             activities = _b.sent();
+                            renderSequenceFlow(viewer, activities);
                             counter = {};
                             for (_i = 0, activities_1 = activities; _i < activities_1.length; _i++) {
                                 activity = activities_1[_i];

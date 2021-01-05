@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTable } from 'react-table';
 
-import { asctime } from '../utils';
+import { asctime } from '../utils/misc';
 
 interface Props {
   variables: any[];
@@ -17,7 +17,8 @@ const VariablesTable: React.FC<Props> = ({ variables }) => {
       {
         Header: 'Value',
         accessor: 'value',
-        Cell: ({ value }: any) => typeof value === "string" || typeof value === "number" ? value : JSON.stringify(value)
+        Cell: ({ value }: any) =>
+          typeof value === 'string' || typeof value === 'number' ? value : JSON.stringify(value),
       },
       {
         Header: 'State',

@@ -78,6 +78,14 @@ function __generator(thisArg, body) {
     }
 }
 
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+}
+
 ___$insertStyle(".react-tabs__tab a {\n  cursor: pointer;\n}\n.react-tabs__tab.active a {\n  cursor: none;\n}\n\n.Pane.vertical.Pane1 {\n  border-right: 1px solid #ddd;\n}\n\n.Resizer {\n  background: rgba(255, 255, 255, 0);\n  opacity: 0.2;\n  z-index: 1;\n  -moz-box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  box-sizing: border-box;\n  -moz-background-clip: padding;\n  -webkit-background-clip: padding;\n  background-clip: padding-box;\n}\n\n.Resizer:hover {\n  -webkit-transition: all 2s ease;\n  transition: all 2s ease;\n}\n\n.Resizer.horizontal {\n  height: 11px;\n  margin: -5px 0;\n  border-top: 5px solid rgba(255, 255, 255, 0);\n  border-bottom: 5px solid rgba(255, 255, 255, 0);\n  cursor: row-resize;\n  width: 100%;\n}\n\n.Resizer.horizontal:hover {\n  border-top: 5px solid rgba(0, 0, 0, 0.5);\n  border-bottom: 5px solid rgba(0, 0, 0, 0.5);\n}\n\n.Resizer.vertical {\n  width: 11px;\n  margin: 0 -5px;\n  border-left: 5px solid rgba(255, 255, 255, 0);\n  border-right: 5px solid rgba(255, 255, 255, 0);\n  cursor: col-resize;\n}\n\n.Resizer.vertical:hover {\n  border-left: 5px solid rgba(0, 0, 0, 0.5);\n  border-right: 5px solid rgba(0, 0, 0, 0.5);\n}\n\n.Resizer.disabled {\n  cursor: not-allowed;\n}\n\n.Resizer.disabled:hover {\n  border-color: transparent;\n}");
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -3908,44 +3916,6 @@ var reactTable = createCommonjsModule(function (module) {
 }
 });
 
-var headers = function (api) {
-    return {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': api.CSRFToken,
-    };
-};
-var get = function (api, path, params) { return __awaiter(void 0, void 0, void 0, function () {
-    var query, res, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                query = new URLSearchParams(params || {}).toString();
-                if (!query) return [3 /*break*/, 2];
-                return [4 /*yield*/, fetch("" + api.engineApi + path + "?" + query, {
-                        method: 'get',
-                        headers: headers(api),
-                    })];
-            case 1:
-                _a = _b.sent();
-                return [3 /*break*/, 4];
-            case 2: return [4 /*yield*/, fetch("" + api.engineApi + path, {
-                    method: 'get',
-                    headers: headers(api),
-                })];
-            case 3:
-                _a = _b.sent();
-                _b.label = 4;
-            case 4:
-                res = _a;
-                if (!(res.headers.get('Content-Type') === 'application/json')) return [3 /*break*/, 6];
-                return [4 /*yield*/, res.json()];
-            case 5: return [2 /*return*/, _b.sent()];
-            case 6: return [4 /*yield*/, res.text()];
-            case 7: return [2 /*return*/, _b.sent()];
-        }
-    });
-}); };
 var asctime = function (duration) {
     var milliseconds = parseInt("" + (duration % 1000) / 100, 10), seconds = Math.floor((duration / 1000) % 60), minutes = Math.floor((duration / (1000 * 60)) % 60), hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
     var hours_ = hours < 10 ? '0' + hours : hours;
@@ -3984,7 +3954,6 @@ var AuditLogTable = function (_a) {
     ]; }, []);
     var data = react.useMemo(function () {
         return activities.map(function (activity) {
-            console.log(activity);
             return {
                 activityName: activity.activityName,
                 startDate: activity.startTime.split('.')[0],
@@ -5503,7 +5472,7 @@ function set(element, svg) {
 
 }
 
-function get$1(element) {
+function get(element) {
   var child = element.firstChild,
       output = [];
 
@@ -5531,7 +5500,7 @@ function innerSVG(element, svg) {
 
     return element;
   } else {
-    return get$1(element);
+    return get(element);
   }
 }
 
@@ -26418,6 +26387,233 @@ var RobotModule = {
     RobotTaskRenderer: ['type', factory],
 };
 
+var DEFAULT_ATTRS = {
+  fill: 'none',
+  stroke: 'black',
+  strokeWidth: 2
+};
+
+/**
+ * @typedef {Object} Point
+ *
+ * @param {number} point.x
+ * @param {number} point.y
+ */
+
+/**
+ * Create SVG curve.
+ *
+ * @param {Array<Point>} points
+ * @param {Object} [attrs]
+ */
+function createCurve(points, attrs = {}) {
+  var path = create('path');
+
+  var data = getData(points);
+
+  attr(path, assign({}, DEFAULT_ATTRS, attrs, {
+    d: data
+  }));
+
+  return path;
+}
+
+function getData(points) {
+  var segments = getSegments(points);
+
+  if (segments.length === 1) {
+    return getSingleSegmentData(segments[0]);
+  }
+
+  var startSegment = segments.shift();
+
+  return [
+    moveTo(startSegment.start),
+    quadraticCurve(startSegment.controlPoint, startSegment.end)
+  ].concat(map(segments, function(segment) {
+    return sameCurve(segment.controlPoint, segment.end);
+  })).join(' ');
+}
+
+function getSingleSegmentData(segment) {
+  var { start, controlPoint, end } = segment;
+
+  return [
+    moveTo(start),
+    quadraticCurve(controlPoint, end)
+  ].join(' ');
+}
+
+function getSegments(points) {
+  if (points.length === 2) {
+    return [
+      {
+        start: points[0],
+        controlPoint: getMid$1(points[0], points[1]),
+        end: points[1]
+      }
+    ];
+  }
+
+  if (points.length === 3) {
+    return [
+      {
+        start: points[0],
+        controlPoint: points[1],
+        end: points[2]
+      }
+    ];
+  }
+
+  return [ getStartSegment(points) ]
+    .concat(getMiddleSegments(points))
+    .concat([ getEndSegment(points) ]);
+}
+
+function getStartSegment(points) {
+  return {
+    start: points[0],
+    controlPoint: points[1],
+    end: getMid$1(points[1], points[2])
+  };
+}
+
+function getMiddleSegments(points) {
+  var segments = [];
+
+  for (var i = 1; i < points.length - 3; i++) {
+    segments.push({
+      start: getMid$1(points[ i ], points[ i + 1 ]),
+      controlPoint: points[ i + 1 ],
+      end: getMid$1(points[ i + 1 ], points[ i + 2 ])
+    });
+  }
+
+  return segments;
+}
+
+function getEndSegment(points) {
+  return {
+    start: getMid$1(points[points.length - 3], points[points.length - 2]),
+    controlPoint: points[points.length - 2],
+    end: points[points.length - 1]
+  };
+}
+
+function moveTo(a) {
+  return [ 'M', a.x, a.y ].join(' ');
+}
+
+function quadraticCurve(a, b) {
+  return [ 'Q', a.x, a.y, b.x, b.y ].join(' ');
+}
+
+function sameCurve(a, b) {
+  return [ 'S', a.x, a.y, b.x, b.y ].join(' ');
+}
+
+function getMid$1(a, b) {
+  return {
+    x: Math.round((a.x + b.x) / 2),
+    y: Math.round((a.y + b.y) / 2)
+  };
+}
+
+var FILL = '#52B415';
+var getConnections = function (activities, elementRegistry) {
+    var activityById = new Map(map(activities, function (activity) {
+        return [activity.activityId, activity];
+    }));
+    var elementById = new Map(map(activities, function (activity) {
+        return [activity.activityId, elementRegistry.get(activity.activityId)];
+    }));
+    var getActivityConnections = function (activityId) {
+        var element = elementById.get(activityId);
+        if (element) {
+            var incoming = filter(element.incoming, function (connection) { var _a; return !!((_a = activityById.get(connection.source.id)) === null || _a === void 0 ? void 0 : _a.endTime); });
+            var outgoing = filter(element.incoming, function (connection) { var _a; return !!((_a = activityById.get(connection.source.id)) === null || _a === void 0 ? void 0 : _a.endTime); });
+            return __spreadArrays(incoming, outgoing);
+        }
+        else {
+            return [];
+        }
+    };
+    var connections = [];
+    forEach(Array.from(elementById.keys()), function (activityId) {
+        connections = uniqueBy('id', __spreadArrays(connections, getActivityConnections(activityId)));
+    });
+    return connections;
+};
+var getMid$2 = function (shape) {
+    return {
+        x: shape.x + shape.width / 2,
+        y: shape.y + shape.height / 2,
+    };
+};
+var getDottedConnections = function (connections) {
+    var dottedConnections = [];
+    connections.forEach(function (connection) {
+        var target = connection.target;
+        connections.forEach(function (c) {
+            var source = c.source;
+            if (source === target) {
+                dottedConnections.push({
+                    waypoints: [connection.waypoints[connection.waypoints.length - 1], getMid$2(target), c.waypoints[0]],
+                });
+            }
+        });
+    });
+    return dottedConnections;
+};
+var renderSequenceFlow = function (viewer, activities) {
+    var registry = viewer.get('elementRegistry');
+    var canvas = viewer.get('canvas');
+    var layer = canvas.getLayer('processInstance', 1);
+    var connections = getConnections(activities !== null && activities !== void 0 ? activities : [], registry);
+    var defs = query('defs', canvas._svg);
+    if (!defs) {
+        defs = create('defs');
+        append(canvas._svg, defs);
+    }
+    var marker = create('marker');
+    var path = create('path');
+    attr(marker, {
+        id: 'arrow',
+        viewBox: '0 0 10 10',
+        refX: 7,
+        refY: 5,
+        markerWidth: 4,
+        markerHeight: 4,
+        orient: 'auto-start-reverse',
+    });
+    attr(path, {
+        d: 'M 0 0 L 10 5 L 0 10 z',
+        fill: FILL,
+        stroke: 'blue',
+        strokeWidth: 0,
+    });
+    append(marker, path);
+    append(defs, marker);
+    for (var _i = 0, connections_1 = connections; _i < connections_1.length; _i++) {
+        var connection = connections_1[_i];
+        append(layer, createCurve(connection.waypoints, {
+            markerEnd: 'url(#arrow)',
+            stroke: FILL,
+            strokeWidth: 4,
+        }));
+    }
+    var connections_ = getDottedConnections(connections);
+    for (var _a = 0, connections_2 = connections_; _a < connections_2.length; _a++) {
+        var connection = connections_2[_a];
+        append(layer, createCurve(connection.waypoints, {
+            strokeDasharray: '1 8',
+            strokeLinecap: 'round',
+            stroke: FILL,
+            strokeWidth: 4,
+        }));
+    }
+};
+
 var BPMNViewer = function (diagram) { return __awaiter(void 0, void 0, void 0, function () {
     var model, e_1;
     return __generator(this, function (_a) {
@@ -26491,6 +26687,7 @@ var BPMN = function (_a) {
                             canvas = viewer.get('canvas');
                             canvas.zoom('fit-viewport');
                             renderActivities(viewer, activities !== null && activities !== void 0 ? activities : []);
+                            renderSequenceFlow(viewer, activities !== null && activities !== void 0 ? activities : []);
                         }
                         return [2 /*return*/];
                 }
@@ -26592,8 +26789,8 @@ var VariablesTable = function (_a) {
             accessor: 'value',
             Cell: function (_a) {
                 var value = _a.value;
-                return typeof value === "string" || typeof value === "number" ? value : JSON.stringify(value);
-            }
+                return typeof value === 'string' || typeof value === 'number' ? value : JSON.stringify(value);
+            },
         },
         {
             Header: 'State',
@@ -26613,6 +26810,45 @@ var VariablesTable = function (_a) {
         }))));
 };
 
+var headers = function (api) {
+    return {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-XSRF-TOKEN': api.CSRFToken,
+    };
+};
+var get$1 = function (api, path, params) { return __awaiter(void 0, void 0, void 0, function () {
+    var query, res, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                query = new URLSearchParams(params || {}).toString();
+                if (!query) return [3 /*break*/, 2];
+                return [4 /*yield*/, fetch("" + api.engineApi + path + "?" + query, {
+                        method: 'get',
+                        headers: headers(api),
+                    })];
+            case 1:
+                _a = _b.sent();
+                return [3 /*break*/, 4];
+            case 2: return [4 /*yield*/, fetch("" + api.engineApi + path, {
+                    method: 'get',
+                    headers: headers(api),
+                })];
+            case 3:
+                _a = _b.sent();
+                _b.label = 4;
+            case 4:
+                res = _a;
+                if (!(res.headers.get('Content-Type') === 'application/json')) return [3 /*break*/, 6];
+                return [4 /*yield*/, res.json()];
+            case 5: return [2 /*return*/, _b.sent()];
+            case 6: return [4 /*yield*/, res.text()];
+            case 7: return [2 /*return*/, _b.sent()];
+        }
+    });
+}); };
+
 var instanceRouteHistory = [
     {
         id: 'definitionTabHistoricInstances',
@@ -26626,10 +26862,10 @@ var instanceRouteHistory = [
                 var definition, instances;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, get(api, "/process-definition/" + processDefinitionId)];
+                        case 0: return [4 /*yield*/, get$1(api, "/process-definition/" + processDefinitionId)];
                         case 1:
                             definition = _a.sent();
-                            return [4 /*yield*/, get(api, '/history/process-instance', {
+                            return [4 /*yield*/, get$1(api, '/history/process-instance', {
                                     processDefinitionKey: definition.key,
                                     // finished: true,
                                     sortBy: 'endTime',
@@ -26663,13 +26899,13 @@ var instanceRouteHistory = [
                     var instance, _a, diagram, activities, variables;
                     return __generator(this, function (_b) {
                         switch (_b.label) {
-                            case 0: return [4 /*yield*/, get(api, "/history/process-instance/" + processInstanceId)];
+                            case 0: return [4 /*yield*/, get$1(api, "/history/process-instance/" + processInstanceId)];
                             case 1:
                                 instance = _b.sent();
                                 return [4 /*yield*/, Promise.all([
-                                        get(api, "/process-definition/" + instance.processDefinitionId + "/xml"),
-                                        get(api, '/history/activity-instance', { processInstanceId: processInstanceId }),
-                                        get(api, '/history/variable-instance', { processInstanceId: processInstanceId }),
+                                        get$1(api, "/process-definition/" + instance.processDefinitionId + "/xml"),
+                                        get$1(api, '/history/activity-instance', { processInstanceId: processInstanceId }),
+                                        get$1(api, '/history/variable-instance', { processInstanceId: processInstanceId }),
                                     ])];
                             case 2:
                                 _a = _b.sent(), diagram = _a[0], activities = _a[1], variables = _a[2];

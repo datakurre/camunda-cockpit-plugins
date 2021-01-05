@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTable } from 'react-table';
 
-import { asctime } from '../utils';
+import { asctime } from '../utils/misc';
 
 interface Props {
   activities: any[];

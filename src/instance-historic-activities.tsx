@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 
 import AuditLogTable from './Components/AuditLogTable';
 import { InstancePluginParams } from './types';
-import { filter, get } from './utils';
+import { get } from './utils/api';
+import { filter } from './utils/misc';
+import { renderSequenceFlow } from './utils/bpmn';
 
 export default [
   {
@@ -14,6 +16,8 @@ export default [
         const overlays = viewer.get('overlays');
 
         const activities = await get(api, '/history/activity-instance', { processInstanceId });
+
+        renderSequenceFlow(viewer, activities);
 
         const counter: Record<string, number> = {};
         for (const activity of activities) {

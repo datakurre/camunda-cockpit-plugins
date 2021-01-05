@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 
 import StatisticsTable from './Components/StatisticsTable';
 import { DefinitionPluginParams } from './types';
-import { filter, get } from './utils';
+import { get } from './utils/api';
+import { filter } from './utils/misc';
 
 export default [
   {
