@@ -6,9 +6,6 @@ import { append as svgAppend, attr as svgAttr, create as svgCreate } from 'tiny-
 
 const FILL = '#52B415';
 
-const OFFSET_TOP = -15,
-  OFFSET_RIGHT = 15;
-
 interface XY {
   x: number;
   y: number;
@@ -52,6 +49,10 @@ const getMid = (shape: Point): XY => {
   };
 };
 
+const notDottedTypes = [
+  'bpmn:SubProcess'
+];
+
 const getDottedConnections = (connections: any[]): any[] => {
   let dottedConnections: any[] = [];
 
@@ -61,7 +62,7 @@ const getDottedConnections = (connections: any[]): any[] => {
     connections.forEach(c => {
       const { source } = c as any;
 
-      if (source === target) {
+      if (source === target && !notDottedTypes.includes(source.type)) {
         dottedConnections.push({
           waypoints: [connection.waypoints[connection.waypoints.length - 1], getMid(target), c.waypoints[0]],
         });

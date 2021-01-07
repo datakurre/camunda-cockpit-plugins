@@ -1353,13 +1353,16 @@ var getMid$1 = function (shape) {
         y: shape.y + shape.height / 2,
     };
 };
+var notDottedTypes = [
+    'bpmn:SubProcess'
+];
 var getDottedConnections = function (connections) {
     var dottedConnections = [];
     connections.forEach(function (connection) {
         var target = connection.target;
         connections.forEach(function (c) {
             var source = c.source;
-            if (source === target) {
+            if (source === target && !notDottedTypes.includes(source.type)) {
                 dottedConnections.push({
                     waypoints: [connection.waypoints[connection.waypoints.length - 1], getMid$1(target), c.waypoints[0]],
                 });
