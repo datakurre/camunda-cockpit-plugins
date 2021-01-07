@@ -1324,17 +1324,42 @@ function getMid(a, b) {
 
 var FILL = '#52B415';
 var getConnections = function (activities, elementRegistry) {
-    var activityById = new Map(map(activities, function (activity) {
-        return [activity.activityId, activity];
-    }));
+    var _a;
+    var endTimesById = new Map();
+    for (var _i = 0, activities_1 = activities; _i < activities_1.length; _i++) {
+        var activity = activities_1[_i];
+        if (endTimesById.has(activity.activityId)) {
+            var endTimes = (_a = endTimesById.get(activity.activityId)) !== null && _a !== void 0 ? _a : [];
+            endTimes.push(activity.endTime || 'n/a');
+        }
+        else {
+            endTimesById.set(activity.activityId, [activity.endTime || 'n/a']);
+        }
+    }
     var elementById = new Map(map(activities, function (activity) {
         return [activity.activityId, elementRegistry.get(activity.activityId)];
     }));
     var getActivityConnections = function (activityId) {
-        var element = elementById.get(activityId);
-        if (element) {
-            var incoming = filter$1(element.incoming, function (connection) { var _a; return !!((_a = activityById.get(connection.source.id)) === null || _a === void 0 ? void 0 : _a.endTime); });
-            var outgoing = filter$1(element.incoming, function (connection) { var _a; return !!((_a = activityById.get(connection.source.id)) === null || _a === void 0 ? void 0 : _a.endTime); });
+        var _a;
+        var current = elementById.get(activityId);
+        var currentEndTimes = (_a = endTimesById.get(activityId)) !== null && _a !== void 0 ? _a : [];
+        if (current) {
+            var incoming = filter$1(current.incoming, function (connection) {
+                var _a;
+                var incomingEndTimes = (_a = endTimesById.get(connection.source.id)) !== null && _a !== void 0 ? _a : [];
+                return incomingEndTimes.length &&
+                    incomingEndTimes.reduce(function (acc, iET) {
+                        return acc || currentEndTimes.reduce(function (acc_, cET) { return acc_ || iET < cET; }, false);
+                    }, false);
+            });
+            var outgoing = filter$1(current.outgoing, function (connection) {
+                var _a;
+                var outgoingEndTimes = (_a = endTimesById.get(connection.source.id)) !== null && _a !== void 0 ? _a : [];
+                return outgoingEndTimes.length &&
+                    outgoingEndTimes.reduce(function (acc, oET) {
+                        return acc || currentEndTimes.reduce(function (acc_, cET) { return acc_ || oET > cET; }, false);
+                    }, false);
+            });
             return __spreadArrays(incoming, outgoing);
         }
         else {
@@ -1353,9 +1378,7 @@ var getMid$1 = function (shape) {
         y: shape.y + shape.height / 2,
     };
 };
-var notDottedTypes = [
-    'bpmn:SubProcess'
-];
+var notDottedTypes = ['bpmn:SubProcess'];
 var getDottedConnections = function (connections) {
     var dottedConnections = [];
     connections.forEach(function (connection) {

@@ -12,21 +12,42 @@ interface XY {
 }
 
 const getConnections = (activities: any[], elementRegistry: any): Activity[] => {
-  const activityById: Map<string, any> = new Map(
-    map(activities, (activity: any) => {
-      return [activity.activityId, activity];
-    })
-  );
+  const endTimesById: Map<string, any[]> = new Map();
+  for (const activity of activities) {
+    if (endTimesById.has(activity.activityId)) {
+      const endTimes = endTimesById.get(activity.activityId) ?? [];
+      endTimes.push(activity.endTime || 'n/a');
+    } else {
+      endTimesById.set(activity.activityId, [activity.endTime || 'n/a']);
+    }
+  }
   const elementById: Map<string, Activity> = new Map(
     map(activities, (activity: any) => {
       return [activity.activityId, elementRegistry.get(activity.activityId) as Activity];
     })
   );
   const getActivityConnections = (activityId: string): any[] => {
-    const element = elementById.get(activityId);
-    if (element) {
-      const incoming = filter(element.incoming, (connection: any) => !!activityById.get(connection.source.id)?.endTime);
-      const outgoing = filter(element.incoming, (connection: any) => !!activityById.get(connection.source.id)?.endTime);
+    const current = elementById.get(activityId);
+    const currentEndTimes = endTimesById.get(activityId) ?? [];
+    if (current) {
+      const incoming = filter(current.incoming, (connection: any) => {
+        const incomingEndTimes = endTimesById.get(connection.source.id) ?? [];
+        return incomingEndTimes.length &&
+          incomingEndTimes.reduce(
+            (acc: boolean, iET: string) =>
+              acc || currentEndTimes.reduce((acc_: boolean, cET: string) => acc_ || iET < cET, false),
+            false
+          );
+      });
+      const outgoing = filter(current.outgoing, (connection: any) => {
+        const outgoingEndTimes = endTimesById.get(connection.source.id) ?? [];
+        return outgoingEndTimes.length &&
+          outgoingEndTimes.reduce(
+            (acc: boolean, oET: string) =>
+              acc || currentEndTimes.reduce((acc_: boolean, cET: string) => acc_ || oET > cET, false),
+            false
+          );
+      });
       return [...incoming, ...outgoing];
     } else {
       return [];
@@ -49,9 +70,7 @@ const getMid = (shape: Point): XY => {
   };
 };
 
-const notDottedTypes = [
-  'bpmn:SubProcess'
-];
+const notDottedTypes = ['bpmn:SubProcess'];
 
 const getDottedConnections = (connections: any[]): any[] => {
   let dottedConnections: any[] = [];

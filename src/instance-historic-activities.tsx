@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom';
 import AuditLogTable from './Components/AuditLogTable';
 import { InstancePluginParams } from './types';
 import { get } from './utils/api';
-import { filter } from './utils/misc';
 import { renderSequenceFlow } from './utils/bpmn';
+import { filter } from './utils/misc';
 
 export default [
   {
