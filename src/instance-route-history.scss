@@ -8,6 +8,9 @@
     cursor: none;
   }
 }
+.react-tabs__tab-panel--selected {
+  z-index: 1;
+}
 
 .Pane.vertical.Pane1 {
   border-right: 1px solid #ddd;
