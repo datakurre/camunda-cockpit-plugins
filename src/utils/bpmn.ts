@@ -12,8 +12,12 @@ interface XY {
 }
 
 const getConnections = (activities: any[], elementRegistry: any): Activity[] => {
+  const includeConnections: Map<string, boolean> = new Map();
   const endTimesById: Map<string, any[]> = new Map();
   for (const activity of activities) {
+    if (activity.endTime || !activity.canceled) {
+      includeConnections.set(activity.activityId, true);
+    }
     if (endTimesById.has(activity.activityId)) {
       const endTimes = endTimesById.get(activity.activityId) ?? [];
       endTimes.push(activity.endTime || 'n/a');
@@ -29,24 +33,22 @@ const getConnections = (activities: any[], elementRegistry: any): Activity[] => 
   const getActivityConnections = (activityId: string): any[] => {
     const current = elementById.get(activityId);
     const currentEndTimes = endTimesById.get(activityId) ?? [];
-    if (current) {
+    if (current && includeConnections.get(activityId)) {
       const incoming = filter(current.incoming, (connection: any) => {
         const incomingEndTimes = endTimesById.get(connection.source.id) ?? [];
-        return incomingEndTimes.length &&
-          incomingEndTimes.reduce(
-            (acc: boolean, iET: string) =>
-              acc || currentEndTimes.reduce((acc_: boolean, cET: string) => acc_ || iET < cET, false),
-            false
-          );
+        return incomingEndTimes.reduce(
+          (acc: boolean, iET: string) =>
+            acc || currentEndTimes.reduce((acc_: boolean, cET: string) => acc_ || iET < cET, false),
+          false
+        );
       });
       const outgoing = filter(current.outgoing, (connection: any) => {
         const outgoingEndTimes = endTimesById.get(connection.source.id) ?? [];
-        return outgoingEndTimes.length &&
-          outgoingEndTimes.reduce(
-            (acc: boolean, oET: string) =>
-              acc || currentEndTimes.reduce((acc_: boolean, cET: string) => acc_ || oET > cET, false),
-            false
-          );
+        return outgoingEndTimes.reduce(
+          (acc: boolean, oET: string) =>
+            acc || currentEndTimes.reduce((acc_: boolean, cET: string) => acc_ || oET > cET, false),
+          false
+        );
       });
       return [...incoming, ...outgoing];
     } else {

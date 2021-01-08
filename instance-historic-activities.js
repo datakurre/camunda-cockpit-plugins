@@ -1325,9 +1325,13 @@ function getMid(a, b) {
 var FILL = '#52B415';
 var getConnections = function (activities, elementRegistry) {
     var _a;
+    var includeConnections = new Map();
     var endTimesById = new Map();
     for (var _i = 0, activities_1 = activities; _i < activities_1.length; _i++) {
         var activity = activities_1[_i];
+        if (activity.endTime || !activity.canceled) {
+            includeConnections.set(activity.activityId, true);
+        }
         if (endTimesById.has(activity.activityId)) {
             var endTimes = (_a = endTimesById.get(activity.activityId)) !== null && _a !== void 0 ? _a : [];
             endTimes.push(activity.endTime || 'n/a');
@@ -1343,22 +1347,20 @@ var getConnections = function (activities, elementRegistry) {
         var _a;
         var current = elementById.get(activityId);
         var currentEndTimes = (_a = endTimesById.get(activityId)) !== null && _a !== void 0 ? _a : [];
-        if (current) {
+        if (current && includeConnections.get(activityId)) {
             var incoming = filter$1(current.incoming, function (connection) {
                 var _a;
                 var incomingEndTimes = (_a = endTimesById.get(connection.source.id)) !== null && _a !== void 0 ? _a : [];
-                return incomingEndTimes.length &&
-                    incomingEndTimes.reduce(function (acc, iET) {
-                        return acc || currentEndTimes.reduce(function (acc_, cET) { return acc_ || iET < cET; }, false);
-                    }, false);
+                return incomingEndTimes.reduce(function (acc, iET) {
+                    return acc || currentEndTimes.reduce(function (acc_, cET) { return acc_ || iET < cET; }, false);
+                }, false);
             });
             var outgoing = filter$1(current.outgoing, function (connection) {
                 var _a;
                 var outgoingEndTimes = (_a = endTimesById.get(connection.source.id)) !== null && _a !== void 0 ? _a : [];
-                return outgoingEndTimes.length &&
-                    outgoingEndTimes.reduce(function (acc, oET) {
-                        return acc || currentEndTimes.reduce(function (acc_, cET) { return acc_ || oET > cET; }, false);
-                    }, false);
+                return outgoingEndTimes.reduce(function (acc, oET) {
+                    return acc || currentEndTimes.reduce(function (acc_, cET) { return acc_ || oET > cET; }, false);
+                }, false);
             });
             return __spreadArrays(incoming, outgoing);
         }
