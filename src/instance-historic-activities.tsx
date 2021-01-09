@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import AuditLogTable from './Components/AuditLogTable';
 import { InstancePluginParams } from './types';
 import { get } from './utils/api';
+import { renderSequenceFlow } from './utils/bpmn';
 import { filter } from './utils/misc';
 
 export default [
@@ -45,6 +46,7 @@ export default [
             html: overlay,
           });
         }
+        renderSequenceFlow(viewer, activities ?? []);
       })();
     },
   },
