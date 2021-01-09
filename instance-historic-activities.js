@@ -587,44 +587,6 @@ var reactTable = createCommonjsModule(function (module) {
 }
 });
 
-var headers = function (api) {
-    return {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': api.CSRFToken,
-    };
-};
-var get = function (api, path, params) { return __awaiter(void 0, void 0, void 0, function () {
-    var query, res, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                query = new URLSearchParams(params || {}).toString();
-                if (!query) return [3 /*break*/, 2];
-                return [4 /*yield*/, fetch("" + api.engineApi + path + "?" + query, {
-                        method: 'get',
-                        headers: headers(api),
-                    })];
-            case 1:
-                _a = _b.sent();
-                return [3 /*break*/, 4];
-            case 2: return [4 /*yield*/, fetch("" + api.engineApi + path, {
-                    method: 'get',
-                    headers: headers(api),
-                })];
-            case 3:
-                _a = _b.sent();
-                _b.label = 4;
-            case 4:
-                res = _a;
-                if (!(res.headers.get('Content-Type') === 'application/json')) return [3 /*break*/, 6];
-                return [4 /*yield*/, res.json()];
-            case 5: return [2 /*return*/, _b.sent()];
-            case 6: return [4 /*yield*/, res.text()];
-            case 7: return [2 /*return*/, _b.sent()];
-        }
-    });
-}); };
 var asctime = function (duration) {
     var milliseconds = parseInt("" + (duration % 1000) / 100, 10), seconds = Math.floor((duration / 1000) % 60), minutes = Math.floor((duration / (1000 * 60)) % 60), hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
     var hours_ = hours < 10 ? '0' + hours : hours;
@@ -673,7 +635,6 @@ var AuditLogTable = function (_a) {
     ]; }, []);
     var data = react.useMemo(function () {
         return activities.map(function (activity) {
-            console.log(activity);
             return {
                 activityName: activity.activityName,
                 startDate: activity.startTime.split('.')[0],
@@ -697,6 +658,45 @@ var AuditLogTable = function (_a) {
             })));
         }))));
 };
+
+var headers = function (api) {
+    return {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-XSRF-TOKEN': api.CSRFToken,
+    };
+};
+var get = function (api, path, params) { return __awaiter(void 0, void 0, void 0, function () {
+    var query, res, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                query = new URLSearchParams(params || {}).toString();
+                if (!query) return [3 /*break*/, 2];
+                return [4 /*yield*/, fetch("" + api.engineApi + path + "?" + query, {
+                        method: 'get',
+                        headers: headers(api),
+                    })];
+            case 1:
+                _a = _b.sent();
+                return [3 /*break*/, 4];
+            case 2: return [4 /*yield*/, fetch("" + api.engineApi + path, {
+                    method: 'get',
+                    headers: headers(api),
+                })];
+            case 3:
+                _a = _b.sent();
+                _b.label = 4;
+            case 4:
+                res = _a;
+                if (!(res.headers.get('Content-Type') === 'application/json')) return [3 /*break*/, 6];
+                return [4 /*yield*/, res.json()];
+            case 5: return [2 /*return*/, _b.sent()];
+            case 6: return [4 /*yield*/, res.text()];
+            case 7: return [2 /*return*/, _b.sent()];
+        }
+    });
+}); };
 
 var instanceHistoricActivities = [
     {

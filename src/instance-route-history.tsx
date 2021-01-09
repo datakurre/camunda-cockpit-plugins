@@ -13,7 +13,7 @@ import HistoryTable from './Components/HistoryTable';
 import Page from './Components/Page';
 import VariablesTable from './Components/VariablesTable';
 import { DefinitionPluginParams, RoutePluginParams } from './types';
-import { get } from './utils';
+import { get } from './utils/api';
 
 export default [
   {
@@ -115,7 +115,12 @@ export default [
                       </dl>
                     </div>
                     <SplitPane split="horizontal" size={300}>
-                      <BPMN activities={activities} diagramXML={diagram.bpmn20Xml} className="ctn-content" style={{ width: '100%' }} />
+                      <BPMN
+                        activities={activities}
+                        diagramXML={diagram.bpmn20Xml}
+                        className="ctn-content"
+                        style={{ width: '100%' }}
+                      />
                       <Tabs className="ctn-row ctn-content-bottom ctn-tabbed" selectedTabClassName="active">
                         <TabList className="nav nav-tabs">
                           <Tab>

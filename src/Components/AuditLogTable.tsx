@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTable } from 'react-table';
 
-import { asctime } from '../utils';
+import { asctime } from '../utils/misc';
 
 interface Props {
   activities: any[];
@@ -40,7 +40,6 @@ const AuditLogTable: React.FC<Props> = ({ activities }) => {
   const data = React.useMemo(
     () =>
       activities.map((activity: any) => {
-        console.log(activity);
         return {
           activityName: activity.activityName,
           startDate: activity.startTime.split('.')[0],

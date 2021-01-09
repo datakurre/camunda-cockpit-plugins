@@ -3908,44 +3908,6 @@ var reactTable = createCommonjsModule(function (module) {
 }
 });
 
-var headers = function (api) {
-    return {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': api.CSRFToken,
-    };
-};
-var get = function (api, path, params) { return __awaiter(void 0, void 0, void 0, function () {
-    var query, res, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                query = new URLSearchParams(params || {}).toString();
-                if (!query) return [3 /*break*/, 2];
-                return [4 /*yield*/, fetch("" + api.engineApi + path + "?" + query, {
-                        method: 'get',
-                        headers: headers(api),
-                    })];
-            case 1:
-                _a = _b.sent();
-                return [3 /*break*/, 4];
-            case 2: return [4 /*yield*/, fetch("" + api.engineApi + path, {
-                    method: 'get',
-                    headers: headers(api),
-                })];
-            case 3:
-                _a = _b.sent();
-                _b.label = 4;
-            case 4:
-                res = _a;
-                if (!(res.headers.get('Content-Type') === 'application/json')) return [3 /*break*/, 6];
-                return [4 /*yield*/, res.json()];
-            case 5: return [2 /*return*/, _b.sent()];
-            case 6: return [4 /*yield*/, res.text()];
-            case 7: return [2 /*return*/, _b.sent()];
-        }
-    });
-}); };
 var asctime = function (duration) {
     var milliseconds = parseInt("" + (duration % 1000) / 100, 10), seconds = Math.floor((duration / 1000) % 60), minutes = Math.floor((duration / (1000 * 60)) % 60), hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
     var hours_ = hours < 10 ? '0' + hours : hours;
@@ -3984,7 +3946,6 @@ var AuditLogTable = function (_a) {
     ]; }, []);
     var data = react.useMemo(function () {
         return activities.map(function (activity) {
-            console.log(activity);
             return {
                 activityName: activity.activityName,
                 startDate: activity.startTime.split('.')[0],
@@ -5503,7 +5464,7 @@ function set(element, svg) {
 
 }
 
-function get$1(element) {
+function get(element) {
   var child = element.firstChild,
       output = [];
 
@@ -5531,7 +5492,7 @@ function innerSVG(element, svg) {
 
     return element;
   } else {
-    return get$1(element);
+    return get(element);
   }
 }
 
@@ -26592,8 +26553,8 @@ var VariablesTable = function (_a) {
             accessor: 'value',
             Cell: function (_a) {
                 var value = _a.value;
-                return typeof value === "string" || typeof value === "number" ? value : JSON.stringify(value);
-            }
+                return typeof value === 'string' || typeof value === 'number' ? value : JSON.stringify(value);
+            },
         },
         {
             Header: 'State',
@@ -26613,6 +26574,45 @@ var VariablesTable = function (_a) {
         }))));
 };
 
+var headers = function (api) {
+    return {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-XSRF-TOKEN': api.CSRFToken,
+    };
+};
+var get$1 = function (api, path, params) { return __awaiter(void 0, void 0, void 0, function () {
+    var query, res, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                query = new URLSearchParams(params || {}).toString();
+                if (!query) return [3 /*break*/, 2];
+                return [4 /*yield*/, fetch("" + api.engineApi + path + "?" + query, {
+                        method: 'get',
+                        headers: headers(api),
+                    })];
+            case 1:
+                _a = _b.sent();
+                return [3 /*break*/, 4];
+            case 2: return [4 /*yield*/, fetch("" + api.engineApi + path, {
+                    method: 'get',
+                    headers: headers(api),
+                })];
+            case 3:
+                _a = _b.sent();
+                _b.label = 4;
+            case 4:
+                res = _a;
+                if (!(res.headers.get('Content-Type') === 'application/json')) return [3 /*break*/, 6];
+                return [4 /*yield*/, res.json()];
+            case 5: return [2 /*return*/, _b.sent()];
+            case 6: return [4 /*yield*/, res.text()];
+            case 7: return [2 /*return*/, _b.sent()];
+        }
+    });
+}); };
+
 var instanceRouteHistory = [
     {
         id: 'definitionTabHistoricInstances',
@@ -26626,10 +26626,10 @@ var instanceRouteHistory = [
                 var definition, instances;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, get(api, "/process-definition/" + processDefinitionId)];
+                        case 0: return [4 /*yield*/, get$1(api, "/process-definition/" + processDefinitionId)];
                         case 1:
                             definition = _a.sent();
-                            return [4 /*yield*/, get(api, '/history/process-instance', {
+                            return [4 /*yield*/, get$1(api, '/history/process-instance', {
                                     processDefinitionKey: definition.key,
                                     // finished: true,
                                     sortBy: 'endTime',
@@ -26663,13 +26663,13 @@ var instanceRouteHistory = [
                     var instance, _a, diagram, activities, variables;
                     return __generator(this, function (_b) {
                         switch (_b.label) {
-                            case 0: return [4 /*yield*/, get(api, "/history/process-instance/" + processInstanceId)];
+                            case 0: return [4 /*yield*/, get$1(api, "/history/process-instance/" + processInstanceId)];
                             case 1:
                                 instance = _b.sent();
                                 return [4 /*yield*/, Promise.all([
-                                        get(api, "/process-definition/" + instance.processDefinitionId + "/xml"),
-                                        get(api, '/history/activity-instance', { processInstanceId: processInstanceId }),
-                                        get(api, '/history/variable-instance', { processInstanceId: processInstanceId }),
+                                        get$1(api, "/process-definition/" + instance.processDefinitionId + "/xml"),
+                                        get$1(api, '/history/activity-instance', { processInstanceId: processInstanceId }),
+                                        get$1(api, '/history/variable-instance', { processInstanceId: processInstanceId }),
                                     ])];
                             case 2:
                                 _a = _b.sent(), diagram = _a[0], activities = _a[1], variables = _a[2];

@@ -2,8 +2,7 @@ import BpmnViewer from 'bpmn-js/lib/NavigatedViewer';
 import camundaExtensionModule from 'camunda-bpmn-moddle/lib';
 import camundaModdle from 'camunda-bpmn-moddle/resources/camunda.json';
 import tooltips from 'diagram-js/lib/features/tooltips';
-import React from 'react';
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import RobotModule from '../RobotModule';
 
