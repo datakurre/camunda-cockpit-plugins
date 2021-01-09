@@ -5,6 +5,7 @@ import tooltips from 'diagram-js/lib/features/tooltips';
 import React, { useEffect, useRef } from 'react';
 
 import RobotModule from '../RobotModule';
+import { renderSequenceFlow } from '../utils/bpmn';
 
 export const BPMNViewer = async (diagram: string) => {
   const model = new BpmnViewer({
@@ -75,6 +76,7 @@ const BPMN: React.FC<Props> = ({ activities, className, diagramXML, style }) => 
         const canvas = viewer.get('canvas');
         canvas.zoom('fit-viewport');
         renderActivities(viewer, activities ?? []);
+        renderSequenceFlow(viewer, activities ?? []);
       }
     })();
   }, [diagramXML]);
