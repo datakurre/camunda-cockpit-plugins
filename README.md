@@ -1,7 +1,7 @@
 Minimal "history plugins" for Camunda Cockpit
 =============================================
 
-![plugin.gif][Minimal history plugin in action.]
+![Minimal history plugin in action.](plugin.gif)
 
 Try it
 
