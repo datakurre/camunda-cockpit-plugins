@@ -134,7 +134,11 @@ export default [
                           <AuditLogTable activities={activities} />
                         </TabPanel>
                         <TabPanel className="ctn-tabbed-content ctn-scroll">
-                          <VariablesTable variables={variables} />
+                          <VariablesTable
+                            variables={variables.filter(
+                              (variable: any) => variable.activityInstanceId === processInstanceId
+                            )}
+                          />
                         </TabPanel>
                         <TabPanel></TabPanel>
                       </Tabs>
