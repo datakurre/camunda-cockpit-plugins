@@ -26731,7 +26731,7 @@ var instanceRouteHistory = [
                                                         react.createElement(TabPanel, { className: "ctn-tabbed-content ctn-scroll" },
                                                             react.createElement(AuditLogTable, { activities: activities })),
                                                         react.createElement(TabPanel, { className: "ctn-tabbed-content ctn-scroll" },
-                                                            react.createElement(VariablesTable, { variables: variables })),
+                                                            react.createElement(VariablesTable, { variables: variables.filter(function (variable) { return variable.activityInstanceId === processInstanceId; }) })),
                                                         react.createElement(TabPanel, null))))))), node);
                                 return [2 /*return*/];
                         }
