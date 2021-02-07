@@ -14,8 +14,8 @@ interface XY {
 const getConnections = (activities: any[], elementRegistry: any): Activity[] => {
   const validActivity: Map<string, boolean> = new Map();
   const endTimesById: Map<string, any[]> = new Map();
+  const connectionDenyList: Set<string> = new Set();
   for (const activity of activities) {
-    console.log(activity);
     if (activity.endTime && !activity.canceled) {
       validActivity.set(activity.activityId, true);
     }
@@ -28,14 +28,42 @@ const getConnections = (activities: any[], elementRegistry: any): Activity[] => 
   }
   const elementById: Map<string, Activity> = new Map(
     map(activities, (activity: any) => {
-      return [activity.activityId, elementRegistry.get(activity.activityId) as Activity];
+      const element = elementRegistry.get(activity.activityId) as Activity;
+
+      // Side effect! Populate connectionDenyList for gateways by sorting outgoing
+      // paths in ascending order by their target activity end time and list everything
+      // but the first ones in deny list to prevent coloring them as active.
+      if (activity.activityType === 'exclusiveGateway' && element.outgoing.length) {
+        const activeConnections = [];
+        const myEndTimes = endTimesById.get(activity.activityId) || [];
+        for (let idx = 0; idx < myEndTimes.length; idx++) {
+          const myEndTime = myEndTimes[idx];
+          element.outgoing.sort((a: any, b: any): number => {
+            const endA = (endTimesById.get(a.target.id) || [])?.[idx] ?? 'Z';
+            const endB = (endTimesById.get(b.target.id) || [])?.[idx] ?? 'Z';
+            return endA < myEndTime ? 1 : endB < myEndTime ? -1 : endA > endB ? 1 : endA < endB ? -1 : 0;
+          });
+          activeConnections.push(element.outgoing[0].id);
+        }
+        for (const connection of element.outgoing) {
+          if (!activeConnections.includes(connection.id)) {
+            connectionDenyList.add(connection.id);
+          }
+        }
+      }
+      //
+
+      return [activity.activityId, element];
     })
   );
   const getActivityConnections = (activityId: string): any[] => {
-    const current = elementById.get(activityId);
+    const current: any = elementById.get(activityId);
     const currentEndTimes = endTimesById.get(activityId) ?? [];
     if (current && validActivity.get(activityId)) {
       const incoming = filter(current.incoming, (connection: any) => {
+        if (connectionDenyList.has(connection.id)) {
+          return false;
+        }
         const incomingEndTimes = validActivity.get(connection.source.id)
           ? endTimesById.get(connection.source.id) ?? []
           : [];
@@ -46,6 +74,9 @@ const getConnections = (activities: any[], elementRegistry: any): Activity[] => 
         );
       });
       const outgoing = filter(current.outgoing, (connection: any) => {
+        if (connectionDenyList.has(connection.id)) {
+          return false;
+        }
         const outgoingEndTimes = endTimesById.get(connection.target.id) ?? [];
         return outgoingEndTimes.reduce(
           (acc: boolean, oET: string) =>
@@ -61,8 +92,8 @@ const getConnections = (activities: any[], elementRegistry: any): Activity[] => 
 
   let connections: Activity[] = [];
 
-  forEach(Array.from(elementById.keys()), (activityId: string) => {
-    connections = uniqueBy('id', [...connections, ...getActivityConnections(activityId)]);
+  forEach(Array.from(elementById.keys() as any), (activityId: any) => {
+    connections = uniqueBy('id' as any, [...connections, ...getActivityConnections(activityId)]) as any;
   });
 
   return connections;
