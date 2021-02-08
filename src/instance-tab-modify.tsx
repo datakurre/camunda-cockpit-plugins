@@ -34,7 +34,7 @@ const ModifyVariableForm: React.FC<InstancePluginParams> = ({ api, processInstan
       onSubmit={onSubmit}
       render={({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
-          <h2 style={{ fontSize: '100%', fontWeight: "bold" }}>Modify variable</h2>
+          <h2 style={{ fontSize: '100%', fontWeight: 'bold' }}>Modify variable</h2>
           <table className="cam-table">
             <thead>
               <th>
@@ -108,7 +108,7 @@ const MoveTokenForm: React.FC<InstancePluginParams> = ({ api, processInstanceId 
       onSubmit={onSubmit}
       render={({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
-          <h2 style={{ fontSize: '100%', fontWeight: "bold" }}>Move token</h2>
+          <h2 style={{ fontSize: '100%', fontWeight: 'bold' }}>Move token</h2>
           <table className="cam-table">
             <thead>
               <th>

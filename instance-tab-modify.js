@@ -2705,7 +2705,7 @@ var ModifyVariableForm = function (_a) {
     return (react.createElement(ReactFinalForm, { onSubmit: onSubmit, render: function (_a) {
             var handleSubmit = _a.handleSubmit;
             return (react.createElement("form", { onSubmit: handleSubmit },
-                react.createElement("h2", { style: { fontSize: '100%', fontWeight: "bold" } }, "Modify variable"),
+                react.createElement("h2", { style: { fontSize: '100%', fontWeight: 'bold' } }, "Modify variable"),
                 react.createElement("table", { className: "cam-table" },
                     react.createElement("thead", null,
                         react.createElement("th", null,
@@ -2768,7 +2768,7 @@ var MoveTokenForm = function (_a) {
     return (react.createElement(ReactFinalForm, { onSubmit: onSubmit, render: function (_a) {
             var handleSubmit = _a.handleSubmit;
             return (react.createElement("form", { onSubmit: handleSubmit },
-                react.createElement("h2", { style: { fontSize: '100%', fontWeight: "bold" } }, "Move token"),
+                react.createElement("h2", { style: { fontSize: '100%', fontWeight: 'bold' } }, "Move token"),
                 react.createElement("table", { className: "cam-table" },
                     react.createElement("thead", null,
                         react.createElement("th", null,

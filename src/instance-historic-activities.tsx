@@ -58,9 +58,13 @@ export default [
     },
     render: (node: Element, { api, processInstanceId }: InstancePluginParams) => {
       (async () => {
-        const activities = filter(
-          await get(api, '/history/activity-instance', { processInstanceId }),
-          (activity: any) => activity.endTime
+        const [allActivities, decisions] = await Promise.all([
+          get(api, '/history/activity-instance', { processInstanceId }),
+          get(api, '/history/decision-instance', { processInstanceId }),
+        ]);
+        const activities: any[] = allActivities.filter((activity: any) => activity.endTime);
+        const decisionByActivity: Map<string, any> = new Map(
+          decisions.map((decision: any) => [decision.activityInstanceId, decision.id])
         );
         activities.sort((a, b) => {
           a = new Date(a.endTime);
@@ -75,7 +79,7 @@ export default [
         });
         ReactDOM.render(
           <React.StrictMode>
-            <AuditLogTable activities={activities} />
+            <AuditLogTable activities={activities} decisions={decisionByActivity} />
           </React.StrictMode>,
           node
         );

@@ -5,14 +5,21 @@ import { asctime } from '../utils/misc';
 
 interface Props {
   activities: any[];
+  decisions: Map<string, string>;
 }
 
-const AuditLogTable: React.FC<Props> = ({ activities }) => {
+const AuditLogTable: React.FC<Props> = ({ activities, decisions }) => {
   const columns = React.useMemo(
     () => [
       {
         Header: 'Activity Name',
         accessor: 'activityName',
+        Cell: ({ value }: any) =>
+          decisions.has(value[0]) ? (
+            <a href={`#/decision-instance/${decisions.get(value[0])}`}>{value[1]}</a>
+          ) : (
+            value[1]
+          ),
       },
       {
         Header: 'Start Date',
@@ -41,7 +48,7 @@ const AuditLogTable: React.FC<Props> = ({ activities }) => {
     () =>
       activities.map((activity: any) => {
         return {
-          activityName: activity.activityName,
+          activityName: [activity.id, activity.activityName],
           startDate: activity.startTime.split('.')[0],
           endDate: activity.endTime ? activity.endTime.split('.')[0] : '',
           duration: activity.endTime
