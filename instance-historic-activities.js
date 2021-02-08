@@ -1348,6 +1348,7 @@ var getConnections = function (activities, elementRegistry) {
         }
     }
     var elementById = new Map(map(activities, function (activity) {
+        var _a, _b;
         var element = elementRegistry.get(activity.activityId);
         // Side effect! Populate connectionDenyList for gateways by sorting outgoing
         // paths in ascending order by their target activity start time and list everything
@@ -1368,9 +1369,10 @@ var getConnections = function (activities, elementRegistry) {
             for (var idx = 0; idx < myEndTimes.length; idx++) {
                 _loop_1(idx);
             }
-            for (var _i = 0, _a = element.outgoing; _i < _a.length; _i++) {
-                var connection = _a[_i];
-                if (!activeConnections.includes(connection.id)) {
+            for (var _i = 0, _c = element.outgoing; _i < _c.length; _i++) {
+                var connection = _c[_i];
+                if (!activeConnections.includes(connection.id) &&
+                    ((_b = (_a = connection) === null || _a === void 0 ? void 0 : _a.target) === null || _b === void 0 ? void 0 : _b.type) !== 'bpmn:ParallelGateway') {
                     connectionDenyList.add(connection.id);
                 }
             }
