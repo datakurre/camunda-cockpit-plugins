@@ -2705,7 +2705,7 @@ var ModifyVariableForm = function (_a) {
     return (react.createElement(ReactFinalForm, { onSubmit: onSubmit, render: function (_a) {
             var handleSubmit = _a.handleSubmit;
             return (react.createElement("form", { onSubmit: handleSubmit },
-                react.createElement("h2", { style: { fontSize: '100%' } }, "Modify variable"),
+                react.createElement("h2", { style: { fontSize: '100%', fontWeight: "bold" } }, "Modify variable"),
                 react.createElement("table", { className: "cam-table" },
                     react.createElement("thead", null,
                         react.createElement("th", null,
@@ -2717,16 +2717,77 @@ var ModifyVariableForm = function (_a) {
                     react.createElement("tbody", null,
                         react.createElement("tr", null,
                             react.createElement("td", null,
-                                react.createElement(Field, { className: "form-control", name: "name", component: "input", placeholder: "Name" })),
+                                react.createElement(Field, { className: "form-control", name: "name", component: "input" })),
                             react.createElement("td", null,
-                                react.createElement(Field, { className: "form-control", name: "type", component: "select", placeholder: "Type" },
+                                react.createElement(Field, { className: "form-control", name: "type", component: "select" },
                                     react.createElement("option", { value: "string" }, "string"),
                                     react.createElement("option", { value: "integer" }, "integer"),
                                     react.createElement("option", { value: "boolean" }, "boolean"))),
                             react.createElement("td", null,
-                                react.createElement(Field, { className: "form-control", name: "value", component: "input", placeholder: "Value" })),
+                                react.createElement(Field, { className: "form-control", name: "value", component: "input" })),
                             react.createElement("td", null,
                                 react.createElement("button", { type: "submit" }, "Modify")))))));
+        } }));
+};
+var MoveTokenForm = function (_a) {
+    var api = _a.api, processInstanceId = _a.processInstanceId;
+    var onSubmit = function (_a) {
+        var startActivityId = _a.startActivityId, cancelActivityId = _a.cancelActivityId, annotation = _a.annotation;
+        return __awaiter(void 0, void 0, void 0, function () {
+            var payload;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (!(startActivityId && cancelActivityId)) return [3 /*break*/, 2];
+                        payload = {
+                            skipCustomListeners: true,
+                            skipIoMappings: true,
+                            instructions: [
+                                {
+                                    type: 'startBeforeActivity',
+                                    activityId: startActivityId,
+                                    variables: {},
+                                },
+                                {
+                                    type: 'cancel',
+                                    activityId: cancelActivityId,
+                                    variables: {},
+                                },
+                            ],
+                            annotation: annotation,
+                        };
+                        return [4 /*yield*/, post(api, "/process-instance/" + processInstanceId + "/modification", {}, JSON.stringify(payload))];
+                    case 1:
+                        _b.sent();
+                        _b.label = 2;
+                    case 2: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return (react.createElement(ReactFinalForm, { onSubmit: onSubmit, render: function (_a) {
+            var handleSubmit = _a.handleSubmit;
+            return (react.createElement("form", { onSubmit: handleSubmit },
+                react.createElement("h2", { style: { fontSize: '100%', fontWeight: "bold" } }, "Move token"),
+                react.createElement("table", { className: "cam-table" },
+                    react.createElement("thead", null,
+                        react.createElement("th", null,
+                            react.createElement("label", { htmlFor: "cancelActivityId" }, "From")),
+                        react.createElement("th", null,
+                            react.createElement("label", { htmlFor: "startActivityId" }, "To")),
+                        react.createElement("th", null,
+                            react.createElement("label", { htmlFor: "annotation" }, "Reason"))),
+                    react.createElement("tbody", null,
+                        react.createElement("tr", null,
+                            react.createElement("td", null,
+                                react.createElement(Field, { className: "form-control", name: "cancelActivityId", component: "input" })),
+                            react.createElement("td", null,
+                                react.createElement(Field, { className: "form-control", name: "startActivityId", component: "input" })),
+                            react.createElement("td", null,
+                                react.createElement(Field, { className: "form-control", name: "annotation", component: "input" })),
+                            react.createElement("td", null,
+                                react.createElement("button", { type: "submit" }, "Move"))))),
+                react.createElement("p", null, "Warning! Use with extreme care. This form could be used to terminate process inadvertently.")));
         } }));
 };
 var instanceTabModify = [
@@ -2741,7 +2802,8 @@ var instanceTabModify = [
             (function () { return __awaiter(void 0, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     reactDom.render(react.createElement(react.StrictMode, null,
-                        react.createElement(ModifyVariableForm, { api: api, processInstanceId: processInstanceId })), node);
+                        react.createElement(ModifyVariableForm, { api: api, processInstanceId: processInstanceId }),
+                        react.createElement(MoveTokenForm, { api: api, processInstanceId: processInstanceId })), node);
                     return [2 /*return*/];
                 });
             }); })();
