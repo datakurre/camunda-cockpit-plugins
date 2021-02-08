@@ -63,12 +63,12 @@ export default [
           decisions.map((decision: any) => [decision.activityInstanceId, decision.id])
         );
         activities.sort((a: any, b: any) => {
-          a = new Date(a.endTime);
-          b = new Date(b.endTime);
-          if (a < b) {
+          a = a.endTime ? new Date(a.endTime) : new Date();
+          b = b.endTime ? new Date(b.endTime) : new Date();
+          if (a > b) {
             return -1;
           }
-          if (a > b) {
+          if (a < b) {
             return 1;
           }
           return 0;
