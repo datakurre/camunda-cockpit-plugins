@@ -27129,7 +27129,7 @@ var instanceRouteHistory = [
                                                         react.createElement("dd", null, instance.processDefinitionVersion),
                                                         react.createElement("dt", null,
                                                             react.createElement(Clippy, { value: instance.processdefinitionid }, "Definition ID:")),
-                                                        react.createElement("dd", null, instance.processdefinitionid),
+                                                        react.createElement("dd", null, instance.processDefinitionId),
                                                         react.createElement("dt", null,
                                                             react.createElement(Clippy, { value: instance.processDefinitionKey }, "Definition Key:")),
                                                         react.createElement("dd", null, instance.processDefinitionKey),
