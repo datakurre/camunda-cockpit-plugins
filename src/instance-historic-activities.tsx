@@ -5,7 +5,6 @@ import AuditLogTable from './Components/AuditLogTable';
 import { InstancePluginParams } from './types';
 import { get } from './utils/api';
 import { renderSequenceFlow } from './utils/bpmn';
-import { filter } from './utils/misc';
 
 export default [
   {
@@ -58,21 +57,20 @@ export default [
     },
     render: (node: Element, { api, processInstanceId }: InstancePluginParams) => {
       (async () => {
-        const [allActivities, decisions] = await Promise.all([
+        const [activities, decisions] = await Promise.all([
           get(api, '/history/activity-instance', { processInstanceId }),
           get(api, '/history/decision-instance', { processInstanceId }),
         ]);
-        const activities: any[] = allActivities.filter((activity: any) => activity.endTime);
         const decisionByActivity: Map<string, any> = new Map(
           decisions.map((decision: any) => [decision.activityInstanceId, decision.id])
         );
-        activities.sort((a, b) => {
+        activities.sort((a: any, b: any) => {
           a = new Date(a.endTime);
           b = new Date(b.endTime);
-          if (a > b) {
+          if (a < b) {
             return -1;
           }
-          if (a < b) {
+          if (a > b) {
             return 1;
           }
           return 0;
