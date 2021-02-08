@@ -53,7 +53,10 @@ const getConnections = (activities: any[], elementRegistry: any): Activity[] => 
           activeConnections.push(element.outgoing[0].id);
         }
         for (const connection of element.outgoing) {
-          if (!activeConnections.includes(connection.id)) {
+          if (
+            !activeConnections.includes(connection.id) &&
+            (connection as any)?.target?.type !== 'bpmn:ParallelGateway'
+          ) {
             connectionDenyList.add(connection.id);
           }
         }
