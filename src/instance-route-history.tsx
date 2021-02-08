@@ -8,6 +8,7 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import AuditLogTable from './Components/AuditLogTable';
 import BPMN from './Components/BPMN';
 import BreadcrumbsPanel from './Components/BreadcrumbsPanel';
+import { Clippy } from './Components/Clippy';
 import Container from './Components/Container';
 import HistoryTable from './Components/HistoryTable';
 import Page from './Components/Page';
@@ -94,11 +95,17 @@ export default [
                   <SplitPane split="vertical" size={200}>
                     <div className="ctn-column">
                       <dl className="process-information">
-                        <dt>Instance ID:</dt>
+                        <dt>
+                          <Clippy value={instance.id}>Instance ID:</Clippy>
+                        </dt>
                         <dd>{instance.id}</dd>
-                        <dt>Business Key:</dt>
+                        <dt>
+                          <Clippy value={instance.businessKey || 'null'}>Business Key:</Clippy>
+                        </dt>
                         <dd>{instance.businessKey || 'null'}</dd>
-                        <dt>Definition Version:</dt>
+                        <dt>
+                          <Clippy value={instance.processDefinitionVersion}>Definition Version:</Clippy>
+                        </dt>
                         <dd>{instance.processDefinitionVersion}</dd>
                         <dt>Definition ID:</dt>
                         <dd>{instance.processDefinitionId}</dd>
