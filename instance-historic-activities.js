@@ -1557,12 +1557,12 @@ var instanceHistoricActivities = [
                             _a = _b.sent(), activities = _a[0], decisions = _a[1];
                             decisionByActivity = new Map(decisions.map(function (decision) { return [decision.activityInstanceId, decision.id]; }));
                             activities.sort(function (a, b) {
-                                a = new Date(a.endTime);
-                                b = new Date(b.endTime);
-                                if (a < b) {
+                                a = a.endTime ? new Date(a.endTime) : new Date();
+                                b = b.endTime ? new Date(b.endTime) : new Date();
+                                if (a > b) {
                                     return -1;
                                 }
-                                if (a > b) {
+                                if (a < b) {
                                     return 1;
                                 }
                                 return 0;
