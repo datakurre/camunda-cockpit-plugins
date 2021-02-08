@@ -3947,11 +3947,15 @@ var asctime = function (duration) {
 };
 
 var AuditLogTable = function (_a) {
-    var activities = _a.activities;
+    var activities = _a.activities, decisions = _a.decisions;
     var columns = react.useMemo(function () { return [
         {
             Header: 'Activity Name',
             accessor: 'activityName',
+            Cell: function (_a) {
+                var value = _a.value;
+                return decisions.has(value[0]) ? (react.createElement("a", { href: "#/decision-instance/" + decisions.get(value[0]) }, value[1])) : (value[1]);
+            },
         },
         {
             Header: 'Start Date',
@@ -3977,7 +3981,7 @@ var AuditLogTable = function (_a) {
     var data = react.useMemo(function () {
         return activities.map(function (activity) {
             return {
-                activityName: activity.activityName,
+                activityName: [activity.id, activity.activityName],
                 startDate: activity.startTime.split('.')[0],
                 endDate: activity.endTime ? activity.endTime.split('.')[0] : '',
                 duration: activity.endTime
@@ -26549,8 +26553,9 @@ function getMid$1(a, b) {
 
 var FILL = '#52B415';
 var getConnections = function (activities, elementRegistry) {
-    var _a;
+    var _a, _b;
     var validActivity = new Map();
+    var startTimesById = new Map();
     var endTimesById = new Map();
     var connectionDenyList = new Set();
     for (var _i = 0, activities_1 = activities; _i < activities_1.length; _i++) {
@@ -26565,11 +26570,18 @@ var getConnections = function (activities, elementRegistry) {
         else {
             endTimesById.set(activity.activityId, [activity.endTime || 'n/a']);
         }
+        if (startTimesById.has(activity.activityId)) {
+            var startTimes = (_b = startTimesById.get(activity.activityId)) !== null && _b !== void 0 ? _b : [];
+            startTimes.push(activity.startTime || 'n/a');
+        }
+        else {
+            startTimesById.set(activity.activityId, [activity.startTime || 'n/a']);
+        }
     }
     var elementById = new Map(map(activities, function (activity) {
         var element = elementRegistry.get(activity.activityId);
         // Side effect! Populate connectionDenyList for gateways by sorting outgoing
-        // paths in ascending order by their target activity end time and list everything
+        // paths in ascending order by their target activity start time and list everything
         // but the first ones in deny list to prevent coloring them as active.
         if (activity.activityType === 'exclusiveGateway' && element.outgoing.length) {
             var activeConnections = [];
@@ -26578,9 +26590,9 @@ var getConnections = function (activities, elementRegistry) {
                 var myEndTime = myEndTimes[idx];
                 element.outgoing.sort(function (a, b) {
                     var _a, _b, _c, _d;
-                    var endA = (_b = (_a = (endTimesById.get(a.target.id) || [])) === null || _a === void 0 ? void 0 : _a[idx]) !== null && _b !== void 0 ? _b : 'Z';
-                    var endB = (_d = (_c = (endTimesById.get(b.target.id) || [])) === null || _c === void 0 ? void 0 : _c[idx]) !== null && _d !== void 0 ? _d : 'Z';
-                    return endA < myEndTime ? 1 : endB < myEndTime ? -1 : endA > endB ? 1 : endA < endB ? -1 : 0;
+                    var startA = (_b = (_a = (startTimesById.get(a.target.id) || [])) === null || _a === void 0 ? void 0 : _a[idx]) !== null && _b !== void 0 ? _b : 'Z';
+                    var startB = (_d = (_c = (startTimesById.get(b.target.id) || [])) === null || _c === void 0 ? void 0 : _c[idx]) !== null && _d !== void 0 ? _d : 'Z';
+                    return startA < myEndTime ? 1 : startB < myEndTime ? -1 : startA > startB ? 1 : startA < startB ? -1 : 0;
                 });
                 activeConnections.push(element.outgoing[0].id);
             };
@@ -27362,7 +27374,7 @@ var instanceRouteHistory = [
             var processInstanceId = match ? match[1] : null;
             if (processInstanceId) {
                 (function () { return __awaiter(void 0, void 0, void 0, function () {
-                    var instance, _a, diagram, activities, variables;
+                    var instance, _a, diagram, activities, variables, decisions, decisionByActivity;
                     return __generator(this, function (_b) {
                         switch (_b.label) {
                             case 0: return [4 /*yield*/, get$1(api, "/history/process-instance/" + processInstanceId)];
@@ -27372,9 +27384,11 @@ var instanceRouteHistory = [
                                         get$1(api, "/process-definition/" + instance.processDefinitionId + "/xml"),
                                         get$1(api, '/history/activity-instance', { processInstanceId: processInstanceId }),
                                         get$1(api, '/history/variable-instance', { processInstanceId: processInstanceId }),
+                                        get$1(api, '/history/decision-instance', { processInstanceId: processInstanceId }),
                                     ])];
                             case 2:
-                                _a = _b.sent(), diagram = _a[0], activities = _a[1], variables = _a[2];
+                                _a = _b.sent(), diagram = _a[0], activities = _a[1], variables = _a[2], decisions = _a[3];
+                                decisionByActivity = new Map(decisions.map(function (decision) { return [decision.activityInstanceId, decision.id]; }));
                                 activities.sort(function (a, b) {
                                     a = a.endTime ? new Date(a.endTime) : new Date();
                                     b = b.endTime ? new Date(b.endTime) : new Date();
@@ -27434,7 +27448,7 @@ var instanceRouteHistory = [
                                                             react.createElement(Tab, null,
                                                                 react.createElement("a", null, "Variables"))),
                                                         react.createElement(TabPanel, { className: "ctn-tabbed-content ctn-scroll" },
-                                                            react.createElement(AuditLogTable, { activities: activities })),
+                                                            react.createElement(AuditLogTable, { activities: activities, decisions: decisionByActivity })),
                                                         react.createElement(TabPanel, { className: "ctn-tabbed-content ctn-scroll" },
                                                             react.createElement(VariablesTable, { variables: variables.filter(function (variable) { return variable.activityInstanceId === processInstanceId; }) })),
                                                         react.createElement(TabPanel, null))))))), node);

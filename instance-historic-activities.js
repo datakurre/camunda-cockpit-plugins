@@ -603,23 +603,17 @@ var asctime = function (duration) {
     var seconds_ = seconds < 10 ? '0' + seconds : seconds;
     return hours_ + ':' + minutes_ + ':' + seconds_ + '.' + milliseconds;
 };
-var filter = function (iterable, condition) {
-    var result = [];
-    for (var _i = 0, iterable_1 = iterable; _i < iterable_1.length; _i++) {
-        var item = iterable_1[_i];
-        if (condition(item)) {
-            result.push(item);
-        }
-    }
-    return result;
-};
 
 var AuditLogTable = function (_a) {
-    var activities = _a.activities;
+    var activities = _a.activities, decisions = _a.decisions;
     var columns = react.useMemo(function () { return [
         {
             Header: 'Activity Name',
             accessor: 'activityName',
+            Cell: function (_a) {
+                var value = _a.value;
+                return decisions.has(value[0]) ? (react.createElement("a", { href: "#/decision-instance/" + decisions.get(value[0]) }, value[1])) : (value[1]);
+            },
         },
         {
             Header: 'Start Date',
@@ -645,7 +639,7 @@ var AuditLogTable = function (_a) {
     var data = react.useMemo(function () {
         return activities.map(function (activity) {
             return {
-                activityName: activity.activityName,
+                activityName: [activity.id, activity.activityName],
                 startDate: activity.startTime.split('.')[0],
                 endDate: activity.endTime ? activity.endTime.split('.')[0] : '',
                 duration: activity.endTime
@@ -748,7 +742,7 @@ function has(target, key) {
  * @return {Array} result
  */
 
-function filter$1(collection, matcher) {
+function filter(collection, matcher) {
   var result = [];
   forEach(collection, function (val, key) {
     if (matcher(val, key)) {
@@ -1319,8 +1313,9 @@ function getMid(a, b) {
 
 var FILL = '#52B415';
 var getConnections = function (activities, elementRegistry) {
-    var _a;
+    var _a, _b;
     var validActivity = new Map();
+    var startTimesById = new Map();
     var endTimesById = new Map();
     var connectionDenyList = new Set();
     for (var _i = 0, activities_1 = activities; _i < activities_1.length; _i++) {
@@ -1335,11 +1330,18 @@ var getConnections = function (activities, elementRegistry) {
         else {
             endTimesById.set(activity.activityId, [activity.endTime || 'n/a']);
         }
+        if (startTimesById.has(activity.activityId)) {
+            var startTimes = (_b = startTimesById.get(activity.activityId)) !== null && _b !== void 0 ? _b : [];
+            startTimes.push(activity.startTime || 'n/a');
+        }
+        else {
+            startTimesById.set(activity.activityId, [activity.startTime || 'n/a']);
+        }
     }
     var elementById = new Map(map(activities, function (activity) {
         var element = elementRegistry.get(activity.activityId);
         // Side effect! Populate connectionDenyList for gateways by sorting outgoing
-        // paths in ascending order by their target activity end time and list everything
+        // paths in ascending order by their target activity start time and list everything
         // but the first ones in deny list to prevent coloring them as active.
         if (activity.activityType === 'exclusiveGateway' && element.outgoing.length) {
             var activeConnections = [];
@@ -1348,9 +1350,9 @@ var getConnections = function (activities, elementRegistry) {
                 var myEndTime = myEndTimes[idx];
                 element.outgoing.sort(function (a, b) {
                     var _a, _b, _c, _d;
-                    var endA = (_b = (_a = (endTimesById.get(a.target.id) || [])) === null || _a === void 0 ? void 0 : _a[idx]) !== null && _b !== void 0 ? _b : 'Z';
-                    var endB = (_d = (_c = (endTimesById.get(b.target.id) || [])) === null || _c === void 0 ? void 0 : _c[idx]) !== null && _d !== void 0 ? _d : 'Z';
-                    return endA < myEndTime ? 1 : endB < myEndTime ? -1 : endA > endB ? 1 : endA < endB ? -1 : 0;
+                    var startA = (_b = (_a = (startTimesById.get(a.target.id) || [])) === null || _a === void 0 ? void 0 : _a[idx]) !== null && _b !== void 0 ? _b : 'Z';
+                    var startB = (_d = (_c = (startTimesById.get(b.target.id) || [])) === null || _c === void 0 ? void 0 : _c[idx]) !== null && _d !== void 0 ? _d : 'Z';
+                    return startA < myEndTime ? 1 : startB < myEndTime ? -1 : startA > startB ? 1 : startA < startB ? -1 : 0;
                 });
                 activeConnections.push(element.outgoing[0].id);
             };
@@ -1372,7 +1374,7 @@ var getConnections = function (activities, elementRegistry) {
         var current = elementById.get(activityId);
         var currentEndTimes = (_a = endTimesById.get(activityId)) !== null && _a !== void 0 ? _a : [];
         if (current && validActivity.get(activityId)) {
-            var incoming = filter$1(current.incoming, function (connection) {
+            var incoming = filter(current.incoming, function (connection) {
                 var _a;
                 if (connectionDenyList.has(connection.id)) {
                     return false;
@@ -1383,7 +1385,7 @@ var getConnections = function (activities, elementRegistry) {
                     return acc || currentEndTimes.reduce(function (acc_, cET) { return acc_ || iET <= cET; }, false);
                 }, false);
             });
-            var outgoing = filter$1(current.outgoing, function (connection) {
+            var outgoing = filter(current.outgoing, function (connection) {
                 var _a;
                 if (connectionDenyList.has(connection.id)) {
                     return false;
@@ -1535,15 +1537,17 @@ var instanceHistoricActivities = [
         render: function (node, _a) {
             var api = _a.api, processInstanceId = _a.processInstanceId;
             (function () { return __awaiter(void 0, void 0, void 0, function () {
-                var activities, _a;
+                var _a, allActivities, decisions, activities, decisionByActivity;
                 return __generator(this, function (_b) {
                     switch (_b.label) {
-                        case 0:
-                            _a = filter;
-                            return [4 /*yield*/, get(api, '/history/activity-instance', { processInstanceId: processInstanceId })];
+                        case 0: return [4 /*yield*/, Promise.all([
+                                get(api, '/history/activity-instance', { processInstanceId: processInstanceId }),
+                                get(api, '/history/decision-instance', { processInstanceId: processInstanceId }),
+                            ])];
                         case 1:
-                            activities = _a.apply(void 0, [_b.sent(),
-                                function (activity) { return activity.endTime; }]);
+                            _a = _b.sent(), allActivities = _a[0], decisions = _a[1];
+                            activities = allActivities.filter(function (activity) { return activity.endTime; });
+                            decisionByActivity = new Map(decisions.map(function (decision) { return [decision.activityInstanceId, decision.id]; }));
                             activities.sort(function (a, b) {
                                 a = new Date(a.endTime);
                                 b = new Date(b.endTime);
@@ -1556,7 +1560,7 @@ var instanceHistoricActivities = [
                                 return 0;
                             });
                             reactDom.render(react.createElement(react.StrictMode, null,
-                                react.createElement(AuditLogTable, { activities: activities })), node);
+                                react.createElement(AuditLogTable, { activities: activities, decisions: decisionByActivity })), node);
                             return [2 /*return*/];
                     }
                 });

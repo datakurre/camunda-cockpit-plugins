@@ -56,11 +56,15 @@ export default [
       if (processInstanceId) {
         (async () => {
           const instance = await get(api, `/history/process-instance/${processInstanceId}`);
-          const [diagram, activities, variables] = await Promise.all([
+          const [diagram, activities, variables, decisions] = await Promise.all([
             get(api, `/process-definition/${instance.processDefinitionId}/xml`),
             get(api, '/history/activity-instance', { processInstanceId }),
             get(api, '/history/variable-instance', { processInstanceId }),
+            get(api, '/history/decision-instance', { processInstanceId }),
           ]);
+          const decisionByActivity: Map<string, any> = new Map(
+            decisions.map((decision: any) => [decision.activityInstanceId, decision.id])
+          );
           activities.sort((a: any, b: any) => {
             a = a.endTime ? new Date(a.endTime) : new Date();
             b = b.endTime ? new Date(b.endTime) : new Date();
@@ -138,7 +142,7 @@ export default [
                           </Tab>
                         </TabList>
                         <TabPanel className="ctn-tabbed-content ctn-scroll">
-                          <AuditLogTable activities={activities} />
+                          <AuditLogTable activities={activities} decisions={decisionByActivity} />
                         </TabPanel>
                         <TabPanel className="ctn-tabbed-content ctn-scroll">
                           <VariablesTable
