@@ -59,4 +59,11 @@ export default [
     },
     plugins,
   },
+  {
+    input: "src/instance-tab-modify.tsx",
+    output: {
+      file: "instance-tab-modify.js",
+    },
+    plugins,
+  },
 ];

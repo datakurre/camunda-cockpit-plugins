@@ -19,6 +19,7 @@ export default {
     'scripts/definition-historic-activities.js',
     'scripts/instance-historic-activities.js',
     'scripts/instance-route-history.js',
+    'scripts/instance-tab-modify.js',
   ],
   // locales: {
   //   availableLocales: ['en', 'de'],
