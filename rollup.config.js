@@ -49,6 +49,10 @@ export default [
     plugins,
   },
   {
+    onwarn: function(warning, superOnWarn) {
+      if (warning.code === 'THIS_IS_UNDEFINED') { return; }
+      superOnWarn(warning);
+    },
     input: "src/instance-route-history.tsx",
     output: {
       file: "instance-route-history.js",
