@@ -114,7 +114,7 @@ export default [
                         <dt>
                           <Clippy value={instance.processdefinitionid}>Definition ID:</Clippy>
                         </dt>
-                        <dd>{instance.processdefinitionid}</dd>
+                        <dd>{instance.processDefinitionId}</dd>
                         <dt>
                           <Clippy value={instance.processDefinitionKey}>Definition Key:</Clippy>
                         </dt>
