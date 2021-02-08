@@ -14,12 +14,16 @@ const AuditLogTable: React.FC<Props> = ({ activities, decisions }) => {
       {
         Header: 'Activity Name',
         accessor: 'activityName',
-        Cell: ({ value }: any) =>
-          decisions.has(value[0]) ? (
-            <a href={`#/decision-instance/${decisions.get(value[0])}`}>{value[1]}</a>
-          ) : (
-            value[1]
-          ),
+        Cell: ({ value }: any) => {
+          if (value.activityType === 'businessRuleTask' && decisions.has(value.id)) {
+            return <a href={`#/decision-instance/${decisions.get(value.id)}`}>{value.activityName}</a>;
+          } else if (value.activityType === 'callActivity' && value.calledProcessInstanceId && value.endTime) {
+            return <a href={`#/history/process-instance/${value.calledProcessInstanceId}`}>{value.activityName}</a>;
+          } else if (value.activityType === 'callActivity' && value.calledProcessInstanceId) {
+            return <a href={`#/process-instance/${value.calledProcessInstanceId}/runtime`}>{value.activityName}</a>;
+          }
+          return value.activityName;
+        },
       },
       {
         Header: 'Start Date',
@@ -48,7 +52,7 @@ const AuditLogTable: React.FC<Props> = ({ activities, decisions }) => {
     () =>
       activities.map((activity: any) => {
         return {
-          activityName: [activity.id, activity.activityName],
+          activityName: activity,
           startDate: activity.startTime.split('.')[0],
           endDate: activity.endTime ? activity.endTime.split('.')[0] : '',
           duration: activity.endTime

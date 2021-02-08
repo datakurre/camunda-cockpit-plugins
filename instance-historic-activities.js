@@ -612,7 +612,16 @@ var AuditLogTable = function (_a) {
             accessor: 'activityName',
             Cell: function (_a) {
                 var value = _a.value;
-                return decisions.has(value[0]) ? (react.createElement("a", { href: "#/decision-instance/" + decisions.get(value[0]) }, value[1])) : (value[1]);
+                if (value.activityType === 'businessRuleTask' && decisions.has(value.id)) {
+                    return react.createElement("a", { href: "#/decision-instance/" + decisions.get(value.id) }, value.activityName);
+                }
+                else if (value.activityType === 'callActivity' && value.calledProcessInstanceId && value.endTime) {
+                    return react.createElement("a", { href: "#/history/process-instance/" + value.calledProcessInstanceId }, value.activityName);
+                }
+                else if (value.activityType === 'callActivity' && value.calledProcessInstanceId) {
+                    return react.createElement("a", { href: "#/process-instance/" + value.calledProcessInstanceId + "/runtime" }, value.activityName);
+                }
+                return value.activityName;
             },
         },
         {
@@ -639,7 +648,7 @@ var AuditLogTable = function (_a) {
     var data = react.useMemo(function () {
         return activities.map(function (activity) {
             return {
-                activityName: [activity.id, activity.activityName],
+                activityName: activity,
                 startDate: activity.startTime.split('.')[0],
                 endDate: activity.endTime ? activity.endTime.split('.')[0] : '',
                 duration: activity.endTime
@@ -1537,7 +1546,7 @@ var instanceHistoricActivities = [
         render: function (node, _a) {
             var api = _a.api, processInstanceId = _a.processInstanceId;
             (function () { return __awaiter(void 0, void 0, void 0, function () {
-                var _a, allActivities, decisions, activities, decisionByActivity;
+                var _a, activities, decisions, decisionByActivity;
                 return __generator(this, function (_b) {
                     switch (_b.label) {
                         case 0: return [4 /*yield*/, Promise.all([
@@ -1545,16 +1554,15 @@ var instanceHistoricActivities = [
                                 get(api, '/history/decision-instance', { processInstanceId: processInstanceId }),
                             ])];
                         case 1:
-                            _a = _b.sent(), allActivities = _a[0], decisions = _a[1];
-                            activities = allActivities.filter(function (activity) { return activity.endTime; });
+                            _a = _b.sent(), activities = _a[0], decisions = _a[1];
                             decisionByActivity = new Map(decisions.map(function (decision) { return [decision.activityInstanceId, decision.id]; }));
                             activities.sort(function (a, b) {
                                 a = new Date(a.endTime);
                                 b = new Date(b.endTime);
-                                if (a > b) {
+                                if (a < b) {
                                     return -1;
                                 }
-                                if (a < b) {
+                                if (a > b) {
                                     return 1;
                                 }
                                 return 0;

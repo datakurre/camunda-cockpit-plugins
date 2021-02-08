@@ -111,17 +111,36 @@ export default [
                           <Clippy value={instance.processDefinitionVersion}>Definition Version:</Clippy>
                         </dt>
                         <dd>{instance.processDefinitionVersion}</dd>
-                        <dt>Definition ID:</dt>
-                        <dd>{instance.processDefinitionId}</dd>
-                        <dt>Definition Key:</dt>
+                        <dt>
+                          <Clippy value={instance.processdefinitionid}>Definition ID:</Clippy>
+                        </dt>
+                        <dd>{instance.processdefinitionid}</dd>
+                        <dt>
+                          <Clippy value={instance.processDefinitionKey}>Definition Key:</Clippy>
+                        </dt>
                         <dd>{instance.processDefinitionKey}</dd>
-                        <dt>Definition Name:</dt>
+                        <dt>
+                          <Clippy value={instance.processDefinitionName}>Definition Name:</Clippy>
+                        </dt>
                         <dd>{instance.processDefinitionName}</dd>
-                        <dt>Tenant ID:</dt>
+                        <dt>
+                          <Clippy value={instance.tenantId || 'null'}>Tenant ID:</Clippy>
+                        </dt>
                         <dd>{instance.tenantId || 'null'}</dd>
-                        <dt>Super Process Instance ID:</dt>
-                        <dd>{instance.superProcessInstanceId || 'null'}</dd>
-                        <dt>State</dt>
+                        <dt>
+                          <Clippy value={instance.superProcessInstanceId}>Super Process instance ID:</Clippy>
+                        </dt>
+                        <dd>
+                          {(instance.superProcessInstanceId && (
+                            <a href={`#/history/process-instance/${instance.superProcessInstanceId}`}>
+                              {instance.superProcessInstanceId}
+                            </a>
+                          )) ||
+                            'null'}
+                        </dd>
+                        <dt>
+                          <Clippy value={instance.state}>State</Clippy>
+                        </dt>
                         <dd>{instance.state}</dd>
                       </dl>
                     </div>

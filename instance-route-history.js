@@ -3954,7 +3954,16 @@ var AuditLogTable = function (_a) {
             accessor: 'activityName',
             Cell: function (_a) {
                 var value = _a.value;
-                return decisions.has(value[0]) ? (react.createElement("a", { href: "#/decision-instance/" + decisions.get(value[0]) }, value[1])) : (value[1]);
+                if (value.activityType === 'businessRuleTask' && decisions.has(value.id)) {
+                    return react.createElement("a", { href: "#/decision-instance/" + decisions.get(value.id) }, value.activityName);
+                }
+                else if (value.activityType === 'callActivity' && value.calledProcessInstanceId && value.endTime) {
+                    return react.createElement("a", { href: "#/history/process-instance/" + value.calledProcessInstanceId }, value.activityName);
+                }
+                else if (value.activityType === 'callActivity' && value.calledProcessInstanceId) {
+                    return react.createElement("a", { href: "#/process-instance/" + value.calledProcessInstanceId + "/runtime" }, value.activityName);
+                }
+                return value.activityName;
             },
         },
         {
@@ -3981,7 +3990,7 @@ var AuditLogTable = function (_a) {
     var data = react.useMemo(function () {
         return activities.map(function (activity) {
             return {
-                activityName: [activity.id, activity.activityName],
+                activityName: activity,
                 startDate: activity.startTime.split('.')[0],
                 endDate: activity.endTime ? activity.endTime.split('.')[0] : '',
                 duration: activity.endTime
@@ -27427,17 +27436,24 @@ var instanceRouteHistory = [
                                                         react.createElement("dt", null,
                                                             react.createElement(Clippy, { value: instance.processDefinitionVersion }, "Definition Version:")),
                                                         react.createElement("dd", null, instance.processDefinitionVersion),
-                                                        react.createElement("dt", null, "Definition ID:"),
-                                                        react.createElement("dd", null, instance.processDefinitionId),
-                                                        react.createElement("dt", null, "Definition Key:"),
+                                                        react.createElement("dt", null,
+                                                            react.createElement(Clippy, { value: instance.processdefinitionid }, "Definition ID:")),
+                                                        react.createElement("dd", null, instance.processdefinitionid),
+                                                        react.createElement("dt", null,
+                                                            react.createElement(Clippy, { value: instance.processDefinitionKey }, "Definition Key:")),
                                                         react.createElement("dd", null, instance.processDefinitionKey),
-                                                        react.createElement("dt", null, "Definition Name:"),
+                                                        react.createElement("dt", null,
+                                                            react.createElement(Clippy, { value: instance.processDefinitionName }, "Definition Name:")),
                                                         react.createElement("dd", null, instance.processDefinitionName),
-                                                        react.createElement("dt", null, "Tenant ID:"),
+                                                        react.createElement("dt", null,
+                                                            react.createElement(Clippy, { value: instance.tenantId || 'null' }, "Tenant ID:")),
                                                         react.createElement("dd", null, instance.tenantId || 'null'),
-                                                        react.createElement("dt", null, "Super Process Instance ID:"),
-                                                        react.createElement("dd", null, instance.superProcessInstanceId || 'null'),
-                                                        react.createElement("dt", null, "State"),
+                                                        react.createElement("dt", null,
+                                                            react.createElement(Clippy, { value: instance.superProcessInstanceId }, "Super Process instance ID:")),
+                                                        react.createElement("dd", null, (instance.superProcessInstanceId && (react.createElement("a", { href: "#/history/process-instance/" + instance.superProcessInstanceId }, instance.superProcessInstanceId))) ||
+                                                            'null'),
+                                                        react.createElement("dt", null,
+                                                            react.createElement(Clippy, { value: instance.state }, "State")),
                                                         react.createElement("dd", null, instance.state))),
                                                 react.createElement(SplitPane, { split: "horizontal", size: 300 },
                                                     react.createElement(BPMN, { activities: activities, diagramXML: diagram.bpmn20Xml, className: "ctn-content", style: { width: '100%' } }),
