@@ -13,6 +13,7 @@ interface XY {
 
 const getConnections = (activities: any[], elementRegistry: any): Activity[] => {
   const validActivity: Map<string, boolean> = new Map();
+  const startTimesById: Map<string, any[]> = new Map();
   const endTimesById: Map<string, any[]> = new Map();
   const connectionDenyList: Set<string> = new Set();
   for (const activity of activities) {
@@ -25,13 +26,19 @@ const getConnections = (activities: any[], elementRegistry: any): Activity[] => 
     } else {
       endTimesById.set(activity.activityId, [activity.endTime || 'n/a']);
     }
+    if (startTimesById.has(activity.activityId)) {
+      const startTimes = startTimesById.get(activity.activityId) ?? [];
+      startTimes.push(activity.startTime || 'n/a');
+    } else {
+      startTimesById.set(activity.activityId, [activity.startTime || 'n/a']);
+    }
   }
   const elementById: Map<string, Activity> = new Map(
     map(activities, (activity: any) => {
       const element = elementRegistry.get(activity.activityId) as Activity;
 
       // Side effect! Populate connectionDenyList for gateways by sorting outgoing
-      // paths in ascending order by their target activity end time and list everything
+      // paths in ascending order by their target activity start time and list everything
       // but the first ones in deny list to prevent coloring them as active.
       if (activity.activityType === 'exclusiveGateway' && element.outgoing.length) {
         const activeConnections = [];
@@ -39,9 +46,9 @@ const getConnections = (activities: any[], elementRegistry: any): Activity[] => 
         for (let idx = 0; idx < myEndTimes.length; idx++) {
           const myEndTime = myEndTimes[idx];
           element.outgoing.sort((a: any, b: any): number => {
-            const endA = (endTimesById.get(a.target.id) || [])?.[idx] ?? 'Z';
-            const endB = (endTimesById.get(b.target.id) || [])?.[idx] ?? 'Z';
-            return endA < myEndTime ? 1 : endB < myEndTime ? -1 : endA > endB ? 1 : endA < endB ? -1 : 0;
+            const startA = (startTimesById.get(a.target.id) || [])?.[idx] ?? 'Z';
+            const startB = (startTimesById.get(b.target.id) || [])?.[idx] ?? 'Z';
+            return startA < myEndTime ? 1 : startB < myEndTime ? -1 : startA > startB ? 1 : startA < startB ? -1 : 0;
           });
           activeConnections.push(element.outgoing[0].id);
         }
