@@ -3,8 +3,11 @@ import camundaExtensionModule from 'camunda-bpmn-moddle/lib';
 import camundaModdle from 'camunda-bpmn-moddle/resources/camunda.json';
 import tooltips from 'diagram-js/lib/features/tooltips';
 import React, { useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 
 import RobotModule from '../RobotModule';
+import { clearSequenceFlow, renderSequenceFlow } from '../utils/bpmn';
+import { ToggleSequenceFlowButton } from './ToggleSequenceFlowButton';
 
 export const BPMNViewer = async (diagram: string) => {
   const model = new BpmnViewer({
@@ -75,6 +78,29 @@ const BPMN: React.FC<Props> = ({ activities, className, diagramXML, style }) => 
         const canvas = viewer.get('canvas');
         canvas.zoom('fit-viewport');
         renderActivities(viewer, activities ?? []);
+
+        const toggleSequenceFlowButton = document.createElement('div');
+        toggleSequenceFlowButton.style.cssText = `
+          position: absolute;
+          right: 15px;
+          top: 15px;
+        `;
+        viewer._container.appendChild(toggleSequenceFlowButton);
+        let sequenceFlow: any[] = [];
+        ReactDOM.render(
+          <React.StrictMode>
+            <ToggleSequenceFlowButton
+              onToggleSequenceFlow={(value: boolean) => {
+                if (value) {
+                  sequenceFlow = renderSequenceFlow(viewer, activities ?? []);
+                } else {
+                  clearSequenceFlow(sequenceFlow);
+                }
+              }}
+            />
+          </React.StrictMode>,
+          toggleSequenceFlowButton
+        );
       }
     })();
   }, [diagramXML]);

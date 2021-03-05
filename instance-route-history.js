@@ -78,6 +78,15 @@ function __generator(thisArg, body) {
     }
 }
 
+/** @deprecated */
+function __spreadArrays() {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+}
+
 ___$insertStyle(".react-tabs__tab a {\n  cursor: pointer;\n}\n.react-tabs__tab.active a {\n  cursor: none;\n}\n\n.react-tabs__tab-panel--selected {\n  z-index: 1;\n}\n\n.Pane.vertical.Pane1 {\n  border-right: 1px solid #ddd;\n}\n\n.Resizer {\n  background: rgba(255, 255, 255, 0);\n  opacity: 0.2;\n  z-index: 1;\n  -moz-box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  box-sizing: border-box;\n  -moz-background-clip: padding;\n  -webkit-background-clip: padding;\n  background-clip: padding-box;\n}\n\n.Resizer:hover {\n  -webkit-transition: all 2s ease;\n  transition: all 2s ease;\n}\n\n.Resizer.horizontal {\n  height: 11px;\n  margin: -5px 0;\n  border-top: 5px solid rgba(255, 255, 255, 0);\n  border-bottom: 5px solid rgba(255, 255, 255, 0);\n  cursor: row-resize;\n  width: 100%;\n}\n\n.Resizer.horizontal:hover {\n  border-top: 5px solid rgba(0, 0, 0, 0.5);\n  border-bottom: 5px solid rgba(0, 0, 0, 0.5);\n}\n\n.Resizer.vertical {\n  width: 11px;\n  margin: 0 -5px;\n  border-left: 5px solid rgba(255, 255, 255, 0);\n  border-right: 5px solid rgba(255, 255, 255, 0);\n  cursor: col-resize;\n}\n\n.Resizer.vertical:hover {\n  border-left: 5px solid rgba(0, 0, 0, 0.5);\n  border-right: 5px solid rgba(0, 0, 0, 0.5);\n}\n\n.Resizer.disabled {\n  cursor: not-allowed;\n}\n\n.Resizer.disabled:hover {\n  border-color: transparent;\n}");
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -26419,6 +26428,416 @@ var RobotModule = {
     RobotTaskRenderer: ['type', factory],
 };
 
+var DEFAULT_ATTRS = {
+  fill: 'none',
+  stroke: 'black',
+  strokeWidth: 2
+};
+
+/**
+ * @typedef {Object} Point
+ *
+ * @param {number} point.x
+ * @param {number} point.y
+ */
+
+/**
+ * Create SVG curve.
+ *
+ * @param {Array<Point>} points
+ * @param {Object} [attrs]
+ */
+function createCurve(points, attrs = {}) {
+  var path = create('path');
+
+  var data = getData(points);
+
+  attr(path, assign({}, DEFAULT_ATTRS, attrs, {
+    d: data
+  }));
+
+  return path;
+}
+
+function getData(points) {
+  var segments = getSegments(points);
+
+  if (segments.length === 1) {
+    return getSingleSegmentData(segments[0]);
+  }
+
+  var startSegment = segments.shift();
+
+  return [
+    moveTo(startSegment.start),
+    quadraticCurve(startSegment.controlPoint, startSegment.end)
+  ].concat(map(segments, function(segment) {
+    return sameCurve(segment.controlPoint, segment.end);
+  })).join(' ');
+}
+
+function getSingleSegmentData(segment) {
+  var { start, controlPoint, end } = segment;
+
+  return [
+    moveTo(start),
+    quadraticCurve(controlPoint, end)
+  ].join(' ');
+}
+
+function getSegments(points) {
+  if (points.length === 2) {
+    return [
+      {
+        start: points[0],
+        controlPoint: getMid$1(points[0], points[1]),
+        end: points[1]
+      }
+    ];
+  }
+
+  if (points.length === 3) {
+    return [
+      {
+        start: points[0],
+        controlPoint: points[1],
+        end: points[2]
+      }
+    ];
+  }
+
+  return [ getStartSegment(points) ]
+    .concat(getMiddleSegments(points))
+    .concat([ getEndSegment(points) ]);
+}
+
+function getStartSegment(points) {
+  return {
+    start: points[0],
+    controlPoint: points[1],
+    end: getMid$1(points[1], points[2])
+  };
+}
+
+function getMiddleSegments(points) {
+  var segments = [];
+
+  for (var i = 1; i < points.length - 3; i++) {
+    segments.push({
+      start: getMid$1(points[ i ], points[ i + 1 ]),
+      controlPoint: points[ i + 1 ],
+      end: getMid$1(points[ i + 1 ], points[ i + 2 ])
+    });
+  }
+
+  return segments;
+}
+
+function getEndSegment(points) {
+  return {
+    start: getMid$1(points[points.length - 3], points[points.length - 2]),
+    controlPoint: points[points.length - 2],
+    end: points[points.length - 1]
+  };
+}
+
+function moveTo(a) {
+  return [ 'M', a.x, a.y ].join(' ');
+}
+
+function quadraticCurve(a, b) {
+  return [ 'Q', a.x, a.y, b.x, b.y ].join(' ');
+}
+
+function sameCurve(a, b) {
+  return [ 'S', a.x, a.y, b.x, b.y ].join(' ');
+}
+
+function getMid$1(a, b) {
+  return {
+    x: Math.round((a.x + b.x) / 2),
+    y: Math.round((a.y + b.y) / 2)
+  };
+}
+
+var FILL = '#52B415';
+var getConnections = function (activities, elementRegistry) {
+    var _a, _b;
+    var validActivity = new Map();
+    var startTimesById = new Map();
+    var endTimesById = new Map();
+    var connectionDenyList = new Set();
+    for (var _i = 0, activities_1 = activities; _i < activities_1.length; _i++) {
+        var activity = activities_1[_i];
+        if (activity.endTime && !activity.canceled) {
+            validActivity.set(activity.activityId, true);
+        }
+        if (endTimesById.has(activity.activityId)) {
+            var endTimes = (_a = endTimesById.get(activity.activityId)) !== null && _a !== void 0 ? _a : [];
+            endTimes.push(activity.endTime || 'n/a');
+        }
+        else {
+            endTimesById.set(activity.activityId, [activity.endTime || 'n/a']);
+        }
+        if (startTimesById.has(activity.activityId)) {
+            var startTimes = (_b = startTimesById.get(activity.activityId)) !== null && _b !== void 0 ? _b : [];
+            startTimes.push(activity.startTime || 'n/a');
+        }
+        else {
+            startTimesById.set(activity.activityId, [activity.startTime || 'n/a']);
+        }
+    }
+    var elementById = new Map(map(activities, function (activity) {
+        var _a, _b;
+        var element = elementRegistry.get(activity.activityId);
+        // Side effect! Populate connectionDenyList for gateways by sorting outgoing
+        // paths in ascending order by their target activity start time and list everything
+        // but the first ones in deny list to prevent coloring them as active.
+        if (activity.activityType === 'exclusiveGateway' && element.outgoing.length) {
+            var activeConnections = [];
+            var myEndTimes = endTimesById.get(activity.activityId) || [];
+            var _loop_1 = function (idx) {
+                var myEndTime = myEndTimes[idx];
+                element.outgoing.sort(function (a, b) {
+                    var _a, _b, _c, _d;
+                    var startA = (_b = (_a = (startTimesById.get(a.target.id) || [])) === null || _a === void 0 ? void 0 : _a[idx]) !== null && _b !== void 0 ? _b : 'Z';
+                    var startB = (_d = (_c = (startTimesById.get(b.target.id) || [])) === null || _c === void 0 ? void 0 : _c[idx]) !== null && _d !== void 0 ? _d : 'Z';
+                    return startA < myEndTime ? 1 : startB < myEndTime ? -1 : startA > startB ? 1 : startA < startB ? -1 : 0;
+                });
+                activeConnections.push(element.outgoing[0].id);
+            };
+            for (var idx = 0; idx < myEndTimes.length; idx++) {
+                _loop_1(idx);
+            }
+            for (var _i = 0, _c = element.outgoing; _i < _c.length; _i++) {
+                var connection = _c[_i];
+                if (!activeConnections.includes(connection.id) &&
+                    ((_b = (_a = connection) === null || _a === void 0 ? void 0 : _a.target) === null || _b === void 0 ? void 0 : _b.type) !== 'bpmn:ParallelGateway') {
+                    connectionDenyList.add(connection.id);
+                }
+            }
+        }
+        return [activity.activityId, element];
+    }));
+    var getActivityConnections = function (activityId) {
+        var _a;
+        var current = elementById.get(activityId);
+        var currentEndTimes = (_a = endTimesById.get(activityId)) !== null && _a !== void 0 ? _a : [];
+        if (current && validActivity.get(activityId)) {
+            var incoming = filter(current.incoming, function (connection) {
+                var _a;
+                if (connectionDenyList.has(connection.id)) {
+                    return false;
+                }
+                var incomingEndTimes = validActivity.get(connection.source.id)
+                    ? (_a = endTimesById.get(connection.source.id)) !== null && _a !== void 0 ? _a : [] : [];
+                return incomingEndTimes.reduce(function (acc, iET) {
+                    return acc || currentEndTimes.reduce(function (acc_, cET) { return acc_ || iET <= cET; }, false);
+                }, false);
+            });
+            var outgoing = filter(current.outgoing, function (connection) {
+                var _a;
+                if (connectionDenyList.has(connection.id)) {
+                    return false;
+                }
+                var outgoingEndTimes = (_a = endTimesById.get(connection.target.id)) !== null && _a !== void 0 ? _a : [];
+                return outgoingEndTimes.reduce(function (acc, oET) {
+                    return acc || currentEndTimes.reduce(function (acc_, cET) { return acc_ || oET >= cET; }, false);
+                }, false);
+            });
+            return __spreadArrays(incoming, outgoing);
+        }
+        else {
+            return [];
+        }
+    };
+    var connections = [];
+    forEach(Array.from(elementById.keys()), function (activityId) {
+        connections = uniqueBy('id', __spreadArrays(connections, getActivityConnections(activityId)));
+    });
+    return connections;
+};
+var getMid$2 = function (shape) {
+    return {
+        x: shape.x + shape.width / 2,
+        y: shape.y + shape.height / 2,
+    };
+};
+var notDottedTypes = ['bpmn:SubProcess'];
+var getDottedConnections = function (connections) {
+    var dottedConnections = [];
+    connections.forEach(function (connection) {
+        var target = connection.target;
+        connections.forEach(function (c) {
+            var source = c.source;
+            if (source === target && !notDottedTypes.includes(source.type)) {
+                dottedConnections.push({
+                    waypoints: [connection.waypoints[connection.waypoints.length - 1], getMid$2(target), c.waypoints[0]],
+                });
+            }
+        });
+    });
+    return dottedConnections;
+};
+var renderSequenceFlow = function (viewer, activities) {
+    var registry = viewer.get('elementRegistry');
+    var canvas = viewer.get('canvas');
+    var layer = canvas.getLayer('processInstance', 1);
+    var connections = getConnections(activities !== null && activities !== void 0 ? activities : [], registry);
+    var paths = [];
+    var defs = query('defs', canvas._svg);
+    if (!defs) {
+        defs = create('defs');
+        append(canvas._svg, defs);
+    }
+    var marker = create('marker');
+    var path = create('path');
+    attr(marker, {
+        id: 'arrow',
+        viewBox: '0 0 10 10',
+        refX: 7,
+        refY: 5,
+        markerWidth: 4,
+        markerHeight: 4,
+        orient: 'auto-start-reverse',
+    });
+    attr(path, {
+        d: 'M 0 0 L 10 5 L 0 10 z',
+        fill: FILL,
+        stroke: 'blue',
+        strokeWidth: 0,
+    });
+    append(marker, path);
+    append(defs, marker);
+    paths.push(marker);
+    for (var _i = 0, connections_1 = connections; _i < connections_1.length; _i++) {
+        var connection = connections_1[_i];
+        var curve = createCurve(connection.waypoints, {
+            markerEnd: 'url(#arrow)',
+            stroke: FILL,
+            strokeWidth: 4,
+        });
+        append(layer, curve);
+        paths.push(curve);
+    }
+    var connections_ = getDottedConnections(connections);
+    for (var _a = 0, connections_2 = connections_; _a < connections_2.length; _a++) {
+        var connection = connections_2[_a];
+        var curve = createCurve(connection.waypoints, {
+            strokeDasharray: '1 8',
+            strokeLinecap: 'round',
+            stroke: FILL,
+            strokeWidth: 4,
+        });
+        append(layer, curve);
+        paths.push(curve);
+    }
+    return paths;
+};
+var clearSequenceFlow = function (nodes) {
+    for (var _i = 0, nodes_1 = nodes; _i < nodes_1.length; _i++) {
+        var node = nodes_1[_i];
+        remove(node);
+    }
+};
+
+___$insertStyle(".toggle-sequence-flow-button {\n  background: #ffffff;\n  border-radius: 1px;\n  border: 1px solid #cccccc;\n  padding: 0;\n  width: 30px;\n  height: 30px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.toggle-sequence-flow-button:hover {\n  background: #e6e6e6;\n}");
+
+var DefaultContext = {
+  color: undefined,
+  size: undefined,
+  className: undefined,
+  style: undefined,
+  attr: undefined
+};
+var IconContext = react.createContext && react.createContext(DefaultContext);
+
+var __assign$1 = undefined && undefined.__assign || function () {
+  __assign$1 = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+    }
+
+    return t;
+  };
+
+  return __assign$1.apply(this, arguments);
+};
+
+var __rest = undefined && undefined.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+function Tree2Element(tree) {
+  return tree && tree.map(function (node, i) {
+    return react.createElement(node.tag, __assign$1({
+      key: i
+    }, node.attr), Tree2Element(node.child));
+  });
+}
+
+function GenIcon(data) {
+  return function (props) {
+    return react.createElement(IconBase, __assign$1({
+      attr: __assign$1({}, data.attr)
+    }, props), Tree2Element(data.child));
+  };
+}
+function IconBase(props) {
+  var elem = function (conf) {
+    var attr = props.attr,
+        size = props.size,
+        title = props.title,
+        svgProps = __rest(props, ["attr", "size", "title"]);
+
+    var computedSize = size || conf.size || "1em";
+    var className;
+    if (conf.className) className = conf.className;
+    if (props.className) className = (className ? className + ' ' : '') + props.className;
+    return react.createElement("svg", __assign$1({
+      stroke: "currentColor",
+      fill: "currentColor",
+      strokeWidth: "0"
+    }, conf.attr, attr, svgProps, {
+      className: className,
+      style: __assign$1(__assign$1({
+        color: props.color || conf.color
+      }, conf.style), props.style),
+      height: computedSize,
+      width: computedSize,
+      xmlns: "http://www.w3.org/2000/svg"
+    }), title && react.createElement("title", null, title), props.children);
+  };
+
+  return IconContext !== undefined ? react.createElement(IconContext.Consumer, null, function (conf) {
+    return elem(conf);
+  }) : elem(DefaultContext);
+}
+
+// THIS FILE IS AUTO GENERATED
+function GiStrikingArrows (props) {
+  return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M136.564 31.01l239.67 149.595c-12.418 21.234-20.756 28.302-45.027 46.936l156.3-26.33-85.603-125.474c4.936 24.85 8.85 38.5.75 60.49L136.568 31.01h-.004zM21.524 42.75l83.13 325.893c-21.017 5.232-30.98 3.262-58.875-3.96l124.046 113.45 13.426-166.844c-10.836 23.322-15.94 37.197-34.342 46.82L21.523 42.75zm64.353.215l252.2 353.16c-23.285 16.947-36.38 19.583-73.83 24.9l200.66 71.74L407.7 286.944c-2.477 33.743-2.313 53.14-20.37 74.09L85.877 42.965z"}}]})(props);
+}
+
+var ToggleSequenceFlowButton = function (_a) {
+    var onToggleSequenceFlow = _a.onToggleSequenceFlow;
+    var _b = react.useState(false), showSequenceFlow = _b[0], setShowSequenceFlow = _b[1];
+    react.useEffect(function () {
+        onToggleSequenceFlow(showSequenceFlow);
+    }, [showSequenceFlow]);
+    return (react.createElement("button", { className: "toggle-sequence-flow-button", title: !showSequenceFlow ? 'Show sequence flow' : 'Hide sequence flow', "aria-label": !showSequenceFlow ? 'Show sequence flow' : 'Hide sequence flow', onClick: function () { return setShowSequenceFlow(!showSequenceFlow); } },
+        react.createElement(GiStrikingArrows, { style: { opacity: !showSequenceFlow ? '0.33' : '1.0', fontSize: '133%' } })));
+};
+
 var BPMNViewer = function (diagram) { return __awaiter(void 0, void 0, void 0, function () {
     var model;
     return __generator(this, function (_a) {
@@ -26480,7 +26899,7 @@ var BPMN = function (_a) {
     var ref = react.useRef(null);
     react.useEffect(function () {
         (function () { return __awaiter(void 0, void 0, void 0, function () {
-            var viewer, canvas;
+            var viewer, canvas, toggleSequenceFlowButton, sequenceFlow_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, BPMNViewer(diagramXML)];
@@ -26492,6 +26911,19 @@ var BPMN = function (_a) {
                             canvas = viewer.get('canvas');
                             canvas.zoom('fit-viewport');
                             renderActivities(viewer, activities !== null && activities !== void 0 ? activities : []);
+                            toggleSequenceFlowButton = document.createElement('div');
+                            toggleSequenceFlowButton.style.cssText = "\n          position: absolute;\n          right: 15px;\n          top: 15px;\n        ";
+                            viewer._container.appendChild(toggleSequenceFlowButton);
+                            sequenceFlow_1 = [];
+                            reactDom.render(react.createElement(react.StrictMode, null,
+                                react.createElement(ToggleSequenceFlowButton, { onToggleSequenceFlow: function (value) {
+                                        if (value) {
+                                            sequenceFlow_1 = renderSequenceFlow(viewer, activities !== null && activities !== void 0 ? activities : []);
+                                        }
+                                        else {
+                                            clearSequenceFlow(sequenceFlow_1);
+                                        }
+                                    } })), toggleSequenceFlowButton);
                         }
                         return [2 /*return*/];
                 }
@@ -26784,86 +27216,6 @@ var CopyToClipboard = Component.CopyToClipboard;
 
 CopyToClipboard.CopyToClipboard = CopyToClipboard;
 var lib$1 = CopyToClipboard;
-
-var DefaultContext = {
-  color: undefined,
-  size: undefined,
-  className: undefined,
-  style: undefined,
-  attr: undefined
-};
-var IconContext = react.createContext && react.createContext(DefaultContext);
-
-var __assign$1 = undefined && undefined.__assign || function () {
-  __assign$1 = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-    }
-
-    return t;
-  };
-
-  return __assign$1.apply(this, arguments);
-};
-
-var __rest = undefined && undefined.__rest || function (s, e) {
-  var t = {};
-
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
-  }
-  return t;
-};
-
-function Tree2Element(tree) {
-  return tree && tree.map(function (node, i) {
-    return react.createElement(node.tag, __assign$1({
-      key: i
-    }, node.attr), Tree2Element(node.child));
-  });
-}
-
-function GenIcon(data) {
-  return function (props) {
-    return react.createElement(IconBase, __assign$1({
-      attr: __assign$1({}, data.attr)
-    }, props), Tree2Element(data.child));
-  };
-}
-function IconBase(props) {
-  var elem = function (conf) {
-    var attr = props.attr,
-        size = props.size,
-        title = props.title,
-        svgProps = __rest(props, ["attr", "size", "title"]);
-
-    var computedSize = size || conf.size || "1em";
-    var className;
-    if (conf.className) className = conf.className;
-    if (props.className) className = (className ? className + ' ' : '') + props.className;
-    return react.createElement("svg", __assign$1({
-      stroke: "currentColor",
-      fill: "currentColor",
-      strokeWidth: "0"
-    }, conf.attr, attr, svgProps, {
-      className: className,
-      style: __assign$1(__assign$1({
-        color: props.color || conf.color
-      }, conf.style), props.style),
-      height: computedSize,
-      width: computedSize,
-      xmlns: "http://www.w3.org/2000/svg"
-    }), title && react.createElement("title", null, title), props.children);
-  };
-
-  return IconContext !== undefined ? react.createElement(IconContext.Consumer, null, function (conf) {
-    return elem(conf);
-  }) : elem(DefaultContext);
-}
 
 // THIS FILE IS AUTO GENERATED
 function HiCheck (props) {

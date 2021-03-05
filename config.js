@@ -18,8 +18,8 @@ export default {
    customScripts: [
     'scripts/definition-historic-activities.js',
     'scripts/instance-historic-activities.js',
-    'scripts/instance-route-history.js',
-    'scripts/instance-tab-modify.js'
+    'scripts/instance-route-history.js'
+  //  'scripts/instance-tab-modify.js'
   ],
   // locales: {
   //   availableLocales: ['en', 'de'],
