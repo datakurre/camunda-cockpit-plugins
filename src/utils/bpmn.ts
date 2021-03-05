@@ -2,7 +2,7 @@ import { Activity, Point } from 'bpmn-moddle';
 import { filter, forEach, map, uniqueBy } from 'min-dash';
 import { query as domQuery } from 'min-dom';
 import { createCurve } from 'svg-curves';
-import { append as svgAppend, attr as svgAttr, create as svgCreate } from 'tiny-svg';
+import { append as svgAppend, attr as svgAttr, create as svgCreate, remove as svgRemove } from 'tiny-svg';
 
 const FILL = '#52B415';
 
@@ -61,7 +61,6 @@ const getConnections = (activities: any[], elementRegistry: any): Activity[] => 
           }
         }
       }
-      //
 
       return [activity.activityId, element];
     })
@@ -138,11 +137,12 @@ const getDottedConnections = (connections: any[]): any[] => {
   return dottedConnections;
 };
 
-export const renderSequenceFlow = (viewer: any, activities: any[]) => {
+export const renderSequenceFlow = (viewer: any, activities: any[]): any[] => {
   const registry = viewer.get('elementRegistry');
   const canvas = viewer.get('canvas');
   const layer = canvas.getLayer('processInstance', 1);
   const connections = getConnections(activities ?? [], registry);
+  const paths = [];
 
   let defs = domQuery('defs', canvas._svg);
   if (!defs) {
@@ -172,27 +172,33 @@ export const renderSequenceFlow = (viewer: any, activities: any[]) => {
 
   svgAppend(marker, path);
   svgAppend(defs, marker);
+  paths.push(marker);
 
   for (const connection of connections) {
-    svgAppend(
-      layer,
-      createCurve((connection as any).waypoints, {
-        markerEnd: 'url(#arrow)',
-        stroke: FILL,
-        strokeWidth: 4,
-      })
-    );
+    const curve = createCurve((connection as any).waypoints, {
+      markerEnd: 'url(#arrow)',
+      stroke: FILL,
+      strokeWidth: 4,
+    });
+    svgAppend(layer, curve);
+    paths.push(curve);
   }
   const connections_ = getDottedConnections(connections);
   for (const connection of connections_) {
-    svgAppend(
-      layer,
-      createCurve((connection as any).waypoints, {
-        strokeDasharray: '1 8',
-        strokeLinecap: 'round',
-        stroke: FILL,
-        strokeWidth: 4,
-      })
-    );
+    const curve = createCurve((connection as any).waypoints, {
+      strokeDasharray: '1 8',
+      strokeLinecap: 'round',
+      stroke: FILL,
+      strokeWidth: 4,
+    });
+    svgAppend(layer, curve);
+    paths.push(curve);
+  }
+  return paths;
+};
+
+export const clearSequenceFlow = (nodes: any[]) => {
+  for (const node of nodes) {
+    svgRemove(node);
   }
 };

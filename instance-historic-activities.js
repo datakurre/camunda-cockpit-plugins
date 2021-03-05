@@ -671,6 +671,103 @@ var AuditLogTable = function (_a) {
         }))));
 };
 
+___$insertStyle(".toggle-sequence-flow-button {\n  background: #ffffff;\n  border-radius: 1px;\n  border: 1px solid #cccccc;\n  padding: 0;\n  width: 30px;\n  height: 30px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.toggle-sequence-flow-button:hover {\n  background: #e6e6e6;\n}");
+
+var DefaultContext = {
+  color: undefined,
+  size: undefined,
+  className: undefined,
+  style: undefined,
+  attr: undefined
+};
+var IconContext = react.createContext && react.createContext(DefaultContext);
+
+var __assign$1 = undefined && undefined.__assign || function () {
+  __assign$1 = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+    }
+
+    return t;
+  };
+
+  return __assign$1.apply(this, arguments);
+};
+
+var __rest = undefined && undefined.__rest || function (s, e) {
+  var t = {};
+
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+function Tree2Element(tree) {
+  return tree && tree.map(function (node, i) {
+    return react.createElement(node.tag, __assign$1({
+      key: i
+    }, node.attr), Tree2Element(node.child));
+  });
+}
+
+function GenIcon(data) {
+  return function (props) {
+    return react.createElement(IconBase, __assign$1({
+      attr: __assign$1({}, data.attr)
+    }, props), Tree2Element(data.child));
+  };
+}
+function IconBase(props) {
+  var elem = function (conf) {
+    var attr = props.attr,
+        size = props.size,
+        title = props.title,
+        svgProps = __rest(props, ["attr", "size", "title"]);
+
+    var computedSize = size || conf.size || "1em";
+    var className;
+    if (conf.className) className = conf.className;
+    if (props.className) className = (className ? className + ' ' : '') + props.className;
+    return react.createElement("svg", __assign$1({
+      stroke: "currentColor",
+      fill: "currentColor",
+      strokeWidth: "0"
+    }, conf.attr, attr, svgProps, {
+      className: className,
+      style: __assign$1(__assign$1({
+        color: props.color || conf.color
+      }, conf.style), props.style),
+      height: computedSize,
+      width: computedSize,
+      xmlns: "http://www.w3.org/2000/svg"
+    }), title && react.createElement("title", null, title), props.children);
+  };
+
+  return IconContext !== undefined ? react.createElement(IconContext.Consumer, null, function (conf) {
+    return elem(conf);
+  }) : elem(DefaultContext);
+}
+
+// THIS FILE IS AUTO GENERATED
+function GiStrikingArrows (props) {
+  return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M136.564 31.01l239.67 149.595c-12.418 21.234-20.756 28.302-45.027 46.936l156.3-26.33-85.603-125.474c4.936 24.85 8.85 38.5.75 60.49L136.568 31.01h-.004zM21.524 42.75l83.13 325.893c-21.017 5.232-30.98 3.262-58.875-3.96l124.046 113.45 13.426-166.844c-10.836 23.322-15.94 37.197-34.342 46.82L21.523 42.75zm64.353.215l252.2 353.16c-23.285 16.947-36.38 19.583-73.83 24.9l200.66 71.74L407.7 286.944c-2.477 33.743-2.313 53.14-20.37 74.09L85.877 42.965z"}}]})(props);
+}
+
+var ToggleSequenceFlowButton = function (_a) {
+    var onToggleSequenceFlow = _a.onToggleSequenceFlow;
+    var _b = react.useState(false), showSequenceFlow = _b[0], setShowSequenceFlow = _b[1];
+    react.useEffect(function () {
+        onToggleSequenceFlow(showSequenceFlow);
+    }, [showSequenceFlow]);
+    return (react.createElement("button", { className: "toggle-sequence-flow-button", title: !showSequenceFlow ? 'Show sequence flow' : 'Hide sequence flow', "aria-label": !showSequenceFlow ? 'Show sequence flow' : 'Hide sequence flow', onClick: function () { return setShowSequenceFlow(!showSequenceFlow); } },
+        react.createElement(GiStrikingArrows, { style: { opacity: !showSequenceFlow ? '0.33' : '1.0', fontSize: '133%' } })));
+};
+
 var headers = function (api) {
     return {
         Accept: 'application/json',
@@ -1098,6 +1195,16 @@ function attr(node, name, value) {
   return node;
 }
 
+function remove(element) {
+  var parent = element.parentNode;
+
+  if (parent) {
+    parent.removeChild(element);
+  }
+
+  return element;
+}
+
 var ns = {
   svg: 'http://www.w3.org/2000/svg'
 };
@@ -1377,7 +1484,6 @@ var getConnections = function (activities, elementRegistry) {
                 }
             }
         }
-        //
         return [activity.activityId, element];
     }));
     var getActivityConnections = function (activityId) {
@@ -1445,6 +1551,7 @@ var renderSequenceFlow = function (viewer, activities) {
     var canvas = viewer.get('canvas');
     var layer = canvas.getLayer('processInstance', 1);
     var connections = getConnections(activities !== null && activities !== void 0 ? activities : [], registry);
+    var paths = [];
     var defs = query('defs', canvas._svg);
     if (!defs) {
         defs = create('defs');
@@ -1469,23 +1576,35 @@ var renderSequenceFlow = function (viewer, activities) {
     });
     append(marker, path);
     append(defs, marker);
+    paths.push(marker);
     for (var _i = 0, connections_1 = connections; _i < connections_1.length; _i++) {
         var connection = connections_1[_i];
-        append(layer, createCurve(connection.waypoints, {
+        var curve = createCurve(connection.waypoints, {
             markerEnd: 'url(#arrow)',
             stroke: FILL,
             strokeWidth: 4,
-        }));
+        });
+        append(layer, curve);
+        paths.push(curve);
     }
     var connections_ = getDottedConnections(connections);
     for (var _a = 0, connections_2 = connections_; _a < connections_2.length; _a++) {
         var connection = connections_2[_a];
-        append(layer, createCurve(connection.waypoints, {
+        var curve = createCurve(connection.waypoints, {
             strokeDasharray: '1 8',
             strokeLinecap: 'round',
             stroke: FILL,
             strokeWidth: 4,
-        }));
+        });
+        append(layer, curve);
+        paths.push(curve);
+    }
+    return paths;
+};
+var clearSequenceFlow = function (nodes) {
+    for (var _i = 0, nodes_1 = nodes; _i < nodes_1.length; _i++) {
+        var node = nodes_1[_i];
+        remove(node);
     }
 };
 
@@ -1496,7 +1615,7 @@ var instanceHistoricActivities = [
         render: function (viewer, _a) {
             var api = _a.api, processInstanceId = _a.processInstanceId;
             (function () { return __awaiter(void 0, void 0, void 0, function () {
-                var overlays, activities, counter, _i, activities_1, activity, id, seen, _a, activities_2, activity, id, overlay;
+                var overlays, activities, counter, _i, activities_1, activity, id, seen, _a, activities_2, activity, id, overlay, toggleSequenceFlowButton, sequenceFlow;
                 return __generator(this, function (_b) {
                     switch (_b.label) {
                         case 0:
@@ -1532,7 +1651,19 @@ var instanceHistoricActivities = [
                                     html: overlay,
                                 });
                             }
-                            renderSequenceFlow(viewer, activities !== null && activities !== void 0 ? activities : []);
+                            toggleSequenceFlowButton = document.createElement('div');
+                            toggleSequenceFlowButton.style.cssText = "\n          position: absolute;\n          right: 15px;\n          top: 15px;\n        ";
+                            viewer._container.appendChild(toggleSequenceFlowButton);
+                            sequenceFlow = [];
+                            reactDom.render(react.createElement(react.StrictMode, null,
+                                react.createElement(ToggleSequenceFlowButton, { onToggleSequenceFlow: function (value) {
+                                        if (value) {
+                                            sequenceFlow = renderSequenceFlow(viewer, activities !== null && activities !== void 0 ? activities : []);
+                                        }
+                                        else {
+                                            clearSequenceFlow(sequenceFlow);
+                                        }
+                                    } })), toggleSequenceFlowButton);
                             return [2 /*return*/];
                     }
                 });

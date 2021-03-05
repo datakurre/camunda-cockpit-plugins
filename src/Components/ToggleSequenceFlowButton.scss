@@ -1,0 +1,14 @@
+.toggle-sequence-flow-button {
+  background: #ffffff;
+  border-radius: 1px;
+  border: 1px solid #cccccc;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    background: #e6e6e6;
+  }
+}

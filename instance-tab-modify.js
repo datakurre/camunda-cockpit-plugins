@@ -2671,64 +2671,6 @@ var post = function (api, path, params, payload) { return __awaiter(void 0, void
     });
 }); };
 
-var ModifyVariableForm = function (_a) {
-    var api = _a.api, processInstanceId = _a.processInstanceId;
-    var onSubmit = function (_a) {
-        var name = _a.name, value = _a.value, type = _a.type;
-        return __awaiter(void 0, void 0, void 0, function () {
-            var payload;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        switch (type) {
-                            case 'integer':
-                                value = parseInt(value, 10);
-                                break;
-                            case 'boolean':
-                                value = value === 'true';
-                                break;
-                            default:
-                                type = 'string';
-                        }
-                        if (!(name && type && value !== null && value !== undefined)) return [3 /*break*/, 2];
-                        payload = { modifications: {} };
-                        payload.modifications[name] = { value: value, type: type };
-                        return [4 /*yield*/, post(api, "/process-instance/" + processInstanceId + "/variables", {}, JSON.stringify(payload))];
-                    case 1:
-                        _b.sent();
-                        _b.label = 2;
-                    case 2: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return (react.createElement(ReactFinalForm, { onSubmit: onSubmit, render: function (_a) {
-            var handleSubmit = _a.handleSubmit;
-            return (react.createElement("form", { onSubmit: handleSubmit },
-                react.createElement("h2", { style: { fontSize: '100%', fontWeight: 'bold' } }, "Modify variable"),
-                react.createElement("table", { className: "cam-table" },
-                    react.createElement("thead", null,
-                        react.createElement("th", null,
-                            react.createElement("label", { htmlFor: "name" }, "Name")),
-                        react.createElement("th", null,
-                            react.createElement("label", { htmlFor: "type" }, "Type")),
-                        react.createElement("th", null,
-                            react.createElement("label", { htmlFor: "value" }, "value"))),
-                    react.createElement("tbody", null,
-                        react.createElement("tr", null,
-                            react.createElement("td", null,
-                                react.createElement(Field, { className: "form-control", name: "name", component: "input" })),
-                            react.createElement("td", null,
-                                react.createElement(Field, { className: "form-control", name: "type", component: "select" },
-                                    react.createElement("option", { value: "string" }, "string"),
-                                    react.createElement("option", { value: "integer" }, "integer"),
-                                    react.createElement("option", { value: "boolean" }, "boolean"))),
-                            react.createElement("td", null,
-                                react.createElement(Field, { className: "form-control", name: "value", component: "input" })),
-                            react.createElement("td", null,
-                                react.createElement("button", { type: "submit" }, "Modify")))))));
-        } }));
-};
 var MoveTokenForm = function (_a) {
     var api = _a.api, processInstanceId = _a.processInstanceId;
     var onSubmit = function (_a) {
@@ -2802,7 +2744,6 @@ var instanceTabModify = [
             (function () { return __awaiter(void 0, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     reactDom.render(react.createElement(react.StrictMode, null,
-                        react.createElement(ModifyVariableForm, { api: api, processInstanceId: processInstanceId }),
                         react.createElement(MoveTokenForm, { api: api, processInstanceId: processInstanceId })), node);
                     return [2 /*return*/];
                 });

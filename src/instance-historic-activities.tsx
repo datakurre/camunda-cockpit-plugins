@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import AuditLogTable from './Components/AuditLogTable';
+import { ToggleSequenceFlowButton } from './Components/ToggleSequenceFlowButton';
 import { InstancePluginParams } from './types';
 import { get } from './utils/api';
-import { renderSequenceFlow } from './utils/bpmn';
+import { clearSequenceFlow, renderSequenceFlow } from './utils/bpmn';
 
 export default [
   {
@@ -45,7 +46,29 @@ export default [
             html: overlay,
           });
         }
-        renderSequenceFlow(viewer, activities ?? []);
+
+        const toggleSequenceFlowButton = document.createElement('div');
+        toggleSequenceFlowButton.style.cssText = `
+          position: absolute;
+          right: 15px;
+          top: 15px;
+        `;
+        viewer._container.appendChild(toggleSequenceFlowButton);
+        let sequenceFlow: any[] = [];
+        ReactDOM.render(
+          <React.StrictMode>
+            <ToggleSequenceFlowButton
+              onToggleSequenceFlow={(value: boolean) => {
+                if (value) {
+                  sequenceFlow = renderSequenceFlow(viewer, activities ?? []);
+                } else {
+                  clearSequenceFlow(sequenceFlow);
+                }
+              }}
+            />
+          </React.StrictMode>,
+          toggleSequenceFlowButton
+        );
       })();
     },
   },
