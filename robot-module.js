@@ -1,17 +1,17 @@
-function ___$insertStyle(css) {
+function ___$insertStylesToHeader(css) {
   if (!css) {
-    return;
+    return
   }
   if (typeof window === 'undefined') {
-    return;
+    return
   }
 
-  var style = document.createElement('style');
+  const style = document.createElement('style');
 
   style.setAttribute('type', 'text/css');
   style.innerHTML = css;
   document.head.appendChild(style);
-  return css;
+  return css
 }
 
 /**

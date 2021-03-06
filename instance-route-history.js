@@ -1,17 +1,17 @@
-function ___$insertStyle(css) {
+function ___$insertStylesToHeader(css) {
   if (!css) {
-    return;
+    return
   }
   if (typeof window === 'undefined') {
-    return;
+    return
   }
 
-  var style = document.createElement('style');
+  const style = document.createElement('style');
 
   style.setAttribute('type', 'text/css');
   style.innerHTML = css;
   document.head.appendChild(style);
-  return css;
+  return css
 }
 
 /*! *****************************************************************************
@@ -29,15 +29,15 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 
-var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
+var __assign$1 = function() {
+    __assign$1 = Object.assign || function __assign(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
             for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
         }
         return t;
     };
-    return __assign.apply(this, arguments);
+    return __assign$1.apply(this, arguments);
 };
 
 function __awaiter(thisArg, _arguments, P, generator) {
@@ -78,16 +78,13 @@ function __generator(thisArg, body) {
     }
 }
 
-/** @deprecated */
-function __spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+function __spreadArray(to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
 }
 
-___$insertStyle(".react-tabs__tab a {\n  cursor: pointer;\n}\n.react-tabs__tab.active a {\n  cursor: none;\n}\n\n.react-tabs__tab-panel--selected {\n  z-index: 1;\n}\n\n.Pane.vertical.Pane1 {\n  border-right: 1px solid #ddd;\n}\n\n.Resizer {\n  background: rgba(255, 255, 255, 0);\n  opacity: 0.2;\n  z-index: 1;\n  -moz-box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  box-sizing: border-box;\n  -moz-background-clip: padding;\n  -webkit-background-clip: padding;\n  background-clip: padding-box;\n}\n\n.Resizer:hover {\n  -webkit-transition: all 2s ease;\n  transition: all 2s ease;\n}\n\n.Resizer.horizontal {\n  height: 11px;\n  margin: -5px 0;\n  border-top: 5px solid rgba(255, 255, 255, 0);\n  border-bottom: 5px solid rgba(255, 255, 255, 0);\n  cursor: row-resize;\n  width: 100%;\n}\n\n.Resizer.horizontal:hover {\n  border-top: 5px solid rgba(0, 0, 0, 0.5);\n  border-bottom: 5px solid rgba(0, 0, 0, 0.5);\n}\n\n.Resizer.vertical {\n  width: 11px;\n  margin: 0 -5px;\n  border-left: 5px solid rgba(255, 255, 255, 0);\n  border-right: 5px solid rgba(255, 255, 255, 0);\n  cursor: col-resize;\n}\n\n.Resizer.vertical:hover {\n  border-left: 5px solid rgba(0, 0, 0, 0.5);\n  border-right: 5px solid rgba(0, 0, 0, 0.5);\n}\n\n.Resizer.disabled {\n  cursor: not-allowed;\n}\n\n.Resizer.disabled:hover {\n  border-color: transparent;\n}");
+___$insertStylesToHeader(".react-tabs__tab a {\n  cursor: pointer;\n}\n.react-tabs__tab.active a {\n  cursor: none;\n}\n\n.react-tabs__tab-panel--selected {\n  z-index: 1;\n}\n\n.Pane.vertical.Pane1 {\n  border-right: 1px solid #ddd;\n}\n\n.Resizer {\n  background: rgba(255, 255, 255, 0);\n  opacity: 0.2;\n  z-index: 1;\n  -moz-box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  box-sizing: border-box;\n  -moz-background-clip: padding;\n  -webkit-background-clip: padding;\n  background-clip: padding-box;\n}\n\n.Resizer:hover {\n  -webkit-transition: all 2s ease;\n  transition: all 2s ease;\n}\n\n.Resizer.horizontal {\n  height: 11px;\n  margin: -5px 0;\n  border-top: 5px solid rgba(255, 255, 255, 0);\n  border-bottom: 5px solid rgba(255, 255, 255, 0);\n  cursor: row-resize;\n  width: 100%;\n}\n\n.Resizer.horizontal:hover {\n  border-top: 5px solid rgba(0, 0, 0, 0.5);\n  border-bottom: 5px solid rgba(0, 0, 0, 0.5);\n}\n\n.Resizer.vertical {\n  width: 11px;\n  margin: 0 -5px;\n  border-left: 5px solid rgba(255, 255, 255, 0);\n  border-right: 5px solid rgba(255, 255, 255, 0);\n  cursor: col-resize;\n}\n\n.Resizer.vertical:hover {\n  border-left: 5px solid rgba(0, 0, 0, 0.5);\n  border-right: 5px solid rgba(0, 0, 0, 0.5);\n}\n\n.Resizer.disabled {\n  cursor: not-allowed;\n}\n\n.Resizer.disabled:hover {\n  border-color: transparent;\n}");
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -106,7 +103,7 @@ function getAugmentedNamespace(n) {
 	return a;
 }
 
-function createCommonjsModule(fn) {
+function createCommonjsModule$1(fn) {
   var module = { exports: {} };
 	return fn(module, module.exports), module.exports;
 }
@@ -118,7 +115,7 @@ object-assign
 */
 /* eslint-disable no-unused-vars */
 var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
+var hasOwnProperty$2 = Object.prototype.hasOwnProperty;
 var propIsEnumerable = Object.prototype.propertyIsEnumerable;
 
 function toObject(val) {
@@ -182,7 +179,7 @@ var objectAssign = shouldUseNative() ? Object.assign : function (target, source)
 		from = Object(arguments[s]);
 
 		for (var key in from) {
-			if (hasOwnProperty.call(from, key)) {
+			if (hasOwnProperty$2.call(from, key)) {
 				to[key] = from[key];
 			}
 		}
@@ -209,7 +206,7 @@ var objectAssign = shouldUseNative() ? Object.assign : function (target, source)
  * LICENSE file in the root directory of this source tree.
  */
 
-var react_production_min = createCommonjsModule(function (module, exports) {
+var react_production_min = createCommonjsModule$1(function (module, exports) {
 var n=60103,p=60106;exports.Fragment=60107;exports.StrictMode=60108;exports.Profiler=60114;var q=60109,r=60110,t=60112;exports.Suspense=60113;var u=60115,v=60116;
 if("function"===typeof Symbol&&Symbol.for){var w=Symbol.for;n=w("react.element");p=w("react.portal");exports.Fragment=w("react.fragment");exports.StrictMode=w("react.strict_mode");exports.Profiler=w("react.profiler");q=w("react.provider");r=w("react.context");t=w("react.forward_ref");exports.Suspense=w("react.suspense");u=w("react.memo");v=w("react.lazy");}var x="function"===typeof Symbol&&Symbol.iterator;
 function y(a){if(null===a||"object"!==typeof a)return null;a=x&&a[x]||a["@@iterator"];return "function"===typeof a?a:null}function z(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return "Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}
@@ -227,7 +224,7 @@ exports.lazy=function(a){return {$$typeof:v,_payload:{_status:-1,_result:a},_ini
 exports.useLayoutEffect=function(a,b){return S().useLayoutEffect(a,b)};exports.useMemo=function(a,b){return S().useMemo(a,b)};exports.useReducer=function(a,b,c){return S().useReducer(a,b,c)};exports.useRef=function(a){return S().useRef(a)};exports.useState=function(a){return S().useState(a)};exports.version="17.0.1";
 });
 
-var react = createCommonjsModule(function (module) {
+var react = createCommonjsModule$1(function (module) {
 
 {
   module.exports = react_production_min;
@@ -243,7 +240,7 @@ var react = createCommonjsModule(function (module) {
  * LICENSE file in the root directory of this source tree.
  */
 
-var scheduler_production_min = createCommonjsModule(function (module, exports) {
+var scheduler_production_min = createCommonjsModule$1(function (module, exports) {
 var f,g,h,k;if("object"===typeof performance&&"function"===typeof performance.now){var l=performance;exports.unstable_now=function(){return l.now()};}else {var p=Date,q=p.now();exports.unstable_now=function(){return p.now()-q};}
 if("undefined"===typeof window||"function"!==typeof MessageChannel){var t=null,u=null,w=function(){if(null!==t)try{var a=exports.unstable_now();t(!0,a);t=null;}catch(b){throw setTimeout(w,0),b;}};f=function(a){null!==t?setTimeout(f,0,a):(t=a,setTimeout(w,0));};g=function(a,b){u=setTimeout(a,b);};h=function(){clearTimeout(u);};exports.unstable_shouldYield=function(){return !1};k=exports.unstable_forceFrameRate=function(){};}else {var x=window.setTimeout,y=window.clearTimeout;if("undefined"!==typeof console){var z=
 window.cancelAnimationFrame;"function"!==typeof window.requestAnimationFrame&&console.error("This browser doesn't support requestAnimationFrame. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills");"function"!==typeof z&&console.error("This browser doesn't support cancelAnimationFrame. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills");}var A=!1,B=null,C=-1,D=5,E=0;exports.unstable_shouldYield=function(){return exports.unstable_now()>=
@@ -258,7 +255,7 @@ exports.unstable_scheduleCallback=function(a,b,c){var d=exports.unstable_now();"
 exports.unstable_wrapCallback=function(a){var b=P;return function(){var c=P;P=b;try{return a.apply(this,arguments)}finally{P=c;}}};
 });
 
-var scheduler = createCommonjsModule(function (module) {
+var scheduler = createCommonjsModule$1(function (module) {
 
 {
   module.exports = scheduler_production_min;
@@ -349,8 +346,8 @@ a.type?od(a):"keydown"===a.type||"keyup"===a.type?a.keyCode:0}}),Rd=rd(Qd),Sd=ob
 deltaY:function(a){return "deltaY"in a?a.deltaY:"wheelDeltaY"in a?-a.wheelDeltaY:"wheelDelta"in a?-a.wheelDelta:0},deltaZ:0,deltaMode:0}),Zd=rd(Yd),$d=[9,13,27,32],ae=fa&&"CompositionEvent"in window,be=null;fa&&"documentMode"in document&&(be=document.documentMode);var ce=fa&&"TextEvent"in window&&!be,de=fa&&(!ae||be&&8<be&&11>=be),ee=String.fromCharCode(32),fe=!1;
 function ge(a,b){switch(a){case "keyup":return -1!==$d.indexOf(b.keyCode);case "keydown":return 229!==b.keyCode;case "keypress":case "mousedown":case "focusout":return !0;default:return !1}}function he(a){a=a.detail;return "object"===typeof a&&"data"in a?a.data:null}var ie=!1;function je(a,b){switch(a){case "compositionend":return he(b);case "keypress":if(32!==b.which)return null;fe=!0;return ee;case "textInput":return a=b.data,a===ee&&fe?null:a;default:return null}}
 function ke(a,b){if(ie)return "compositionend"===a||!ae&&ge(a,b)?(a=nd(),md=ld=kd=null,ie=!1,a):null;switch(a){case "paste":return null;case "keypress":if(!(b.ctrlKey||b.altKey||b.metaKey)||b.ctrlKey&&b.altKey){if(b.char&&1<b.char.length)return b.char;if(b.which)return String.fromCharCode(b.which)}return null;case "compositionend":return de&&"ko"!==b.locale?null:b.data;default:return null}}
-var le={color:!0,date:!0,datetime:!0,"datetime-local":!0,email:!0,month:!0,number:!0,password:!0,range:!0,search:!0,tel:!0,text:!0,time:!0,url:!0,week:!0};function me(a){var b=a&&a.nodeName&&a.nodeName.toLowerCase();return "input"===b?!!le[a.type]:"textarea"===b?!0:!1}function ne(a,b,c,d){Eb(d);b=oe(b,"onChange");0<b.length&&(c=new td("onChange","change",null,c,d),a.push({event:c,listeners:b}));}var pe=null,qe=null;function re(a){se(a,0);}function te(a){var b=ue(a);if(Wa(b))return a}
-function ve(a,b){if("change"===a)return b}var we=!1;if(fa){var xe;if(fa){var ye="oninput"in document;if(!ye){var ze=document.createElement("div");ze.setAttribute("oninput","return;");ye="function"===typeof ze.oninput;}xe=ye;}else xe=!1;we=xe&&(!document.documentMode||9<document.documentMode);}function Ae(){pe&&(pe.detachEvent("onpropertychange",Be),qe=pe=null);}function Be(a){if("value"===a.propertyName&&te(qe)){var b=[];ne(b,qe,a,xb(a));a=re;if(Kb)a(b);else {Kb=!0;try{Gb(a,b);}finally{Kb=!1,Mb();}}}}
+var le={color:!0,date:!0,datetime:!0,"datetime-local":!0,email:!0,month:!0,number:!0,password:!0,range:!0,search:!0,tel:!0,text:!0,time:!0,url:!0,week:!0};function me(a){var b=a&&a.nodeName&&a.nodeName.toLowerCase();return "input"===b?!!le[a.type]:"textarea"===b?!0:!1}function ne(a,b,c,d){Eb(d);b=oe(b,"onChange");0<b.length&&(c=new td("onChange","change",null,c,d),a.push({event:c,listeners:b}));}var pe=null,qe=null;function re$2(a){se(a,0);}function te(a){var b=ue(a);if(Wa(b))return a}
+function ve(a,b){if("change"===a)return b}var we=!1;if(fa){var xe;if(fa){var ye="oninput"in document;if(!ye){var ze=document.createElement("div");ze.setAttribute("oninput","return;");ye="function"===typeof ze.oninput;}xe=ye;}else xe=!1;we=xe&&(!document.documentMode||9<document.documentMode);}function Ae(){pe&&(pe.detachEvent("onpropertychange",Be),qe=pe=null);}function Be(a){if("value"===a.propertyName&&te(qe)){var b=[];ne(b,qe,a,xb(a));a=re$2;if(Kb)a(b);else {Kb=!0;try{Gb(a,b);}finally{Kb=!1,Mb();}}}}
 function Ce(a,b,c){"focusin"===a?(Ae(),pe=b,qe=c,pe.attachEvent("onpropertychange",Be)):"focusout"===a&&Ae();}function De(a){if("selectionchange"===a||"keyup"===a||"keydown"===a)return te(qe)}function Ee(a,b){if("click"===a)return te(b)}function Fe(a,b){if("input"===a||"change"===a)return te(b)}function Ge(a,b){return a===b&&(0!==a||1/a===1/b)||a!==a&&b!==b}var He="function"===typeof Object.is?Object.is:Ge,Ie=Object.prototype.hasOwnProperty;
 function Je(a,b){if(He(a,b))return !0;if("object"!==typeof a||null===a||"object"!==typeof b||null===b)return !1;var c=Object.keys(a),d=Object.keys(b);if(c.length!==d.length)return !1;for(d=0;d<c.length;d++)if(!Ie.call(b,c[d])||!He(a[c[d]],b[c[d]]))return !1;return !0}function Ke(a){for(;a&&a.firstChild;)a=a.firstChild;return a}
 function Le(a,b){var c=Ke(a);a=0;for(var d;c;){if(3===c.nodeType){d=a+c.textContent.length;if(a<=b&&d>=b)return {node:c,offset:b-a};a=d;}a:{for(;c;){if(c.nextSibling){c=c.nextSibling;break a}c=c.parentNode;}c=void 0;}c=Ke(c);}}function Me(a,b){return a&&b?a===b?!0:a&&3===a.nodeType?!1:b&&3===b.nodeType?Me(a,b.parentNode):"contains"in a?a.contains(b):a.compareDocumentPosition?!!(a.compareDocumentPosition(b)&16):!1:!1}
@@ -574,7 +571,7 @@ var reactDom_production_min = {
 	version: version
 };
 
-var reactDom = createCommonjsModule(function (module) {
+var reactDom = createCommonjsModule$1(function (module) {
 
 function checkDCE() {
   /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
@@ -681,7 +678,7 @@ var factoryWithThrowingShims = function() {
  * LICENSE file in the root directory of this source tree.
  */
 
-var propTypes = createCommonjsModule(function (module) {
+var propTypes = createCommonjsModule$1(function (module) {
 {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
@@ -2278,7 +2275,7 @@ var cssProperties = [
   "OUserSelect"
 ];
 
-var src = createCommonjsModule(function (module) {
+var src = createCommonjsModule$1(function (module) {
 module.exports = function(props, propName, componentName) {
   var styles = props[propName];
   if (!styles) {
@@ -2549,7 +2546,7 @@ function _inherits(subClass, superClass) {
       configurable: true
     }
   });
-  if (superClass) _setPrototypeOf(subClass, superClass);
+  if (superClass) _setPrototypeOf$5(subClass, superClass);
 }
 
 function _getPrototypeOf(o) {
@@ -2559,13 +2556,13 @@ function _getPrototypeOf(o) {
   return _getPrototypeOf(o);
 }
 
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+function _setPrototypeOf$5(o, p) {
+  _setPrototypeOf$5 = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
     o.__proto__ = p;
     return o;
   };
 
-  return _setPrototypeOf(o, p);
+  return _setPrototypeOf$5(o, p);
 }
 
 function _isNativeReflectConstruct() {
@@ -3170,7 +3167,7 @@ var isTab = makeTypeChecker('Tab');
 var isTabList = makeTypeChecker('TabList');
 var isTabPanel = makeTypeChecker('TabPanel');
 
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _extends$5() { _extends$5 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$5.apply(this, arguments); }
 
 function isTabChild(child) {
   return isTab(child) || isTabList(child) || isTabPanel(child);
@@ -3188,7 +3185,7 @@ function deepMap(children, callback) {
 
     if (child.props && child.props.children && typeof child.props.children === 'object') {
       // Clone the child that has children and map them too
-      return /*#__PURE__*/react.cloneElement(child, _extends({}, child.props, {
+      return /*#__PURE__*/react.cloneElement(child, _extends$5({}, child.props, {
         children: deepMap(child.props.children, callback)
       }));
     }
@@ -3273,13 +3270,13 @@ function getPanelsCount(children) {
   return panelCount;
 }
 
-function _extends$1() { _extends$1 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$1.apply(this, arguments); }
+function _extends$4() { _extends$4 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$4.apply(this, arguments); }
 
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutPropertiesLoose$4(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf$1(subClass, superClass); }
+function _inheritsLoose$4(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf$4(subClass, superClass); }
 
-function _setPrototypeOf$1(o, p) { _setPrototypeOf$1 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$1(o, p); }
+function _setPrototypeOf$4(o, p) { _setPrototypeOf$4 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$4(o, p); }
 
 function isNode(node) {
   return node && 'getAttribute' in node;
@@ -3312,7 +3309,7 @@ function determineCanUseActiveElement(environment) {
 }
 
 var UncontrolledTabs = /*#__PURE__*/function (_Component) {
-  _inheritsLoose(UncontrolledTabs, _Component);
+  _inheritsLoose$4(UncontrolledTabs, _Component);
 
   function UncontrolledTabs() {
     var _this;
@@ -3618,9 +3615,9 @@ var UncontrolledTabs = /*#__PURE__*/function (_Component) {
         _this$props4.selectedTabPanelClassName;
         _this$props4.environment;
         _this$props4.disableUpDownKeys;
-        var attributes = _objectWithoutPropertiesLoose(_this$props4, ["children", "className", "disabledTabClassName", "domRef", "focus", "forceRenderTabPanel", "onSelect", "selectedIndex", "selectedTabClassName", "selectedTabPanelClassName", "environment", "disableUpDownKeys"]);
+        var attributes = _objectWithoutPropertiesLoose$4(_this$props4, ["children", "className", "disabledTabClassName", "domRef", "focus", "forceRenderTabPanel", "onSelect", "selectedIndex", "selectedTabClassName", "selectedTabPanelClassName", "environment", "disableUpDownKeys"]);
 
-    return /*#__PURE__*/react.createElement("div", _extends$1({}, attributes, {
+    return /*#__PURE__*/react.createElement("div", _extends$4({}, attributes, {
       className: cx(className),
       onClick: this.handleClick,
       onKeyDown: this.handleKeyDown,
@@ -3641,16 +3638,16 @@ UncontrolledTabs.defaultProps = {
 };
 UncontrolledTabs.propTypes = {};
 
-function _objectWithoutPropertiesLoose$1(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutPropertiesLoose$3(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-function _inheritsLoose$1(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf$2(subClass, superClass); }
+function _inheritsLoose$3(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf$3(subClass, superClass); }
 
-function _setPrototypeOf$2(o, p) { _setPrototypeOf$2 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$2(o, p); }
+function _setPrototypeOf$3(o, p) { _setPrototypeOf$3 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$3(o, p); }
 var MODE_CONTROLLED = 0;
 var MODE_UNCONTROLLED = 1;
 
 var Tabs = /*#__PURE__*/function (_Component) {
-  _inheritsLoose$1(Tabs, _Component);
+  _inheritsLoose$3(Tabs, _Component);
 
   function Tabs(props) {
     var _this;
@@ -3726,7 +3723,7 @@ var Tabs = /*#__PURE__*/function (_Component) {
         children = _this$props.children;
         _this$props.defaultIndex;
         _this$props.defaultFocus;
-        var props = _objectWithoutPropertiesLoose$1(_this$props, ["children", "defaultIndex", "defaultFocus"]);
+        var props = _objectWithoutPropertiesLoose$3(_this$props, ["children", "defaultIndex", "defaultFocus"]);
 
     var _this$state = this.state,
         focus = _this$state.focus,
@@ -3755,13 +3752,13 @@ Tabs.defaultProps = {
 Tabs.propTypes = {};
 Tabs.tabsRole = 'Tabs';
 
-function _extends$2() { _extends$2 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$2.apply(this, arguments); }
+function _extends$3() { _extends$3 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$3.apply(this, arguments); }
 
 function _objectWithoutPropertiesLoose$2(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-function _inheritsLoose$2(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf$3(subClass, superClass); }
+function _inheritsLoose$2(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf$2(subClass, superClass); }
 
-function _setPrototypeOf$3(o, p) { _setPrototypeOf$3 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$3(o, p); }
+function _setPrototypeOf$2(o, p) { _setPrototypeOf$2 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$2(o, p); }
 
 var TabList = /*#__PURE__*/function (_Component) {
   _inheritsLoose$2(TabList, _Component);
@@ -3778,7 +3775,7 @@ var TabList = /*#__PURE__*/function (_Component) {
         className = _this$props.className,
         attributes = _objectWithoutPropertiesLoose$2(_this$props, ["children", "className"]);
 
-    return /*#__PURE__*/react.createElement("ul", _extends$2({}, attributes, {
+    return /*#__PURE__*/react.createElement("ul", _extends$3({}, attributes, {
       className: cx(className),
       role: "tablist"
     }), children);
@@ -3793,17 +3790,17 @@ TabList.defaultProps = {
 TabList.propTypes = {};
 TabList.tabsRole = 'TabList';
 
-function _extends$3() { _extends$3 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$3.apply(this, arguments); }
+function _extends$2() { _extends$2 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$2.apply(this, arguments); }
 
-function _objectWithoutPropertiesLoose$3(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutPropertiesLoose$1(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-function _inheritsLoose$3(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf$4(subClass, superClass); }
+function _inheritsLoose$1(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf$1(subClass, superClass); }
 
-function _setPrototypeOf$4(o, p) { _setPrototypeOf$4 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$4(o, p); }
-var DEFAULT_CLASS = 'react-tabs__tab';
+function _setPrototypeOf$1(o, p) { _setPrototypeOf$1 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$1(o, p); }
+var DEFAULT_CLASS$1 = 'react-tabs__tab';
 
 var Tab = /*#__PURE__*/function (_Component) {
-  _inheritsLoose$3(Tab, _Component);
+  _inheritsLoose$1(Tab, _Component);
 
   function Tab() {
     return _Component.apply(this, arguments) || this;
@@ -3845,9 +3842,9 @@ var Tab = /*#__PURE__*/function (_Component) {
         selectedClassName = _this$props2.selectedClassName,
         tabIndex = _this$props2.tabIndex,
         tabRef = _this$props2.tabRef,
-        attributes = _objectWithoutPropertiesLoose$3(_this$props2, ["children", "className", "disabled", "disabledClassName", "focus", "id", "panelId", "selected", "selectedClassName", "tabIndex", "tabRef"]);
+        attributes = _objectWithoutPropertiesLoose$1(_this$props2, ["children", "className", "disabled", "disabledClassName", "focus", "id", "panelId", "selected", "selectedClassName", "tabIndex", "tabRef"]);
 
-    return /*#__PURE__*/react.createElement("li", _extends$3({}, attributes, {
+    return /*#__PURE__*/react.createElement("li", _extends$2({}, attributes, {
       className: cx(className, (_cx = {}, _cx[selectedClassName] = selected, _cx[disabledClassName] = disabled, _cx)),
       ref: function ref(node) {
         _this.node = node;
@@ -3866,28 +3863,28 @@ var Tab = /*#__PURE__*/function (_Component) {
 }(react.Component);
 
 Tab.defaultProps = {
-  className: DEFAULT_CLASS,
-  disabledClassName: DEFAULT_CLASS + "--disabled",
+  className: DEFAULT_CLASS$1,
+  disabledClassName: DEFAULT_CLASS$1 + "--disabled",
   focus: false,
   id: null,
   panelId: null,
   selected: false,
-  selectedClassName: DEFAULT_CLASS + "--selected"
+  selectedClassName: DEFAULT_CLASS$1 + "--selected"
 };
 Tab.propTypes = {};
 Tab.tabsRole = 'Tab';
 
-function _extends$4() { _extends$4 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$4.apply(this, arguments); }
+function _extends$1() { _extends$1 = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends$1.apply(this, arguments); }
 
-function _objectWithoutPropertiesLoose$4(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-function _inheritsLoose$4(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf$5(subClass, superClass); }
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf(subClass, superClass); }
 
-function _setPrototypeOf$5(o, p) { _setPrototypeOf$5 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$5(o, p); }
-var DEFAULT_CLASS$1 = 'react-tabs__tab-panel';
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+var DEFAULT_CLASS = 'react-tabs__tab-panel';
 
 var TabPanel = /*#__PURE__*/function (_Component) {
-  _inheritsLoose$4(TabPanel, _Component);
+  _inheritsLoose(TabPanel, _Component);
 
   function TabPanel() {
     return _Component.apply(this, arguments) || this;
@@ -3906,9 +3903,9 @@ var TabPanel = /*#__PURE__*/function (_Component) {
         selected = _this$props.selected,
         selectedClassName = _this$props.selectedClassName,
         tabId = _this$props.tabId,
-        attributes = _objectWithoutPropertiesLoose$4(_this$props, ["children", "className", "forceRender", "id", "selected", "selectedClassName", "tabId"]);
+        attributes = _objectWithoutPropertiesLoose(_this$props, ["children", "className", "forceRender", "id", "selected", "selectedClassName", "tabId"]);
 
-    return /*#__PURE__*/react.createElement("div", _extends$4({}, attributes, {
+    return /*#__PURE__*/react.createElement("div", _extends$1({}, attributes, {
       className: cx(className, (_cx = {}, _cx[selectedClassName] = selected, _cx)),
       role: "tabpanel",
       id: id,
@@ -3920,19 +3917,19 @@ var TabPanel = /*#__PURE__*/function (_Component) {
 }(react.Component);
 
 TabPanel.defaultProps = {
-  className: DEFAULT_CLASS$1,
+  className: DEFAULT_CLASS,
   forceRender: false,
-  selectedClassName: DEFAULT_CLASS$1 + "--selected"
+  selectedClassName: DEFAULT_CLASS + "--selected"
 };
 TabPanel.propTypes = {};
 TabPanel.tabsRole = 'TabPanel';
 
-var reactTable_production_min = createCommonjsModule(function (module, exports) {
+var reactTable_production_min = createCommonjsModule$1(function (module, exports) {
 !function(e,t){t(exports,react);}(commonjsGlobal,(function(e,t){function n(e,t,n,o,r,i,u){try{var l=e[i](u),s=l.value;}catch(e){return void n(e)}l.done?t(s):Promise.resolve(s).then(o,r);}function o(e){return function(){var t=this,o=arguments;return new Promise((function(r,i){var u=e.apply(t,o);function l(e){n(u,r,i,l,s,"next",e);}function s(e){n(u,r,i,l,s,"throw",e);}l(void 0);}))}}function r(){return (r=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)Object.prototype.hasOwnProperty.call(n,o)&&(e[o]=n[o]);}return e}).apply(this,arguments)}function i(e,t){if(null==e)return {};var n,o,r={},i=Object.keys(e);for(o=0;o<i.length;o++)n=i[o],t.indexOf(n)>=0||(r[n]=e[n]);return r}function u(e){var t=function(e,t){if("object"!=typeof e||null===e)return e;var n=e[Symbol.toPrimitive];if(void 0!==n){var o=n.call(e,t||"default");if("object"!=typeof o)return o;throw new TypeError("@@toPrimitive must return a primitive value.")}return ("string"===t?String:Number)(e)}(e,"string");return "symbol"==typeof t?t:String(t)}t=t&&Object.prototype.hasOwnProperty.call(t,"default")?t.default:t;var l={init:"init"},s=function(e){var t=e.value;return void 0===t?"":t},a=function(){return t.createElement(t.Fragment,null," ")},c={Cell:s,width:150,minWidth:0,maxWidth:Number.MAX_SAFE_INTEGER};function d(){for(var e=arguments.length,t=new Array(e),n=0;n<e;n++)t[n]=arguments[n];return t.reduce((function(e,t){var n=t.style,o=t.className;return e=r({},e,{},i(t,["style","className"])),n&&(e.style=e.style?r({},e.style||{},{},n||{}):n),o&&(e.className=e.className?e.className+" "+o:o),""===e.className&&delete e.className,e}),{})}var f=function(e,t){return void 0===t&&(t={}),function(n){return void 0===n&&(n={}),[].concat(e,[n]).reduce((function(e,o){return function e(t,n,o){return "function"==typeof n?e({},n(t,o)):Array.isArray(n)?d.apply(void 0,[t].concat(n)):d(t,n)}(e,o,r({},t,{userProps:n}))}),{})}},p=function(e,t,n,o){return void 0===n&&(n={}),e.reduce((function(e,t){return t(e,n)}),t)},g=function(e,t,n){return void 0===n&&(n={}),e.forEach((function(e){e(t,n);}))};function v(e,t,n,o){e.findIndex((function(e){return e.pluginName===n}));t.forEach((function(t){e.findIndex((function(e){return e.pluginName===t}));}));}function m(e,t){return "function"==typeof e?e(t):e}function h(e){var n=t.useRef();return n.current=e,t.useCallback((function(){return n.current}),[])}var y="undefined"!=typeof document?t.useLayoutEffect:t.useEffect;function w(e,n){var o=t.useRef(!1);y((function(){o.current&&e(),o.current=!0;}),n);}function R(e,t,n){return void 0===n&&(n={}),function(o,i){void 0===i&&(i={});var u="string"==typeof o?t[o]:o;if(void 0===u)throw console.info(t),new Error("Renderer Error ☝️");return b(u,r({},e,{column:t},n,{},i))}}function b(e,n){return function(e){return "function"==typeof e&&((t=Object.getPrototypeOf(e)).prototype&&t.prototype.isReactComponent);var t;}(o=e)||"function"==typeof o||function(e){return "object"==typeof e&&"symbol"==typeof e.$$typeof&&["react.memo","react.forward_ref"].includes(e.$$typeof.description)}(o)?t.createElement(e,n):e;var o;}function S(e,t,n){return void 0===n&&(n=0),e.map((function(e){return x(e=r({},e,{parent:t,depth:n})),e.columns&&(e.columns=S(e.columns,e,n+1)),e}))}function C(e){return G(e,"columns")}function x(e){var t=e.id,n=e.accessor,o=e.Header;if("string"==typeof n){t=t||n;var r=n.split(".");n=function(e){return function(e,t,n){if(!t)return e;var o,r="function"==typeof t?t:JSON.stringify(t),i=E.get(r)||function(){var e=function(e){return function e(t,n){void 0===n&&(n=[]);if(Array.isArray(t))for(var o=0;o<t.length;o+=1)e(t[o],n);else n.push(t);return n}(e).map((function(e){return String(e).replace(".","_")})).join(".").replace(W,".").replace(O,"").split(".")}(t);return E.set(r,e),e}();try{o=i.reduce((function(e,t){return e[t]}),e);}catch(e){}return void 0!==o?o:n}(e,r)};}if(!t&&"string"==typeof o&&o&&(t=o),!t&&e.columns)throw console.error(e),new Error('A column ID (or unique "Header" value) is required!');if(!t)throw console.error(e),new Error("A column ID (or string accessor) is required!");return Object.assign(e,{id:t,accessor:n}),e}function P(e,t){if(!t)throw new Error;return Object.assign(e,r({Header:a,Footer:a},c,{},t,{},e)),Object.assign(e,{originalWidth:e.width}),e}function B(e,t,n){void 0===n&&(n=function(){return {}});for(var o=[],i=e,u=0,l=function(){return u++},s=function(){var e={headers:[]},u=[],s=i.some((function(e){return e.parent}));i.forEach((function(o){var i,a=[].concat(u).reverse()[0];if(s){if(o.parent)i=r({},o.parent,{originalId:o.parent.id,id:o.parent.id+"_"+l(),headers:[o]},n(o));else i=P(r({originalId:o.id+"_placeholder",id:o.id+"_placeholder_"+l(),placeholderOf:o,headers:[o]},n(o)),t);a&&a.originalId===i.originalId?a.headers.push(o):u.push(i);}e.headers.push(o);})),o.push(e),i=u;};i.length;)s();return o.reverse()}var E=new Map;function I(){for(var e=arguments.length,t=new Array(e),n=0;n<e;n++)t[n]=arguments[n];for(var o=0;o<t.length;o+=1)if(void 0!==t[o])return t[o]}function F(e){if("function"==typeof e)return e}function G(e,t){var n=[];return function e(o){o.forEach((function(o){o[t]?e(o[t]):n.push(o);}));}(e),n}function A(e,t){var n=t.manualExpandedKey,o=t.expanded,r=t.expandSubRows,i=void 0===r||r,u=[];return e.forEach((function(e){return function e(t,r){void 0===r&&(r=!0),t.isExpanded=t.original&&t.original[n]||o[t.id],t.canExpand=t.subRows&&!!t.subRows.length,r&&u.push(t),t.subRows&&t.subRows.length&&t.isExpanded&&t.subRows.forEach((function(t){return e(t,i)}));}(e)})),u}function k(e,t,n){return F(e)||t[e]||n[e]||n.text}function H(e,t,n){return e?e(t,n):void 0===t}function T(){throw new Error("React-Table: You have not called prepareRow(row) one or more rows you are attempting to render.")}var z=null;var W=/\[/g,O=/\]/g;var M=function(e){return r({role:"table"},e)},j=function(e){return r({role:"rowgroup"},e)},N=function(e,t){var n=t.column;return r({key:"header_"+n.id,colSpan:n.totalVisibleHeaderCount,role:"columnheader"},e)},D=function(e,t){var n=t.column;return r({key:"footer_"+n.id,colSpan:n.totalVisibleHeaderCount},e)},L=function(e,t){return r({key:"headerGroup_"+t.index,role:"row"},e)},V=function(e,t){return r({key:"footerGroup_"+t.index},e)},_=function(e,t){return r({key:"row_"+t.row.id,role:"row"},e)},X=function(e,t){var n=t.cell;return r({key:"cell_"+n.row.id+"_"+n.column.id,role:"cell"},e)};function q(){return {useOptions:[],stateReducers:[],useControlledState:[],columns:[],columnsDeps:[],allColumns:[],allColumnsDeps:[],accessValue:[],materializedColumns:[],materializedColumnsDeps:[],useInstanceAfterData:[],visibleColumns:[],visibleColumnsDeps:[],headerGroups:[],headerGroupsDeps:[],useInstanceBeforeDimensions:[],useInstance:[],prepareRow:[],getTableProps:[M],getTableBodyProps:[j],getHeaderGroupProps:[L],getFooterGroupProps:[V],getHeaderProps:[N],getFooterProps:[D],getRowProps:[_],getCellProps:[X],useFinalInstance:[]}}l.resetHiddenColumns="resetHiddenColumns",l.toggleHideColumn="toggleHideColumn",l.setHiddenColumns="setHiddenColumns",l.toggleHideAllColumns="toggleHideAllColumns";var K=function(e){e.getToggleHiddenProps=[U],e.getToggleHideAllColumnsProps=[$],e.stateReducers.push(J),e.useInstanceBeforeDimensions.push(Y),e.headerGroupsDeps.push((function(e,t){var n=t.instance;return [].concat(e,[n.state.hiddenColumns])})),e.useInstance.push(Q);};K.pluginName="useColumnVisibility";var U=function(e,t){var n=t.column;return [e,{onChange:function(e){n.toggleHidden(!e.target.checked);},style:{cursor:"pointer"},checked:n.isVisible,title:"Toggle Column Visible"}]},$=function(e,t){var n=t.instance;return [e,{onChange:function(e){n.toggleHideAllColumns(!e.target.checked);},style:{cursor:"pointer"},checked:!n.allColumnsHidden&&!n.state.hiddenColumns.length,title:"Toggle All Columns Hidden",indeterminate:!n.allColumnsHidden&&n.state.hiddenColumns.length}]};function J(e,t,n,o){if(t.type===l.init)return r({hiddenColumns:[]},e);if(t.type===l.resetHiddenColumns)return r({},e,{hiddenColumns:o.initialState.hiddenColumns||[]});if(t.type===l.toggleHideColumn){var i=(void 0!==t.value?t.value:!e.hiddenColumns.includes(t.columnId))?[].concat(e.hiddenColumns,[t.columnId]):e.hiddenColumns.filter((function(e){return e!==t.columnId}));return r({},e,{hiddenColumns:i})}return t.type===l.setHiddenColumns?r({},e,{hiddenColumns:m(t.value,e.hiddenColumns)}):t.type===l.toggleHideAllColumns?r({},e,{hiddenColumns:(void 0!==t.value?t.value:!e.hiddenColumns.length)?o.allColumns.map((function(e){return e.id})):[]}):void 0}function Y(e){var n=e.headers,o=e.state.hiddenColumns;t.useRef(!1).current;var r=0;n.forEach((function(e){return r+=function e(t,n){t.isVisible=n&&!o.includes(t.id);var r=0;return t.headers&&t.headers.length?t.headers.forEach((function(n){return r+=e(n,t.isVisible)})):r=t.isVisible?1:0,t.totalVisibleHeaderCount=r,r}(e,!0)}));}function Q(e){var n=e.columns,o=e.flatHeaders,r=e.dispatch,i=e.allColumns,u=e.getHooks,s=e.state.hiddenColumns,a=e.autoResetHiddenColumns,c=void 0===a||a,d=h(e),p=i.length===s.length,g=t.useCallback((function(e,t){return r({type:l.toggleHideColumn,columnId:e,value:t})}),[r]),v=t.useCallback((function(e){return r({type:l.setHiddenColumns,value:e})}),[r]),m=t.useCallback((function(e){return r({type:l.toggleHideAllColumns,value:e})}),[r]),y=f(u().getToggleHideAllColumnsProps,{instance:d()});o.forEach((function(e){e.toggleHidden=function(t){r({type:l.toggleHideColumn,columnId:e.id,value:t});},e.getToggleHiddenProps=f(u().getToggleHiddenProps,{instance:d(),column:e});}));var R=h(c);w((function(){R()&&r({type:l.resetHiddenColumns});}),[r,n]),Object.assign(e,{allColumnsHidden:p,toggleHideColumn:g,setHiddenColumns:v,toggleHideAllColumns:m,getToggleHideAllColumnsProps:y});}var Z={},ee={},te=function(e,t,n){return e},ne=function(e,t){return e.subRows||[]},oe=function(e,t,n){return ""+(n?[n.id,t].join("."):t)},re=function(e){return e};function ie(e){var t=e.initialState,n=void 0===t?Z:t,o=e.defaultColumn,u=void 0===o?ee:o,l=e.getSubRows,s=void 0===l?ne:l,a=e.getRowId,c=void 0===a?oe:a,d=e.stateReducer,f=void 0===d?te:d,p=e.useControlledState,g=void 0===p?re:p;return r({},i(e,["initialState","defaultColumn","getSubRows","getRowId","stateReducer","useControlledState"]),{initialState:n,defaultColumn:u,getSubRows:s,getRowId:c,stateReducer:f,useControlledState:g})}function ue(e,t){void 0===t&&(t=0);var n=0,o=0,r=0,i=0;return e.forEach((function(e){var u=e.headers;if(e.totalLeft=t,u&&u.length){var l=ue(u,t),s=l[0],a=l[1],c=l[2],d=l[3];e.totalMinWidth=s,e.totalWidth=a,e.totalMaxWidth=c,e.totalFlexWidth=d;}else e.totalMinWidth=e.minWidth,e.totalWidth=Math.min(Math.max(e.minWidth,e.width),e.maxWidth),e.totalMaxWidth=e.maxWidth,e.totalFlexWidth=e.canResize?e.totalWidth:0;e.isVisible&&(t+=e.totalWidth,n+=e.totalMinWidth,o+=e.totalWidth,r+=e.totalMaxWidth,i+=e.totalFlexWidth);})),[n,o,r,i]}function le(e){var t=e.data,n=e.rows,o=e.flatRows,r=e.rowsById,i=e.column,u=e.getRowId,l=e.getSubRows,s=e.accessValueHooks,a=e.getInstance;t.forEach((function(e,c){return function e(n,c,d,f,g){void 0===d&&(d=0);var v=n,m=u(n,c,f),h=r[m];if(h)h.subRows&&h.originalSubRows.forEach((function(t,n){return e(t,n,d+1,h)}));else if((h={id:m,original:v,index:c,depth:d,cells:[{}]}).cells.map=T,h.cells.filter=T,h.cells.forEach=T,h.cells[0].getCellProps=T,h.values={},g.push(h),o.push(h),r[m]=h,h.originalSubRows=l(n,c),h.originalSubRows){var y=[];h.originalSubRows.forEach((function(t,n){return e(t,n,d+1,h,y)})),h.subRows=y;}i.accessor&&(h.values[i.id]=i.accessor(n,c,h,g,t)),h.values[i.id]=p(s,h.values[i.id],{row:h,column:i,instance:a()});}(e,c,0,void 0,n)}));}l.resetExpanded="resetExpanded",l.toggleRowExpanded="toggleRowExpanded",l.toggleAllRowsExpanded="toggleAllRowsExpanded";var se=function(e){e.getToggleAllRowsExpandedProps=[ae],e.getToggleRowExpandedProps=[ce],e.stateReducers.push(de),e.useInstance.push(fe),e.prepareRow.push(pe);};se.pluginName="useExpanded";var ae=function(e,t){var n=t.instance;return [e,{onClick:function(e){n.toggleAllRowsExpanded();},style:{cursor:"pointer"},title:"Toggle All Rows Expanded"}]},ce=function(e,t){var n=t.row;return [e,{onClick:function(){n.toggleRowExpanded();},style:{cursor:"pointer"},title:"Toggle Row Expanded"}]};function de(e,t,n,o){if(t.type===l.init)return r({expanded:{}},e);if(t.type===l.resetExpanded)return r({},e,{expanded:o.initialState.expanded||{}});if(t.type===l.toggleAllRowsExpanded){var s=t.value,a=o.isAllRowsExpanded,c=o.rowsById;if(void 0!==s?s:!a){var d={};return Object.keys(c).forEach((function(e){d[e]=!0;})),r({},e,{expanded:d})}return r({},e,{expanded:{}})}if(t.type===l.toggleRowExpanded){var f,p=t.id,g=t.value,v=e.expanded[p],m=void 0!==g?g:!v;if(!v&&m)return r({},e,{expanded:r({},e.expanded,(f={},f[p]=!0,f))});if(v&&!m){var h=e.expanded;h[p];return r({},e,{expanded:i(h,[p].map(u))})}return e}}function fe(e){var n=e.data,o=e.rows,r=e.rowsById,i=e.manualExpandedKey,u=void 0===i?"expanded":i,s=e.paginateExpandedRows,a=void 0===s||s,c=e.expandSubRows,d=void 0===c||c,p=e.autoResetExpanded,g=void 0===p||p,m=e.getHooks,y=e.plugins,R=e.state.expanded,b=e.dispatch;v(y,["useSortBy","useGroupBy","usePivotColumns","useGlobalFilter"],"useExpanded");var S=h(g),C=Boolean(Object.keys(r).length&&Object.keys(R).length);C&&Object.keys(r).some((function(e){return !R[e]}))&&(C=!1),w((function(){S()&&b({type:l.resetExpanded});}),[b,n]);var x=t.useCallback((function(e,t){b({type:l.toggleRowExpanded,id:e,value:t});}),[b]),P=t.useCallback((function(e){return b({type:l.toggleAllRowsExpanded,value:e})}),[b]),B=t.useMemo((function(){return a?A(o,{manualExpandedKey:u,expanded:R,expandSubRows:d}):o}),[a,o,u,R,d]),E=t.useMemo((function(){return function(e){var t=0;return Object.keys(e).forEach((function(e){var n=e.split(".");t=Math.max(t,n.length);})),t}(R)}),[R]),I=h(e),F=f(m().getToggleAllRowsExpandedProps,{instance:I()});Object.assign(e,{preExpandedRows:o,expandedRows:B,rows:B,expandedDepth:E,isAllRowsExpanded:C,toggleRowExpanded:x,toggleAllRowsExpanded:P,getToggleAllRowsExpandedProps:F});}function pe(e,t){var n=t.instance.getHooks,o=t.instance;e.toggleRowExpanded=function(t){return o.toggleRowExpanded(e.id,t)},e.getToggleRowExpandedProps=f(n().getToggleRowExpandedProps,{instance:o,row:e});}var ge=function(e,t,n){return e=e.filter((function(e){return t.some((function(t){var o=e.values[t];return String(o).toLowerCase().includes(String(n).toLowerCase())}))}))};ge.autoRemove=function(e){return !e};var ve=function(e,t,n){return e.filter((function(e){return t.some((function(t){var o=e.values[t];return void 0===o||String(o).toLowerCase()===String(n).toLowerCase()}))}))};ve.autoRemove=function(e){return !e};var me=function(e,t,n){return e.filter((function(e){return t.some((function(t){var o=e.values[t];return void 0===o||String(o)===String(n)}))}))};me.autoRemove=function(e){return !e};var he=function(e,t,n){return e.filter((function(e){return t.some((function(t){return e.values[t].includes(n)}))}))};he.autoRemove=function(e){return !e||!e.length};var ye=function(e,t,n){return e.filter((function(e){return t.some((function(t){var o=e.values[t];return o&&o.length&&n.every((function(e){return o.includes(e)}))}))}))};ye.autoRemove=function(e){return !e||!e.length};var we=function(e,t,n){return e.filter((function(e){return t.some((function(t){var o=e.values[t];return o&&o.length&&n.some((function(e){return o.includes(e)}))}))}))};we.autoRemove=function(e){return !e||!e.length};var Re=function(e,t,n){return e.filter((function(e){return t.some((function(t){var o=e.values[t];return n.includes(o)}))}))};Re.autoRemove=function(e){return !e||!e.length};var be=function(e,t,n){return e.filter((function(e){return t.some((function(t){return e.values[t]===n}))}))};be.autoRemove=function(e){return void 0===e};var Se=function(e,t,n){return e.filter((function(e){return t.some((function(t){return e.values[t]==n}))}))};Se.autoRemove=function(e){return null==e};var Ce=function(e,t,n){var o=n||[],r=o[0],i=o[1];if((r="number"==typeof r?r:-1/0)>(i="number"==typeof i?i:1/0)){var u=r;r=i,i=u;}return e.filter((function(e){return t.some((function(t){var n=e.values[t];return n>=r&&n<=i}))}))};Ce.autoRemove=function(e){return !e||"number"!=typeof e[0]&&"number"!=typeof e[1]};var xe=Object.freeze({__proto__:null,text:ge,exactText:ve,exactTextCase:me,includes:he,includesAll:ye,includesSome:we,includesValue:Re,exact:be,equals:Se,between:Ce});l.resetFilters="resetFilters",l.setFilter="setFilter",l.setAllFilters="setAllFilters";var Pe=function(e){e.stateReducers.push(Be),e.useInstance.push(Ee);};function Be(e,t,n,o){if(t.type===l.init)return r({filters:[]},e);if(t.type===l.resetFilters)return r({},e,{filters:o.initialState.filters||[]});if(t.type===l.setFilter){var i=t.columnId,u=t.filterValue,s=o.allColumns,a=o.filterTypes,c=s.find((function(e){return e.id===i}));if(!c)throw new Error("React-Table: Could not find a column with id: "+i);var d=k(c.filter,a||{},xe),f=e.filters.find((function(e){return e.id===i})),p=m(u,f&&f.value);return H(d.autoRemove,p,c)?r({},e,{filters:e.filters.filter((function(e){return e.id!==i}))}):r({},e,f?{filters:e.filters.map((function(e){return e.id===i?{id:i,value:p}:e}))}:{filters:[].concat(e.filters,[{id:i,value:p}])})}if(t.type===l.setAllFilters){var g=t.filters,v=o.allColumns,h=o.filterTypes;return r({},e,{filters:m(g,e.filters).filter((function(e){var t=v.find((function(t){return t.id===e.id}));return !H(k(t.filter,h||{},xe).autoRemove,e.value,t)}))})}}function Ee(e){var n=e.data,o=e.rows,r=e.flatRows,i=e.rowsById,u=e.allColumns,s=e.filterTypes,a=e.manualFilters,c=e.defaultCanFilter,d=void 0!==c&&c,f=e.disableFilters,p=e.state.filters,g=e.dispatch,v=e.autoResetFilters,m=void 0===v||v,y=t.useCallback((function(e,t){g({type:l.setFilter,columnId:e,filterValue:t});}),[g]),R=t.useCallback((function(e){g({type:l.setAllFilters,filters:e});}),[g]);u.forEach((function(e){var t=e.id,n=e.accessor,o=e.defaultCanFilter,r=e.disableFilters;e.canFilter=n?I(!0!==r&&void 0,!0!==f&&void 0,!0):I(o,d,!1),e.setFilter=function(t){return y(e.id,t)};var i=p.find((function(e){return e.id===t}));e.filterValue=i&&i.value;}));var b=t.useMemo((function(){if(a||!p.length)return [o,r,i];var e=[],t={};return [function n(o,r){void 0===r&&(r=0);var i=o;return (i=p.reduce((function(e,t){var n=t.id,o=t.value,i=u.find((function(e){return e.id===n}));if(!i)return e;0===r&&(i.preFilteredRows=e);var l=k(i.filter,s||{},xe);return l?(i.filteredRows=l(e,[n],o),i.filteredRows):(console.warn("Could not find a valid 'column.filter' for column with the ID: "+i.id+"."),e)}),o)).forEach((function(o){e.push(o),t[o.id]=o,o.subRows&&(o.subRows=o.subRows&&o.subRows.length>0?n(o.subRows,r+1):o.subRows);})),i}(o),e,t]}),[a,p,o,r,i,u,s]),S=b[0],C=b[1],x=b[2];t.useMemo((function(){u.filter((function(e){return !p.find((function(t){return t.id===e.id}))})).forEach((function(e){e.preFilteredRows=S,e.filteredRows=S;}));}),[S,p,u]);var P=h(m);w((function(){P()&&g({type:l.resetFilters});}),[g,a?null:n]),Object.assign(e,{preFilteredRows:o,preFilteredFlatRows:r,preFilteredRowsById:i,filteredRows:S,filteredFlatRows:C,filteredRowsById:x,rows:S,flatRows:C,rowsById:x,setFilter:y,setAllFilters:R});}Pe.pluginName="useFilters",l.resetGlobalFilter="resetGlobalFilter",l.setGlobalFilter="setGlobalFilter";var Ie=function(e){e.stateReducers.push(Fe),e.useInstance.push(Ge);};function Fe(e,t,n,o){if(t.type===l.resetGlobalFilter)return r({},e,{globalFilter:o.initialState.globalFilter||void 0});if(t.type===l.setGlobalFilter){var u=t.filterValue,s=o.userFilterTypes,a=k(o.globalFilter,s||{},xe),c=m(u,e.globalFilter);if(H(a.autoRemove,c)){e.globalFilter;return i(e,["globalFilter"])}return r({},e,{globalFilter:c})}}function Ge(e){var n=e.data,o=e.rows,r=e.flatRows,i=e.rowsById,u=e.allColumns,s=e.filterTypes,a=e.globalFilter,c=e.manualGlobalFilter,d=e.state.globalFilter,f=e.dispatch,p=e.autoResetGlobalFilter,g=void 0===p||p,v=e.disableGlobalFilter,m=t.useCallback((function(e){f({type:l.setGlobalFilter,filterValue:e});}),[f]),y=t.useMemo((function(){if(c||void 0===d)return [o,r,i];var e=[],t={},n=k(a,s||{},xe);if(!n)return console.warn("Could not find a valid 'globalFilter' option."),o;u.forEach((function(e){var t=e.disableGlobalFilter;e.canFilter=I(!0!==t&&void 0,!0!==v&&void 0,!0);}));var l=u.filter((function(e){return !0===e.canFilter}));return [function o(r){return (r=n(r,l.map((function(e){return e.id})),d)).forEach((function(n){e.push(n),t[n.id]=n,n.subRows=n.subRows&&n.subRows.length?o(n.subRows):n.subRows;})),r}(o),e,t]}),[c,d,a,s,u,o,r,i,v]),R=y[0],b=y[1],S=y[2],C=h(g);w((function(){C()&&f({type:l.resetGlobalFilter});}),[f,c?null:n]),Object.assign(e,{preGlobalFilteredRows:o,preGlobalFilteredFlatRows:r,preGlobalFilteredRowsById:i,globalFilteredRows:R,globalFilteredFlatRows:b,globalFilteredRowsById:S,rows:R,flatRows:b,rowsById:S,setGlobalFilter:m,disableGlobalFilter:v});}function Ae(e,t){return t.reduce((function(e,t){return e+("number"==typeof t?t:0)}),0)}Ie.pluginName="useGlobalFilter";var ke=Object.freeze({__proto__:null,sum:Ae,min:function(e){var t=e[0]||0;return e.forEach((function(e){"number"==typeof e&&(t=Math.min(t,e));})),t},max:function(e){var t=e[0]||0;return e.forEach((function(e){"number"==typeof e&&(t=Math.max(t,e));})),t},minMax:function(e){var t=e[0]||0,n=e[0]||0;return e.forEach((function(e){"number"==typeof e&&(t=Math.min(t,e),n=Math.max(n,e));})),t+".."+n},average:function(e){return Ae(0,e)/e.length},median:function(e){if(!e.length)return null;var t=Math.floor(e.length/2),n=[].concat(e).sort((function(e,t){return e-t}));return e.length%2!=0?n[t]:(n[t-1]+n[t])/2},unique:function(e){return Array.from(new Set(e).values())},uniqueCount:function(e){return new Set(e).size},count:function(e){return e.length}}),He=[],Te={};l.resetGroupBy="resetGroupBy",l.setGroupBy="setGroupBy",l.toggleGroupBy="toggleGroupBy";var ze=function(e){e.getGroupByToggleProps=[We],e.stateReducers.push(Oe),e.visibleColumnsDeps.push((function(e,t){var n=t.instance;return [].concat(e,[n.state.groupBy])})),e.visibleColumns.push(Me),e.useInstance.push(Ne),e.prepareRow.push(De);};ze.pluginName="useGroupBy";var We=function(e,t){var n=t.header;return [e,{onClick:n.canGroupBy?function(e){e.persist(),n.toggleGroupBy();}:void 0,style:{cursor:n.canGroupBy?"pointer":void 0},title:"Toggle GroupBy"}]};function Oe(e,t,n,o){if(t.type===l.init)return r({groupBy:[]},e);if(t.type===l.resetGroupBy)return r({},e,{groupBy:o.initialState.groupBy||[]});if(t.type===l.setGroupBy)return r({},e,{groupBy:t.value});if(t.type===l.toggleGroupBy){var i=t.columnId,u=t.value,s=void 0!==u?u:!e.groupBy.includes(i);return r({},e,s?{groupBy:[].concat(e.groupBy,[i])}:{groupBy:e.groupBy.filter((function(e){return e!==i}))})}}function Me(e,t){var n=t.instance.state.groupBy,o=n.map((function(t){return e.find((function(e){return e.id===t}))})).filter(Boolean),r=e.filter((function(e){return !n.includes(e.id)}));return (e=[].concat(o,r)).forEach((function(e){e.isGrouped=n.includes(e.id),e.groupedIndex=n.indexOf(e.id);})),e}var je={};function Ne(e){var n=e.data,o=e.rows,r=e.flatRows,i=e.rowsById,u=e.allColumns,s=e.flatHeaders,a=e.groupByFn,c=void 0===a?Le:a,d=e.manualGroupBy,p=e.aggregations,g=void 0===p?je:p,m=e.plugins,y=e.state.groupBy,R=e.dispatch,b=e.autoResetGroupBy,S=void 0===b||b,C=e.disableGroupBy,x=e.defaultCanGroupBy,P=e.getHooks;v(m,["useColumnOrder","useFilters"],"useGroupBy");var B=h(e);u.forEach((function(t){var n=t.accessor,o=t.defaultGroupBy,r=t.disableGroupBy;t.canGroupBy=n?I(t.canGroupBy,!0!==r&&void 0,!0!==C&&void 0,!0):I(t.canGroupBy,o,x,!1),t.canGroupBy&&(t.toggleGroupBy=function(){return e.toggleGroupBy(t.id)}),t.Aggregated=t.Aggregated||t.Cell;}));var E=t.useCallback((function(e,t){R({type:l.toggleGroupBy,columnId:e,value:t});}),[R]),F=t.useCallback((function(e){R({type:l.setGroupBy,value:e});}),[R]);s.forEach((function(e){e.getGroupByToggleProps=f(P().getGroupByToggleProps,{instance:B(),header:e});}));var A=t.useMemo((function(){if(d||!y.length)return [o,r,i,He,Te,r,i];var e=y.filter((function(e){return u.find((function(t){return t.id===e}))})),t=[],n={},l=[],s={},a=[],f={},p=function o(r,i,d){if(void 0===i&&(i=0),i===e.length)return r;var p=e[i],v=c(r,p);return Object.entries(v).map((function(r,c){var v=r[0],m=r[1],h=p+":"+v,y=o(m,i+1,h=d?d+">"+h:h),w=i?G(m,"leafRows"):m,R=function(t,n,o){var r={};return u.forEach((function(i){if(e.includes(i.id))r[i.id]=n[0]?n[0].values[i.id]:null;else {var u="function"==typeof i.aggregate?i.aggregate:g[i.aggregate]||ke[i.aggregate];if(u){var l=n.map((function(e){return e.values[i.id]})),s=t.map((function(e){var t=e.values[i.id];if(!o&&i.aggregateValue){var n="function"==typeof i.aggregateValue?i.aggregateValue:g[i.aggregateValue]||ke[i.aggregateValue];if(!n)throw console.info({column:i}),new Error("React Table: Invalid column.aggregateValue option for column listed above");t=n(t,e,i);}return t}));r[i.id]=u(s,l);}else {if(i.aggregate)throw console.info({column:i}),new Error("React Table: Invalid column.aggregate option for column listed above");r[i.id]=null;}}})),r}(w,m,i),b={id:h,isGrouped:!0,groupByID:p,groupByVal:v,values:R,subRows:y,leafRows:w,depth:i,index:c};return y.forEach((function(e){t.push(e),n[e.id]=e,e.isGrouped?(l.push(e),s[e.id]=e):(a.push(e),f[e.id]=e);})),b}))}(o);return p.forEach((function(e){t.push(e),n[e.id]=e,e.isGrouped?(l.push(e),s[e.id]=e):(a.push(e),f[e.id]=e);})),[p,t,n,l,s,a,f]}),[d,y,o,r,i,u,g,c]),k=A[0],H=A[1],T=A[2],z=A[3],W=A[4],O=A[5],M=A[6],j=h(S);w((function(){j()&&R({type:l.resetGroupBy});}),[R,d?null:n]),Object.assign(e,{preGroupedRows:o,preGroupedFlatRow:r,preGroupedRowsById:i,groupedRows:k,groupedFlatRows:H,groupedRowsById:T,onlyGroupedFlatRows:z,onlyGroupedRowsById:W,nonGroupedFlatRows:O,nonGroupedRowsById:M,rows:k,flatRows:H,rowsById:T,toggleGroupBy:E,setGroupBy:F});}function De(e){e.allCells.forEach((function(t){var n;t.isGrouped=t.column.isGrouped&&t.column.id===e.groupByID,t.isPlaceholder=!t.isGrouped&&t.column.isGrouped,t.isAggregated=!t.isGrouped&&!t.isPlaceholder&&(null==(n=e.subRows)?void 0:n.length);}));}function Le(e,t){return e.reduce((function(e,n,o){var r=""+n.values[t];return e[r]=Array.isArray(e[r])?e[r]:[],e[r].push(n),e}),{})}var Ve=/([0-9]+)/gm;function _e(e,t){return e===t?0:e>t?1:-1}function Xe(e,t){return e.values[t]}function qe(e){return "number"==typeof e?isNaN(e)||e===1/0||e===-1/0?"":String(e):"string"==typeof e?e:""}var Ke=Object.freeze({__proto__:null,alphanumeric:function(e,t,n){var o=Xe(e,n),r=Xe(t,n);for(o=qe(o),r=qe(r),o=o.split(Ve).filter(Boolean),r=r.split(Ve).filter(Boolean);o.length&&r.length;){var i=o.shift(),u=r.shift(),l=parseInt(i,10),s=parseInt(u,10),a=[l,s].sort();if(isNaN(a[0])){if(i>u)return 1;if(u>i)return -1}else {if(isNaN(a[1]))return isNaN(l)?-1:1;if(l>s)return 1;if(s>l)return -1}}return o.length-r.length},datetime:function(e,t,n){var o=Xe(e,n),r=Xe(t,n);return _e(o=o.getTime(),r=r.getTime())},basic:function(e,t,n){return _e(Xe(e,n),Xe(t,n))}});l.resetSortBy="resetSortBy",l.setSortBy="setSortBy",l.toggleSortBy="toggleSortBy",l.clearSortBy="clearSortBy",c.sortType="alphanumeric",c.sortDescFirst=!1;var Ue=function(e){e.getSortByToggleProps=[$e],e.stateReducers.push(Je),e.useInstance.push(Ye);};Ue.pluginName="useSortBy";var $e=function(e,t){var n=t.instance,o=t.column,r=n.isMultiSortEvent,i=void 0===r?function(e){return e.shiftKey}:r;return [e,{onClick:o.canSort?function(e){e.persist(),o.toggleSortBy(void 0,!n.disableMultiSort&&i(e));}:void 0,style:{cursor:o.canSort?"pointer":void 0},title:o.canSort?"Toggle SortBy":void 0}]};function Je(e,t,n,o){if(t.type===l.init)return r({sortBy:[]},e);if(t.type===l.resetSortBy)return r({},e,{sortBy:o.initialState.sortBy||[]});if(t.type===l.clearSortBy)return r({},e,{sortBy:e.sortBy.filter((function(e){return e.id!==t.columnId}))});if(t.type===l.setSortBy)return r({},e,{sortBy:t.sortBy});if(t.type===l.toggleSortBy){var i,u=t.columnId,s=t.desc,a=t.multi,c=o.allColumns,d=o.disableMultiSort,f=o.disableSortRemove,p=o.disableMultiRemove,g=o.maxMultiSortColCount,v=void 0===g?Number.MAX_SAFE_INTEGER:g,m=e.sortBy,h=c.find((function(e){return e.id===u})).sortDescFirst,y=m.find((function(e){return e.id===u})),w=m.findIndex((function(e){return e.id===u})),R=null!=s,b=[];return "toggle"!==(i=!d&&a?y?"toggle":"add":w!==m.length-1||1!==m.length?"replace":y?"toggle":"replace")||f||R||a&&p||!(y&&y.desc&&!h||!y.desc&&h)||(i="remove"),"replace"===i?b=[{id:u,desc:R?s:h}]:"add"===i?(b=[].concat(m,[{id:u,desc:R?s:h}])).splice(0,b.length-v):"toggle"===i?b=m.map((function(e){return e.id===u?r({},e,{desc:R?s:!y.desc}):e})):"remove"===i&&(b=m.filter((function(e){return e.id!==u}))),r({},e,{sortBy:b})}}function Ye(e){var n=e.data,o=e.rows,r=e.flatRows,i=e.allColumns,u=e.orderByFn,s=void 0===u?Qe:u,a=e.sortTypes,c=e.manualSortBy,d=e.defaultCanSort,p=e.disableSortBy,g=e.flatHeaders,m=e.state.sortBy,y=e.dispatch,R=e.plugins,b=e.getHooks,S=e.autoResetSortBy,C=void 0===S||S;v(R,["useFilters","useGlobalFilter","useGroupBy","usePivotColumns"],"useSortBy");var x=t.useCallback((function(e){y({type:l.setSortBy,sortBy:e});}),[y]),P=t.useCallback((function(e,t,n){y({type:l.toggleSortBy,columnId:e,desc:t,multi:n});}),[y]),B=h(e);g.forEach((function(e){var t=e.accessor,n=e.canSort,o=e.disableSortBy,r=e.id,i=t?I(!0!==o&&void 0,!0!==p&&void 0,!0):I(d,n,!1);e.canSort=i,e.canSort&&(e.toggleSortBy=function(t,n){return P(e.id,t,n)},e.clearSortBy=function(){y({type:l.clearSortBy,columnId:e.id});}),e.getSortByToggleProps=f(b().getSortByToggleProps,{instance:B(),column:e});var u=m.find((function(e){return e.id===r}));e.isSorted=!!u,e.sortedIndex=m.findIndex((function(e){return e.id===r})),e.isSortedDesc=e.isSorted?u.desc:void 0;}));var E=t.useMemo((function(){if(c||!m.length)return [o,r];var e=[],t=m.filter((function(e){return i.find((function(t){return t.id===e.id}))}));return [function n(o){var r=s(o,t.map((function(e){var t=i.find((function(t){return t.id===e.id}));if(!t)throw new Error("React-Table: Could not find a column with id: "+e.id+" while sorting");var n=t.sortType,o=F(n)||(a||{})[n]||Ke[n];if(!o)throw new Error("React-Table: Could not find a valid sortType of '"+n+"' for column '"+e.id+"'.");return function(t,n){return o(t,n,e.id,e.desc)}})),t.map((function(e){var t=i.find((function(t){return t.id===e.id}));return t&&t.sortInverted?e.desc:!e.desc})));return r.forEach((function(t){e.push(t),t.subRows&&0!==t.subRows.length&&(t.subRows=n(t.subRows));})),r}(o),e]}),[c,m,o,r,i,s,a]),G=E[0],A=E[1],k=h(C);w((function(){k()&&y({type:l.resetSortBy});}),[c?null:n]),Object.assign(e,{preSortedRows:o,preSortedFlatRows:r,sortedRows:G,sortedFlatRows:A,rows:G,flatRows:A,setSortBy:x,toggleSortBy:P});}function Qe(e,t,n){return [].concat(e).sort((function(e,o){for(var r=0;r<t.length;r+=1){var i=t[r],u=!1===n[r]||"desc"===n[r],l=i(e,o);if(0!==l)return u?-l:l}return n[0]?e.index-o.index:o.index-e.index}))}l.resetPage="resetPage",l.gotoPage="gotoPage",l.setPageSize="setPageSize";var Ze=function(e){e.stateReducers.push(et),e.useInstance.push(tt);};function et(e,t,n,o){if(t.type===l.init)return r({pageSize:10,pageIndex:0},e);if(t.type===l.resetPage)return r({},e,{pageIndex:o.initialState.pageIndex||0});if(t.type===l.gotoPage){var i=o.pageCount,u=o.page,s=m(t.pageIndex,e.pageIndex),a=!1;return s>e.pageIndex?a=-1===i?u.length>=e.pageSize:s<i:s<e.pageIndex&&(a=s>-1),a?r({},e,{pageIndex:s}):e}if(t.type===l.setPageSize){var c=t.pageSize,d=e.pageSize*e.pageIndex;return r({},e,{pageIndex:Math.floor(d/c),pageSize:c})}}function tt(e){var n=e.rows,o=e.autoResetPage,r=void 0===o||o,i=e.manualExpandedKey,u=void 0===i?"expanded":i,s=e.plugins,a=e.pageCount,c=e.paginateExpandedRows,d=void 0===c||c,f=e.expandSubRows,p=void 0===f||f,g=e.state,m=g.pageSize,y=g.pageIndex,R=g.expanded,b=g.globalFilter,S=g.filters,C=g.groupBy,x=g.sortBy,P=e.dispatch,B=e.data,E=e.manualPagination;v(s,["useGlobalFilter","useFilters","useGroupBy","useSortBy","useExpanded"],"usePagination");var I=h(r);w((function(){I()&&P({type:l.resetPage});}),[P,E?null:B,b,S,C,x]);var F=E?a:Math.ceil(n.length/m),G=t.useMemo((function(){return F>0?[].concat(new Array(F)).fill(null).map((function(e,t){return t})):[]}),[F]),k=t.useMemo((function(){var e;if(E)e=n;else {var t=m*y,o=t+m;e=n.slice(t,o);}return d?e:A(e,{manualExpandedKey:u,expanded:R,expandSubRows:p})}),[p,R,u,E,y,m,d,n]),H=y>0,T=-1===F?k.length>=m:y<F-1,z=t.useCallback((function(e){P({type:l.gotoPage,pageIndex:e});}),[P]),W=t.useCallback((function(){return z((function(e){return e-1}))}),[z]),O=t.useCallback((function(){return z((function(e){return e+1}))}),[z]),M=t.useCallback((function(e){P({type:l.setPageSize,pageSize:e});}),[P]);Object.assign(e,{pageOptions:G,pageCount:F,page:k,canPreviousPage:H,canNextPage:T,gotoPage:z,previousPage:W,nextPage:O,setPageSize:M});}Ze.pluginName="usePagination",l.resetPivot="resetPivot",l.togglePivot="togglePivot";var nt=function(e){e.getPivotToggleProps=[rt],e.stateReducers.push(it),e.useInstanceAfterData.push(ut),e.allColumns.push(lt),e.accessValue.push(st),e.materializedColumns.push(at),e.materializedColumnsDeps.push(ct),e.visibleColumns.push(dt),e.visibleColumnsDeps.push(ft),e.useInstance.push(pt),e.prepareRow.push(gt);};nt.pluginName="usePivotColumns";var ot=[],rt=function(e,t){var n=t.header;return [e,{onClick:n.canPivot?function(e){e.persist(),n.togglePivot();}:void 0,style:{cursor:n.canPivot?"pointer":void 0},title:"Toggle Pivot"}]};function it(e,t,n,o){if(t.type===l.init)return r({pivotColumns:ot},e);if(t.type===l.resetPivot)return r({},e,{pivotColumns:o.initialState.pivotColumns||ot});if(t.type===l.togglePivot){var i=t.columnId,u=t.value,s=void 0!==u?u:!e.pivotColumns.includes(i);return r({},e,s?{pivotColumns:[].concat(e.pivotColumns,[i])}:{pivotColumns:e.pivotColumns.filter((function(e){return e!==i}))})}}function ut(e){e.allColumns.forEach((function(t){t.isPivotSource=e.state.pivotColumns.includes(t.id);}));}function lt(e,t){var n=t.instance;return e.forEach((function(e){e.isPivotSource=n.state.pivotColumns.includes(e.id),e.uniqueValues=new Set;})),e}function st(e,t){var n=t.column;return n.uniqueValues&&void 0!==e&&n.uniqueValues.add(e),e}function at(e,t){var n=t.instance,o=n.allColumns,i=n.state;if(!i.pivotColumns.length||!i.groupBy||!i.groupBy.length)return e;var u=i.pivotColumns.map((function(e){return o.find((function(t){return t.id===e}))})).filter(Boolean),l=o.filter((function(e){return !e.isPivotSource&&!i.groupBy.includes(e.id)&&!i.pivotColumns.includes(e.id)})),s=C(function e(t,n,o){void 0===t&&(t=0),void 0===o&&(o=[]);var i=u[t];return i?Array.from(i.uniqueValues).sort().map((function(u){var l=r({},i,{Header:i.PivotHeader||"string"==typeof i.header?i.Header+": "+u:u,isPivotGroup:!0,parent:n,depth:t,id:n?n.id+"."+i.id+"."+u:i.id+"."+u,pivotValue:u});return l.columns=e(t+1,l,[].concat(o,[function(e){return e.values[i.id]===u}])),l})):l.map((function(e){return r({},e,{canPivot:!1,isPivoted:!0,parent:n,depth:t,id:""+(n?n.id+"."+e.id:e.id),accessor:function(t,n,r){if(o.every((function(e){return e(r)})))return r.values[e.id]}})}))}());return [].concat(e,s)}function ct(e,t){var n=t.instance.state,o=n.pivotColumns,r=n.groupBy;return [].concat(e,[o,r])}function dt(e,t){var n=t.instance.state;return e=e.filter((function(e){return !e.isPivotSource})),n.pivotColumns.length&&n.groupBy&&n.groupBy.length&&(e=e.filter((function(e){return e.isGrouped||e.isPivoted}))),e}function ft(e,t){var n=t.instance;return [].concat(e,[n.state.pivotColumns,n.state.groupBy])}function pt(e){var t=e.columns,n=e.allColumns,o=e.flatHeaders,r=e.getHooks,i=e.plugins,u=e.dispatch,s=e.autoResetPivot,a=void 0===s||s,c=e.manaulPivot,d=e.disablePivot,p=e.defaultCanPivot;v(i,["useGroupBy"],"usePivotColumns");var g=h(e);n.forEach((function(t){var n=t.accessor,o=t.defaultPivot,r=t.disablePivot;t.canPivot=n?I(t.canPivot,!0!==r&&void 0,!0!==d&&void 0,!0):I(t.canPivot,o,p,!1),t.canPivot&&(t.togglePivot=function(){return e.togglePivot(t.id)}),t.Aggregated=t.Aggregated||t.Cell;}));o.forEach((function(e){e.getPivotToggleProps=f(r().getPivotToggleProps,{instance:g(),header:e});}));var m=h(a);w((function(){m()&&u({type:l.resetPivot});}),[u,c?null:t]),Object.assign(e,{togglePivot:function(e,t){u({type:l.togglePivot,columnId:e,value:t});}});}function gt(e){e.allCells.forEach((function(e){e.isPivoted=e.column.isPivoted;}));}l.resetSelectedRows="resetSelectedRows",l.toggleAllRowsSelected="toggleAllRowsSelected",l.toggleRowSelected="toggleRowSelected",l.toggleAllPageRowsSelected="toggleAllPageRowsSelected";var vt=function(e){e.getToggleRowSelectedProps=[mt],e.getToggleAllRowsSelectedProps=[ht],e.getToggleAllPageRowsSelectedProps=[yt],e.stateReducers.push(wt),e.useInstance.push(Rt),e.prepareRow.push(bt);};vt.pluginName="useRowSelect";var mt=function(e,t){var n=t.instance,o=t.row,r=n.manualRowSelectedKey,i=void 0===r?"isSelected":r;return [e,{onChange:function(e){o.toggleRowSelected(e.target.checked);},style:{cursor:"pointer"},checked:!(!o.original||!o.original[i])||o.isSelected,title:"Toggle Row Selected",indeterminate:o.isSomeSelected}]},ht=function(e,t){var n=t.instance;return [e,{onChange:function(e){n.toggleAllRowsSelected(e.target.checked);},style:{cursor:"pointer"},checked:n.isAllRowsSelected,title:"Toggle All Rows Selected",indeterminate:Boolean(!n.isAllRowsSelected&&Object.keys(n.state.selectedRowIds).length)}]},yt=function(e,t){var n=t.instance;return [e,{onChange:function(e){n.toggleAllPageRowsSelected(e.target.checked);},style:{cursor:"pointer"},checked:n.isAllPageRowsSelected,title:"Toggle All Current Page Rows Selected",indeterminate:Boolean(!n.isAllPageRowsSelected&&n.page.some((function(e){var t=e.id;return n.state.selectedRowIds[t]})))}]};function wt(e,t,n,o){if(t.type===l.init)return r({selectedRowIds:{}},e);if(t.type===l.resetSelectedRows)return r({},e,{selectedRowIds:o.initialState.selectedRowIds||{}});if(t.type===l.toggleAllRowsSelected){var i=t.value,u=o.isAllRowsSelected,s=o.rowsById,a=o.nonGroupedRowsById,c=void 0===a?s:a,d=void 0!==i?i:!u,f=Object.assign({},e.selectedRowIds);return d?Object.keys(c).forEach((function(e){f[e]=!0;})):Object.keys(c).forEach((function(e){delete f[e];})),r({},e,{selectedRowIds:f})}if(t.type===l.toggleRowSelected){var p=t.id,g=t.value,v=o.rowsById,m=o.selectSubRows,h=void 0===m||m,y=o.getSubRows,w=e.selectedRowIds[p],R=void 0!==g?g:!w;if(w===R)return e;var b=r({},e.selectedRowIds);return function e(t){var n=v[t];if(n.isGrouped||(R?b[t]=!0:delete b[t]),h&&y(n))return y(n).forEach((function(t){return e(t.id)}))}(p),r({},e,{selectedRowIds:b})}if(t.type===l.toggleAllPageRowsSelected){var S=t.value,C=o.page,x=o.rowsById,P=o.selectSubRows,B=void 0===P||P,E=o.isAllPageRowsSelected,I=o.getSubRows,F=void 0!==S?S:!E,G=r({},e.selectedRowIds);return C.forEach((function(e){return function e(t){var n=x[t];if(n.isGrouped||(F?G[t]=!0:delete G[t]),B&&I(n))return I(n).forEach((function(t){return e(t.id)}))}(e.id)})),r({},e,{selectedRowIds:G})}return e}function Rt(e){var n=e.data,o=e.rows,r=e.getHooks,i=e.plugins,u=e.rowsById,s=e.nonGroupedRowsById,a=void 0===s?u:s,c=e.autoResetSelectedRows,d=void 0===c||c,p=e.state.selectedRowIds,g=e.selectSubRows,m=void 0===g||g,y=e.dispatch,R=e.page,b=e.getSubRows;v(i,["useFilters","useGroupBy","useSortBy","useExpanded","usePagination"],"useRowSelect");var S=t.useMemo((function(){var e=[];return o.forEach((function(t){var n=m?function e(t,n,o){if(n[t.id])return !0;var r=o(t);if(r&&r.length){var i=!0,u=!1;return r.forEach((function(t){u&&!i||(e(t,n,o)?u=!0:i=!1);})),!!i||!!u&&null}return !1}(t,p,b):!!p[t.id];t.isSelected=!!n,t.isSomeSelected=null===n,n&&e.push(t);})),e}),[o,m,p,b]),C=Boolean(Object.keys(a).length&&Object.keys(p).length),x=C;C&&Object.keys(a).some((function(e){return !p[e]}))&&(C=!1),C||R&&R.length&&R.some((function(e){var t=e.id;return !p[t]}))&&(x=!1);var P=h(d);w((function(){P()&&y({type:l.resetSelectedRows});}),[y,n]);var B=t.useCallback((function(e){return y({type:l.toggleAllRowsSelected,value:e})}),[y]),E=t.useCallback((function(e){return y({type:l.toggleAllPageRowsSelected,value:e})}),[y]),I=t.useCallback((function(e,t){return y({type:l.toggleRowSelected,id:e,value:t})}),[y]),F=h(e),G=f(r().getToggleAllRowsSelectedProps,{instance:F()}),A=f(r().getToggleAllPageRowsSelectedProps,{instance:F()});Object.assign(e,{selectedFlatRows:S,isAllRowsSelected:C,isAllPageRowsSelected:x,toggleRowSelected:I,toggleAllRowsSelected:B,getToggleAllRowsSelectedProps:G,getToggleAllPageRowsSelectedProps:A,toggleAllPageRowsSelected:E});}function bt(e,t){var n=t.instance;e.toggleRowSelected=function(t){return n.toggleRowSelected(e.id,t)},e.getToggleRowSelectedProps=f(n.getHooks().getToggleRowSelectedProps,{instance:n,row:e});}var St=function(e){return {}},Ct=function(e){return {}};l.setRowState="setRowState",l.setCellState="setCellState",l.resetRowState="resetRowState";var xt=function(e){e.stateReducers.push(Pt),e.useInstance.push(Bt),e.prepareRow.push(Et);};function Pt(e,t,n,o){var i=o.initialRowStateAccessor,u=void 0===i?St:i,s=o.initialCellStateAccessor,a=void 0===s?Ct:s,c=o.rowsById;if(t.type===l.init)return r({rowState:{}},e);if(t.type===l.resetRowState)return r({},e,{rowState:o.initialState.rowState||{}});if(t.type===l.setRowState){var d,f=t.rowId,p=t.value,g=void 0!==e.rowState[f]?e.rowState[f]:u(c[f]);return r({},e,{rowState:r({},e.rowState,(d={},d[f]=m(p,g),d))})}if(t.type===l.setCellState){var v,h,y,w,R,b=t.rowId,S=t.columnId,C=t.value,x=void 0!==e.rowState[b]?e.rowState[b]:u(c[b]),P=void 0!==(null==x?void 0:null==(v=x.cellState)?void 0:v[S])?x.cellState[S]:a(null==(h=c[b])?void 0:null==(y=h.cells)?void 0:y.find((function(e){return e.column.id===S})));return r({},e,{rowState:r({},e.rowState,(R={},R[b]=r({},x,{cellState:r({},x.cellState||{},(w={},w[S]=m(C,P),w))}),R))})}}function Bt(e){var n=e.autoResetRowState,o=void 0===n||n,r=e.data,i=e.dispatch,u=t.useCallback((function(e,t){return i({type:l.setRowState,rowId:e,value:t})}),[i]),s=t.useCallback((function(e,t,n){return i({type:l.setCellState,rowId:e,columnId:t,value:n})}),[i]),a=h(o);w((function(){a()&&i({type:l.resetRowState});}),[r]),Object.assign(e,{setRowState:u,setCellState:s});}function Et(e,t){var n=t.instance,o=n.initialRowStateAccessor,r=void 0===o?St:o,i=n.initialCellStateAccessor,u=void 0===i?Ct:i,l=n.state.rowState;e&&(e.state=void 0!==l[e.id]?l[e.id]:r(e),e.setState=function(t){return n.setRowState(e.id,t)},e.cells.forEach((function(t){e.state.cellState||(e.state.cellState={}),t.state=void 0!==e.state.cellState[t.column.id]?e.state.cellState[t.column.id]:u(t),t.setState=function(o){return n.setCellState(e.id,t.column.id,o)};})));}xt.pluginName="useRowState",l.resetColumnOrder="resetColumnOrder",l.setColumnOrder="setColumnOrder";var It=function(e){e.stateReducers.push(Ft),e.visibleColumnsDeps.push((function(e,t){var n=t.instance;return [].concat(e,[n.state.columnOrder])})),e.visibleColumns.push(Gt),e.useInstance.push(At);};function Ft(e,t,n,o){return t.type===l.init?r({columnOrder:[]},e):t.type===l.resetColumnOrder?r({},e,{columnOrder:o.initialState.columnOrder||[]}):t.type===l.setColumnOrder?r({},e,{columnOrder:m(t.columnOrder,e.columnOrder)}):void 0}function Gt(e,t){var n=t.instance.state.columnOrder;if(!n||!n.length)return e;for(var o=[].concat(n),r=[].concat(e),i=[],u=function(){var e=o.shift(),t=r.findIndex((function(t){return t.id===e}));t>-1&&i.push(r.splice(t,1)[0]);};r.length&&o.length;)u();return [].concat(i,r)}function At(e){var n=e.dispatch;e.setColumnOrder=t.useCallback((function(e){return n({type:l.setColumnOrder,columnOrder:e})}),[n]);}It.pluginName="useColumnOrder",c.canResize=!0,l.columnStartResizing="columnStartResizing",l.columnResizing="columnResizing",l.columnDoneResizing="columnDoneResizing",l.resetResize="resetResize";var kt=function(e){e.getResizerProps=[Ht],e.getHeaderProps.push({style:{position:"relative"}}),e.stateReducers.push(Tt),e.useInstance.push(Wt),e.useInstanceBeforeDimensions.push(zt);},Ht=function(e,t){var n=t.instance,o=t.header,r=n.dispatch,i=function(e,t){var n=!1;if("touchstart"===e.type){if(e.touches&&e.touches.length>1)return;n=!0;}var o=function(e){var t=[];return function e(n){n.columns&&n.columns.length&&n.columns.map(e);t.push(n);}(e),t}(t).map((function(e){return [e.id,e.totalWidth]})),i=n?Math.round(e.touches[0].clientX):e.clientX,u=function(e){r({type:l.columnResizing,clientX:e});},s=function(){return r({type:l.columnDoneResizing})},a={mouse:{moveEvent:"mousemove",moveHandler:function(e){return u(e.clientX)},upEvent:"mouseup",upHandler:function(e){document.removeEventListener("mousemove",a.mouse.moveHandler),document.removeEventListener("mouseup",a.mouse.upHandler),s();}},touch:{moveEvent:"touchmove",moveHandler:function(e){return e.cancelable&&(e.preventDefault(),e.stopPropagation()),u(e.touches[0].clientX),!1},upEvent:"touchend",upHandler:function(e){document.removeEventListener(a.touch.moveEvent,a.touch.moveHandler),document.removeEventListener(a.touch.upEvent,a.touch.moveHandler),s();}}},c=n?a.touch:a.mouse,d=!!function(){if("boolean"==typeof z)return z;var e=!1;try{var t={get passive(){return e=!0,!1}};window.addEventListener("test",null,t),window.removeEventListener("test",null,t);}catch(t){e=!1;}return z=e}()&&{passive:!1};document.addEventListener(c.moveEvent,c.moveHandler,d),document.addEventListener(c.upEvent,c.upHandler,d),r({type:l.columnStartResizing,columnId:t.id,columnWidth:t.totalWidth,headerIdWidths:o,clientX:i});};return [e,{onMouseDown:function(e){return e.persist()||i(e,o)},onTouchStart:function(e){return e.persist()||i(e,o)},style:{cursor:"col-resize"},draggable:!1,role:"separator"}]};function Tt(e,t){if(t.type===l.init)return r({columnResizing:{columnWidths:{}}},e);if(t.type===l.resetResize)return r({},e,{columnResizing:{columnWidths:{}}});if(t.type===l.columnStartResizing){var n=t.clientX,o=t.columnId,i=t.columnWidth,u=t.headerIdWidths;return r({},e,{columnResizing:r({},e.columnResizing,{startX:n,headerIdWidths:u,columnWidth:i,isResizingColumn:o})})}if(t.type===l.columnResizing){var s=t.clientX,a=e.columnResizing,c=a.startX,d=a.columnWidth,f=a.headerIdWidths,p=(s-c)/d,g={};return (void 0===f?[]:f).forEach((function(e){var t=e[0],n=e[1];g[t]=Math.max(n+n*p,0);})),r({},e,{columnResizing:r({},e.columnResizing,{columnWidths:r({},e.columnResizing.columnWidths,{},g)})})}return t.type===l.columnDoneResizing?r({},e,{columnResizing:r({},e.columnResizing,{startX:null,isResizingColumn:null})}):void 0}kt.pluginName="useResizeColumns";var zt=function(e){var t=e.flatHeaders,n=e.disableResizing,o=e.getHooks,r=e.state.columnResizing,i=h(e);t.forEach((function(e){var t=I(!0!==e.disableResizing&&void 0,!0!==n&&void 0,!0);e.canResize=t,e.width=r.columnWidths[e.id]||e.originalWidth||e.width,e.isResizing=r.isResizingColumn===e.id,t&&(e.getResizerProps=f(o().getResizerProps,{instance:i(),header:e}));}));};function Wt(e){var n=e.plugins,o=e.dispatch,r=e.autoResetResize,i=void 0===r||r,u=e.columns;v(n,["useAbsoluteLayout"],"useResizeColumns");var s=h(i);w((function(){s()&&o({type:l.resetResize});}),[u]);var a=t.useCallback((function(){return o({type:l.resetResize})}),[o]);Object.assign(e,{resetResizing:a});}var Ot={position:"absolute",top:0},Mt=function(e){e.getTableBodyProps.push(jt),e.getRowProps.push(jt),e.getHeaderGroupProps.push(jt),e.getFooterGroupProps.push(jt),e.getHeaderProps.push((function(e,t){var n=t.column;return [e,{style:r({},Ot,{left:n.totalLeft+"px",width:n.totalWidth+"px"})}]})),e.getCellProps.push((function(e,t){var n=t.cell;return [e,{style:r({},Ot,{left:n.column.totalLeft+"px",width:n.column.totalWidth+"px"})}]})),e.getFooterProps.push((function(e,t){var n=t.column;return [e,{style:r({},Ot,{left:n.totalLeft+"px",width:n.totalWidth+"px"})}]}));};Mt.pluginName="useAbsoluteLayout";var jt=function(e,t){return [e,{style:{position:"relative",width:t.instance.totalColumnsWidth+"px"}}]},Nt={display:"inline-block",boxSizing:"border-box"},Dt=function(e,t){return [e,{style:{display:"flex",width:t.instance.totalColumnsWidth+"px"}}]},Lt=function(e){e.getRowProps.push(Dt),e.getHeaderGroupProps.push(Dt),e.getFooterGroupProps.push(Dt),e.getHeaderProps.push((function(e,t){var n=t.column;return [e,{style:r({},Nt,{width:n.totalWidth+"px"})}]})),e.getCellProps.push((function(e,t){var n=t.cell;return [e,{style:r({},Nt,{width:n.column.totalWidth+"px"})}]})),e.getFooterProps.push((function(e,t){var n=t.column;return [e,{style:r({},Nt,{width:n.totalWidth+"px"})}]}));};function Vt(e){e.getTableProps.push(_t),e.getRowProps.push(Xt),e.getHeaderGroupProps.push(Xt),e.getFooterGroupProps.push(Xt),e.getHeaderProps.push(qt),e.getCellProps.push(Kt),e.getFooterProps.push(Ut);}Lt.pluginName="useBlockLayout",Vt.pluginName="useFlexLayout";var _t=function(e,t){return [e,{style:{minWidth:t.instance.totalColumnsMinWidth+"px"}}]},Xt=function(e,t){return [e,{style:{display:"flex",flex:"1 0 auto",minWidth:t.instance.totalColumnsMinWidth+"px"}}]},qt=function(e,t){var n=t.column;return [e,{style:{boxSizing:"border-box",flex:n.totalFlexWidth?n.totalFlexWidth+" 0 auto":void 0,minWidth:n.totalMinWidth+"px",width:n.totalWidth+"px"}}]},Kt=function(e,t){var n=t.cell;return [e,{style:{boxSizing:"border-box",flex:n.column.totalFlexWidth+" 0 auto",minWidth:n.column.totalMinWidth+"px",width:n.column.totalWidth+"px"}}]},Ut=function(e,t){var n=t.column;return [e,{style:{boxSizing:"border-box",flex:n.totalFlexWidth?n.totalFlexWidth+" 0 auto":void 0,minWidth:n.totalMinWidth+"px",width:n.totalWidth+"px"}}]};function $t(e){e.stateReducers.push(Qt),e.getTableProps.push(Jt),e.getHeaderProps.push(Yt);}$t.pluginName="useGridLayout";var Jt=function(e,t){return [e,{style:{display:"grid",gridTemplateColumns:t.instance.state.gridLayout.columnWidths.map((function(e){return e})).join(" ")}}]},Yt=function(e,t){return [e,{id:"header-cell-"+t.column.id,style:{position:"sticky"}}]};function Qt(e,t,n,o){if("init"===t.type)return r({gridLayout:{columnWidths:o.columns.map((function(){return "auto"}))}},e);if("columnStartResizing"===t.type){var i=t.columnId,u=o.visibleColumns.findIndex((function(e){return e.id===i})),l=function(e){var t,n=null==(t=document.getElementById("header-cell-"+e))?void 0:t.offsetWidth;if(void 0!==n)return n}(i);return void 0!==l?r({},e,{gridLayout:r({},e.gridLayout,{columnId:i,columnIndex:u,startingWidth:l})}):e}if("columnResizing"===t.type){var s=e.gridLayout,a=s.columnIndex,c=s.startingWidth,d=s.columnWidths,f=c-(e.columnResizing.startX-t.clientX),p=[].concat(d);return p[a]=f+"px",r({},e,{gridLayout:r({},e.gridLayout,{columnWidths:p})})}}e._UNSTABLE_usePivotColumns=nt,e.actions=l,e.defaultColumn=c,e.defaultGroupByFn=Le,e.defaultOrderByFn=Qe,e.defaultRenderer=s,e.emptyRenderer=a,e.ensurePluginOrder=v,e.flexRender=b,e.functionalUpdate=m,e.loopHooks=g,e.makePropGetter=f,e.makeRenderer=R,e.reduceHooks=p,e.safeUseLayoutEffect=y,e.useAbsoluteLayout=Mt,e.useAsyncDebounce=function(e,n){void 0===n&&(n=0);var r=t.useRef({}),i=h(e),u=h(n);return t.useCallback(function(){var e=o(regeneratorRuntime.mark((function e(){var t,n,l,s=arguments;return regeneratorRuntime.wrap((function(e){for(;;)switch(e.prev=e.next){case 0:for(t=s.length,n=new Array(t),l=0;l<t;l++)n[l]=s[l];return r.current.promise||(r.current.promise=new Promise((function(e,t){r.current.resolve=e,r.current.reject=t;}))),r.current.timeout&&clearTimeout(r.current.timeout),r.current.timeout=setTimeout(o(regeneratorRuntime.mark((function e(){return regeneratorRuntime.wrap((function(e){for(;;)switch(e.prev=e.next){case 0:return delete r.current.timeout,e.prev=1,e.t0=r.current,e.next=5,i().apply(void 0,n);case 5:e.t1=e.sent,e.t0.resolve.call(e.t0,e.t1),e.next=12;break;case 9:e.prev=9,e.t2=e.catch(1),r.current.reject(e.t2);case 12:return e.prev=12,delete r.current.promise,e.finish(12);case 15:case"end":return e.stop()}}),e,null,[[1,9,12,15]])}))),u()),e.abrupt("return",r.current.promise);case 5:case"end":return e.stop()}}),e)})));return function(){return e.apply(this,arguments)}}(),[i,u])},e.useBlockLayout=Lt,e.useColumnOrder=It,e.useExpanded=se,e.useFilters=Pe,e.useFlexLayout=Vt,e.useGetLatest=h,e.useGlobalFilter=Ie,e.useGridLayout=$t,e.useGroupBy=ze,e.useMountedLayoutEffect=w,e.usePagination=Ze,e.useResizeColumns=kt,e.useRowSelect=vt,e.useRowState=xt,e.useSortBy=Ue,e.useTable=function(e){for(var n=arguments.length,o=new Array(n>1?n-1:0),i=1;i<n;i++)o[i-1]=arguments[i];e=ie(e),o=[K].concat(o);var u=t.useRef({}),s=h(u.current);Object.assign(s(),r({},e,{plugins:o,hooks:q()})),o.filter(Boolean).forEach((function(e){e(s().hooks);}));var a=h(s().hooks);s().getHooks=a,delete s().hooks,Object.assign(s(),p(a().useOptions,ie(e)));var c=s(),d=c.data,v=c.columns,m=c.initialState,y=c.defaultColumn,w=c.getSubRows,b=c.getRowId,E=c.stateReducer,I=c.useControlledState,F=h(E),G=t.useCallback((function(e,t){if(!t.type)throw console.info({action:t}),new Error("Unknown Action 👆");return [].concat(a().stateReducers,Array.isArray(F())?F():[F()]).reduce((function(n,o){return o(n,t,e,s())||n}),e)}),[a,F,s]),A=t.useReducer(G,void 0,(function(){return G(m,{type:l.init})})),k=A[0],H=A[1],T=p([].concat(a().useControlledState,[I]),k,{instance:s()});Object.assign(s(),{state:T,dispatch:H});var z=t.useMemo((function(){return S(p(a().columns,v,{instance:s()}))}),[a,s,v].concat(p(a().columnsDeps,[],{instance:s()})));s().columns=z;var W=t.useMemo((function(){return p(a().allColumns,C(z),{instance:s()}).map(x)}),[z,a,s].concat(p(a().allColumnsDeps,[],{instance:s()})));s().allColumns=W;var O=t.useMemo((function(){for(var e=[],t=[],n={},o=[].concat(W);o.length;){var r=o.shift();le({data:d,rows:e,flatRows:t,rowsById:n,column:r,getRowId:b,getSubRows:w,accessValueHooks:a().accessValue,getInstance:s});}return [e,t,n]}),[W,d,b,w,a,s]),M=O[0],j=O[1],N=O[2];Object.assign(s(),{rows:M,initialRows:[].concat(M),flatRows:j,rowsById:N}),g(a().useInstanceAfterData,s());var D=t.useMemo((function(){return p(a().visibleColumns,W,{instance:s()}).map((function(e){return P(e,y)}))}),[a,W,s,y].concat(p(a().visibleColumnsDeps,[],{instance:s()})));W=t.useMemo((function(){var e=[].concat(D);return W.forEach((function(t){e.find((function(e){return e.id===t.id}))||e.push(t);})),e}),[W,D]),s().allColumns=W;var L=t.useMemo((function(){return p(a().headerGroups,B(D,y),s())}),[a,D,y,s].concat(p(a().headerGroupsDeps,[],{instance:s()})));s().headerGroups=L;var V=t.useMemo((function(){return L.length?L[0].headers:[]}),[L]);s().headers=V,s().flatHeaders=L.reduce((function(e,t){return [].concat(e,t.headers)}),[]),g(a().useInstanceBeforeDimensions,s());var _=D.filter((function(e){return e.isVisible})).map((function(e){return e.id})).sort().join("_");D=t.useMemo((function(){return D.filter((function(e){return e.isVisible}))}),[D,_]),s().visibleColumns=D;var X=ue(V),U=X[0],$=X[1],J=X[2];return s().totalColumnsMinWidth=U,s().totalColumnsWidth=$,s().totalColumnsMaxWidth=J,g(a().useInstance,s()),[].concat(s().flatHeaders,s().allColumns).forEach((function(e){e.render=R(s(),e),e.getHeaderProps=f(a().getHeaderProps,{instance:s(),column:e}),e.getFooterProps=f(a().getFooterProps,{instance:s(),column:e});})),s().headerGroups=t.useMemo((function(){return L.filter((function(e,t){return e.headers=e.headers.filter((function(e){return e.headers?function e(t){return t.filter((function(t){return t.headers?e(t.headers):t.isVisible})).length}(e.headers):e.isVisible})),!!e.headers.length&&(e.getHeaderGroupProps=f(a().getHeaderGroupProps,{instance:s(),headerGroup:e,index:t}),e.getFooterGroupProps=f(a().getFooterGroupProps,{instance:s(),headerGroup:e,index:t}),!0)}))}),[L,s,a]),s().footerGroups=[].concat(s().headerGroups).reverse(),s().prepareRow=t.useCallback((function(e){e.getRowProps=f(a().getRowProps,{instance:s(),row:e}),e.allCells=W.map((function(t){var n=e.values[t.id],o={column:t,row:e,value:n};return o.getCellProps=f(a().getCellProps,{instance:s(),cell:o}),o.render=R(s(),t,{row:e,cell:o,value:n}),o})),e.cells=D.map((function(t){return e.allCells.find((function(e){return e.column.id===t.id}))})),g(a().prepareRow,e,{instance:s()});}),[a,s,W,D]),s().getTableProps=f(a().getTableProps,{instance:s()}),s().getTableBodyProps=f(a().getTableBodyProps,{instance:s()}),g(a().useFinalInstance,s()),s()},Object.defineProperty(e,"__esModule",{value:!0});}));
 
 });
 
-var reactTable = createCommonjsModule(function (module) {
+var reactTable = createCommonjsModule$1(function (module) {
 {
   module.exports = reactTable_production_min;
 }
@@ -4003,17 +4000,17 @@ var AuditLogTable = function (_a) {
     }, []);
     var tableInstance = reactTable.useTable({ columns: columns, data: data });
     var getTableProps = tableInstance.getTableProps, getTableBodyProps = tableInstance.getTableBodyProps, headerGroups = tableInstance.headerGroups, rows = tableInstance.rows, prepareRow = tableInstance.prepareRow;
-    return (react.createElement("table", __assign({ className: "cam-table" }, getTableProps()),
-        react.createElement("thead", null, headerGroups.map(function (headerGroup) { return (react.createElement("tr", __assign({}, headerGroup.getHeaderGroupProps()), headerGroup.headers.map(function (column) { return (react.createElement("th", __assign({}, column.getHeaderProps()), column.render('Header'))); }))); })),
-        react.createElement("tbody", __assign({}, getTableBodyProps()), rows.map(function (row) {
+    return (react.createElement("table", __assign$1({ className: "cam-table" }, getTableProps()),
+        react.createElement("thead", null, headerGroups.map(function (headerGroup) { return (react.createElement("tr", __assign$1({}, headerGroup.getHeaderGroupProps()), headerGroup.headers.map(function (column) { return (react.createElement("th", __assign$1({}, column.getHeaderProps()), column.render('Header'))); }))); })),
+        react.createElement("tbody", __assign$1({}, getTableBodyProps()), rows.map(function (row) {
             prepareRow(row);
-            return (react.createElement("tr", __assign({}, row.getRowProps()), row.cells.map(function (cell) {
-                return react.createElement("td", __assign({}, cell.getCellProps()), cell.render('Cell'));
+            return (react.createElement("tr", __assign$1({}, row.getRowProps()), row.cells.map(function (cell) {
+                return react.createElement("td", __assign$1({}, cell.getCellProps()), cell.render('Cell'));
             })));
         }))));
 };
 
-var inherits_browser = createCommonjsModule(function (module) {
+var inherits_browser = createCommonjsModule$1(function (module) {
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -4056,7 +4053,7 @@ function flatten(arr) {
 
 var nativeToString = Object.prototype.toString;
 var nativeHasOwnProperty = Object.prototype.hasOwnProperty;
-function isUndefined(obj) {
+function isUndefined$1(obj) {
   return obj === undefined;
 }
 function isDefined(obj) {
@@ -4065,16 +4062,16 @@ function isDefined(obj) {
 function isNil(obj) {
   return obj == null;
 }
-function isArray(obj) {
+function isArray$1(obj) {
   return nativeToString.call(obj) === '[object Array]';
 }
-function isObject(obj) {
+function isObject$1(obj) {
   return nativeToString.call(obj) === '[object Object]';
 }
 function isNumber(obj) {
   return nativeToString.call(obj) === '[object Number]';
 }
-function isFunction(obj) {
+function isFunction$1(obj) {
   var tag = nativeToString.call(obj);
   return tag === '[object Function]' || tag === '[object AsyncFunction]' || tag === '[object GeneratorFunction]' || tag === '[object AsyncGeneratorFunction]' || tag === '[object Proxy]';
 }
@@ -4088,7 +4085,7 @@ function isString(obj) {
  */
 
 function ensureArray(obj) {
-  if (isArray(obj)) {
+  if (isArray$1(obj)) {
     return;
   }
 
@@ -4138,7 +4135,7 @@ function find(collection, matcher) {
 
 function findIndex(collection, matcher) {
   matcher = toMatcher(matcher);
-  var idx = isArray(collection) ? -1 : undefined;
+  var idx = isArray$1(collection) ? -1 : undefined;
   forEach(collection, function (val, key) {
     if (matcher(val, key)) {
       idx = key;
@@ -4178,11 +4175,11 @@ function filter(collection, matcher) {
 function forEach(collection, iterator) {
   var val, result;
 
-  if (isUndefined(collection)) {
+  if (isUndefined$1(collection)) {
     return;
   }
 
-  var convertKey = isArray(collection) ? toNum : identity;
+  var convertKey = isArray$1(collection) ? toNum : identity;
 
   for (var key in collection) {
     if (has(collection, key)) {
@@ -4205,7 +4202,7 @@ function forEach(collection, iterator) {
  */
 
 function without(arr, matcher) {
-  if (isUndefined(arr)) {
+  if (isUndefined$1(arr)) {
     return [];
   }
 
@@ -4256,7 +4253,7 @@ function every(collection, matcher) {
  * @return {Boolean}
  */
 
-function some(collection, matcher) {
+function some$1(collection, matcher) {
   return !!find(collection, matcher);
 }
 /**
@@ -4269,7 +4266,7 @@ function some(collection, matcher) {
  * @return {Array} transformed collection
  */
 
-function map(collection, fn) {
+function map$1(collection, fn) {
   var result = [];
   forEach(collection, function (val, key) {
     result.push(fn(val, key));
@@ -4307,7 +4304,7 @@ function size(collection) {
  */
 
 function values(collection) {
-  return map(collection, function (val) {
+  return map$1(collection, function (val) {
     return val;
   });
 }
@@ -4346,7 +4343,7 @@ function uniqueBy(extractor) {
   forEach(collections, function (c) {
     return groupBy(c, extractor, grouped);
   });
-  var result = map(grouped, function (val, key) {
+  var result = map$1(grouped, function (val, key) {
     return val[0];
   });
   return result;
@@ -4383,7 +4380,7 @@ function sortBy(collection, extractor) {
 
     sorted.push(entry);
   });
-  return map(sorted, function (e) {
+  return map$1(sorted, function (e) {
     return e.v;
   });
 }
@@ -4410,13 +4407,13 @@ function matchPattern(pattern) {
 }
 
 function toExtractor(extractor) {
-  return isFunction(extractor) ? extractor : function (e) {
+  return isFunction$1(extractor) ? extractor : function (e) {
     return e[extractor];
   };
 }
 
 function toMatcher(matcher) {
-  return isFunction(matcher) ? matcher : function (e) {
+  return isFunction$1(matcher) ? matcher : function (e) {
     return e === matcher;
   };
 }
@@ -4508,12 +4505,12 @@ function throttle(fn, interval) {
  * @return {Function} bound function
  */
 
-function bind(fn, target) {
+function bind$2(fn, target) {
   return fn.bind(target);
 }
 
-function _extends$5() {
-  _extends$5 = Object.assign || function (target) {
+function _extends() {
+  _extends = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
 
@@ -4527,7 +4524,7 @@ function _extends$5() {
     return target;
   };
 
-  return _extends$5.apply(this, arguments);
+  return _extends.apply(this, arguments);
 }
 
 /**
@@ -4544,7 +4541,7 @@ function assign(target) {
     others[_key - 1] = arguments[_key];
   }
 
-  return _extends$5.apply(void 0, [target].concat(others));
+  return _extends.apply(void 0, [target].concat(others));
 }
 /**
  * Pick given properties from the target object.
@@ -4606,7 +4603,7 @@ function merge(target) {
 
   forEach(sources, function (source) {
     // skip non-obj sources, i.e. null
-    if (!source || !isObject(source)) {
+    if (!source || !isObject$1(source)) {
       return;
     }
 
@@ -4617,8 +4614,8 @@ function merge(target) {
 
       var targetVal = target[key];
 
-      if (isObject(sourceVal)) {
-        if (!isObject(targetVal)) {
+      if (isObject$1(sourceVal)) {
+        if (!isObject$1(targetVal)) {
           // override target[key] with object
           targetVal = {};
         }
@@ -4642,8 +4639,8 @@ var index_esm = /*#__PURE__*/Object.freeze({
     without: without,
     reduce: reduce,
     every: every,
-    some: some,
-    map: map,
+    some: some$1,
+    map: map$1,
     keys: keys,
     size: size,
     values: values,
@@ -4654,14 +4651,14 @@ var index_esm = /*#__PURE__*/Object.freeze({
     matchPattern: matchPattern,
     debounce: debounce,
     throttle: throttle,
-    bind: bind,
-    isUndefined: isUndefined,
+    bind: bind$2,
+    isUndefined: isUndefined$1,
     isDefined: isDefined,
     isNil: isNil,
-    isArray: isArray,
-    isObject: isObject,
+    isArray: isArray$1,
+    isObject: isObject$1,
     isNumber: isNumber,
-    isFunction: isFunction,
+    isFunction: isFunction$1,
     isString: isString,
     ensureArray: ensureArray,
     has: has,
@@ -4671,7 +4668,7 @@ var index_esm = /*#__PURE__*/Object.freeze({
     merge: merge
 });
 
-var DEFAULT_RENDER_PRIORITY = 1000;
+var DEFAULT_RENDER_PRIORITY$1 = 1000;
 
 /**
  * The base implementation of shape and connection renderers.
@@ -4682,7 +4679,7 @@ var DEFAULT_RENDER_PRIORITY = 1000;
 function BaseRenderer(eventBus, renderPriority) {
   var self = this;
 
-  renderPriority = renderPriority || DEFAULT_RENDER_PRIORITY;
+  renderPriority = renderPriority || DEFAULT_RENDER_PRIORITY$1;
 
   eventBus.on([ 'render.shape', 'render.connection' ], renderPriority, function(evt, context) {
     var type = evt.type,
@@ -4765,7 +4762,7 @@ BaseRenderer.prototype.getConnectionPath = function() {};
  *
  * @return {boolean}
  */
-function is(element, type) {
+function is$2(element, type) {
   var bo = getBusinessObject(element);
 
   return bo && (typeof bo.$instanceOf === 'function') && bo.$instanceOf(type);
@@ -4785,15 +4782,15 @@ function getBusinessObject(element) {
 
 function isExpanded(element) {
 
-  if (is(element, 'bpmn:CallActivity')) {
+  if (is$2(element, 'bpmn:CallActivity')) {
     return false;
   }
 
-  if (is(element, 'bpmn:SubProcess')) {
+  if (is$2(element, 'bpmn:SubProcess')) {
     return getBusinessObject(element).di && !!getBusinessObject(element).di.isExpanded;
   }
 
-  if (is(element, 'bpmn:Participant')) {
+  if (is$2(element, 'bpmn:Participant')) {
     return !!getBusinessObject(element).processRef;
   }
 
@@ -4806,22 +4803,22 @@ function isEventSubProcess(element) {
 
 function getLabelAttr(semantic) {
   if (
-    is(semantic, 'bpmn:FlowElement') ||
-    is(semantic, 'bpmn:Participant') ||
-    is(semantic, 'bpmn:Lane') ||
-    is(semantic, 'bpmn:SequenceFlow') ||
-    is(semantic, 'bpmn:MessageFlow') ||
-    is(semantic, 'bpmn:DataInput') ||
-    is(semantic, 'bpmn:DataOutput')
+    is$2(semantic, 'bpmn:FlowElement') ||
+    is$2(semantic, 'bpmn:Participant') ||
+    is$2(semantic, 'bpmn:Lane') ||
+    is$2(semantic, 'bpmn:SequenceFlow') ||
+    is$2(semantic, 'bpmn:MessageFlow') ||
+    is$2(semantic, 'bpmn:DataInput') ||
+    is$2(semantic, 'bpmn:DataOutput')
   ) {
     return 'name';
   }
 
-  if (is(semantic, 'bpmn:TextAnnotation')) {
+  if (is$2(semantic, 'bpmn:TextAnnotation')) {
     return 'text';
   }
 
-  if (is(semantic, 'bpmn:Group')) {
+  if (is$2(semantic, 'bpmn:Group')) {
     return 'categoryValueRef';
   }
 }
@@ -5014,7 +5011,7 @@ function setAttributes(node, attrs) {
  *
  * @return {String}
  */
-function attr(node, name, value) {
+function attr$1(node, name, value) {
   if (typeof name === 'string') {
     if (value !== undefined) {
       setAttribute(node, name, value);
@@ -5048,7 +5045,7 @@ function index(arr, obj) {
 
 var re$1 = /\s+/;
 
-var toString = Object.prototype.toString;
+var toString$1 = Object.prototype.toString;
 
 function defined(o) {
   return typeof o !== 'undefined';
@@ -5062,11 +5059,11 @@ function defined(o) {
  * @api public
  */
 
-function classes(el) {
-  return new ClassList(el);
+function classes$1(el) {
+  return new ClassList$1(el);
 }
 
-function ClassList(el) {
+function ClassList$1(el) {
   if (!el || !el.nodeType) {
     throw new Error('A DOM element reference is required');
   }
@@ -5082,7 +5079,7 @@ function ClassList(el) {
  * @api public
  */
 
-ClassList.prototype.add = function(name) {
+ClassList$1.prototype.add = function(name) {
 
   // classList
   if (this.list) {
@@ -5116,8 +5113,8 @@ ClassList.prototype.add = function(name) {
  * @api public
  */
 
-ClassList.prototype.remove = function(name) {
-  if ('[object RegExp]' === toString.call(name)) {
+ClassList$1.prototype.remove = function(name) {
+  if ('[object RegExp]' === toString$1.call(name)) {
     return this.removeMatching(name);
   }
 
@@ -5145,7 +5142,7 @@ ClassList.prototype.remove = function(name) {
  * @api private
  */
 
-ClassList.prototype.removeMatching = function(re) {
+ClassList$1.prototype.removeMatching = function(re) {
   var arr = this.array();
   for (var i = 0; i < arr.length; i++) {
     if (re.test(arr[i])) {
@@ -5167,7 +5164,7 @@ ClassList.prototype.removeMatching = function(re) {
  * @api public
  */
 
-ClassList.prototype.toggle = function(name, force) {
+ClassList$1.prototype.toggle = function(name, force) {
   // classList
   if (this.list) {
     if (defined(force)) {
@@ -5205,7 +5202,7 @@ ClassList.prototype.toggle = function(name, force) {
  * @api public
  */
 
-ClassList.prototype.array = function() {
+ClassList$1.prototype.array = function() {
   var className = this.el.getAttribute('class') || '';
   var str = className.replace(/^\s+|\s+$/g, '');
   var arr = str.split(re$1);
@@ -5223,8 +5220,8 @@ ClassList.prototype.array = function() {
  * @api public
  */
 
-ClassList.prototype.has =
-ClassList.prototype.contains = function(name) {
+ClassList$1.prototype.has =
+ClassList$1.prototype.contains = function(name) {
   return (
     this.list ?
       this.list.contains(name) :
@@ -5232,7 +5229,7 @@ ClassList.prototype.contains = function(name) {
   );
 };
 
-function remove(element) {
+function remove$2(element) {
   var parent = element.parentNode;
 
   if (parent) {
@@ -5252,11 +5249,11 @@ function remove(element) {
  * @param  {DOMElement} element
  * @return {DOMElement} the element (for chaining)
  */
-function clear(element) {
+function clear$1(element) {
   var child;
 
   while ((child = element.firstChild)) {
-    remove(child);
+    remove$2(child);
   }
 
   return element;
@@ -5272,7 +5269,7 @@ var ns = {
 
 var SVG_START = '<svg xmlns="' + ns.svg + '"';
 
-function parse(svg) {
+function parse$1(svg) {
 
   var unwrap = false;
 
@@ -5328,18 +5325,18 @@ function parseDocument(svg) {
  *
  * @returns {SVGElement}
  */
-function create(name, attrs) {
+function create$1(name, attrs) {
   var element;
 
   if (name.charAt(0) === '<') {
-    element = parse(name).firstChild;
+    element = parse$1(name).firstChild;
     element = document.importNode(element, true);
   } else {
     element = document.createElementNS(ns.svg, name);
   }
 
   if (attrs) {
-    attr(element, attrs);
+    attr$1(element, attrs);
   }
 
   return element;
@@ -5350,9 +5347,9 @@ function create(name, attrs) {
  */
 
 // fake node used to instantiate svg geometry elements
-var node = create('svg');
+var node = create$1('svg');
 
-function extend(object, props) {
+function extend$1(object, props) {
   var i, k, keys = Object.keys(props);
 
   for (i = 0; (k = keys[i]); i++) {
@@ -5380,9 +5377,9 @@ function createMatrix(a, b, c, d, e, f) {
   case 0:
     return matrix;
   case 1:
-    return extend(matrix, a);
+    return extend$1(matrix, a);
   case 6:
-    return extend(matrix, {
+    return extend$1(matrix, {
       a: a,
       b: b,
       c: c,
@@ -5415,7 +5412,7 @@ var ENTITY_REPLACEMENT = {
   '"': '\''
 };
 
-function escape(str, pattern) {
+function escape$1(str, pattern) {
 
   function replaceFn(match, entity) {
     return ENTITY_REPLACEMENT[entity] || entity;
@@ -5432,7 +5429,7 @@ function serialize(node, output) {
   // TEXT
   case 3:
     // replace special XML characters
-    output.push(escape(node.textContent, TEXT_ENTITIES));
+    output.push(escape$1(node.textContent, TEXT_ENTITIES));
     break;
 
   // ELEMENT
@@ -5443,7 +5440,7 @@ function serialize(node, output) {
       attrMap = node.attributes;
       for (i = 0, len = attrMap.length; i < len; ++i) {
         attrNode = attrMap.item(i);
-        output.push(' ', attrNode.name, '="', escape(attrNode.value, ATTR_ENTITIES), '"');
+        output.push(' ', attrNode.name, '="', escape$1(attrNode.value, ATTR_ENTITIES), '"');
       }
     }
 
@@ -5461,7 +5458,7 @@ function serialize(node, output) {
 
   // COMMENT
   case 8:
-    output.push('<!--', escape(node.nodeValue, TEXT_ENTITIES), '-->');
+    output.push('<!--', escape$1(node.nodeValue, TEXT_ENTITIES), '-->');
     break;
 
   // CDATA
@@ -5482,12 +5479,12 @@ function serialize(node, output) {
  */
 
 
-function set(element, svg) {
+function set$1(element, svg) {
 
-  var parsed = parse(svg);
+  var parsed = parse$1(svg);
 
   // clear element contents
-  clear(element);
+  clear$1(element);
 
   if (!svg) {
     return;
@@ -5498,7 +5495,7 @@ function set(element, svg) {
     parsed = parsed.documentElement;
   }
 
-  var nodes = slice(parsed.childNodes);
+  var nodes = slice$1(parsed.childNodes);
 
   // import + append each node
   for (var i = 0; i < nodes.length; i++) {
@@ -5507,7 +5504,7 @@ function set(element, svg) {
 
 }
 
-function get(element) {
+function get$1(element) {
   var child = element.firstChild,
       output = [];
 
@@ -5528,19 +5525,19 @@ function innerSVG(element, svg) {
   if (svg !== undefined) {
 
     try {
-      set(element, svg);
+      set$1(element, svg);
     } catch (e) {
       throw new Error('error parsing SVG: ' + e.message);
     }
 
     return element;
   } else {
-    return get(element);
+    return get$1(element);
   }
 }
 
 
-function slice(arr) {
+function slice$1(arr) {
   return Array.prototype.slice.call(arr);
 }
 
@@ -5575,7 +5572,7 @@ function setTransforms(transformList, transforms) {
  *
  * @return {SVGTransform} the consolidated transform
  */
-function transform(node, transforms) {
+function transform$1(node, transforms) {
   var transformList = node.transform.baseVal;
 
   if (transforms) {
@@ -5606,18 +5603,18 @@ function toSVGPoints(points) {
 
 function createLine(points, attrs) {
 
-  var line = create('polyline');
-  attr(line, { points: toSVGPoints(points) });
+  var line = create$1('polyline');
+  attr$1(line, { points: toSVGPoints(points) });
 
   if (attrs) {
-    attr(line, attrs);
+    attr$1(line, attrs);
   }
 
   return line;
 }
 
 function updateLine(gfx, points) {
-  attr(gfx, { points: toSVGPoints(points) });
+  attr$1(gfx, { points: toSVGPoints(points) });
 
   return gfx;
 }
@@ -5641,7 +5638,7 @@ function isTypedEvent(event, eventDefinitionType, filter) {
     });
   }
 
-  return some(event.eventDefinitions, function(definition) {
+  return some$1(event.eventDefinitions, function(definition) {
     return definition.$type === eventDefinitionType && matches(event, filter);
   });
 }
@@ -5763,7 +5760,7 @@ function getRectPath(shape) {
  * @param {String} [val]
  * @api public
  */
-function attr$1(el, name, val) {
+function attr(el, name, val) {
   // get
   if (arguments.length == 2) {
     return el.getAttribute(name);
@@ -5800,13 +5797,13 @@ var indexof = function(arr, obj){
  * Whitespace regexp.
  */
 
-var re$2 = /\s+/;
+var re = /\s+/;
 
 /**
  * toString reference.
  */
 
-var toString$1 = Object.prototype.toString;
+var toString = Object.prototype.toString;
 
 /**
  * Wrap `el` in a `ClassList`.
@@ -5816,8 +5813,8 @@ var toString$1 = Object.prototype.toString;
  * @api public
  */
 
-function classes$1(el) {
-  return new ClassList$1(el);
+function classes(el) {
+  return new ClassList(el);
 }
 
 /**
@@ -5827,7 +5824,7 @@ function classes$1(el) {
  * @api private
  */
 
-function ClassList$1(el) {
+function ClassList(el) {
   if (!el || !el.nodeType) {
     throw new Error('A DOM element reference is required');
   }
@@ -5843,7 +5840,7 @@ function ClassList$1(el) {
  * @api public
  */
 
-ClassList$1.prototype.add = function (name) {
+ClassList.prototype.add = function (name) {
   // classList
   if (this.list) {
     this.list.add(name);
@@ -5868,8 +5865,8 @@ ClassList$1.prototype.add = function (name) {
  * @api public
  */
 
-ClassList$1.prototype.remove = function (name) {
-  if ('[object RegExp]' == toString$1.call(name)) {
+ClassList.prototype.remove = function (name) {
+  if ('[object RegExp]' == toString.call(name)) {
     return this.removeMatching(name);
   }
 
@@ -5895,7 +5892,7 @@ ClassList$1.prototype.remove = function (name) {
  * @api private
  */
 
-ClassList$1.prototype.removeMatching = function (re) {
+ClassList.prototype.removeMatching = function (re) {
   var arr = this.array();
   for (var i = 0; i < arr.length; i++) {
     if (re.test(arr[i])) {
@@ -5917,7 +5914,7 @@ ClassList$1.prototype.removeMatching = function (re) {
  * @api public
  */
 
-ClassList$1.prototype.toggle = function (name, force) {
+ClassList.prototype.toggle = function (name, force) {
   // classList
   if (this.list) {
     if ('undefined' !== typeof force) {
@@ -5955,10 +5952,10 @@ ClassList$1.prototype.toggle = function (name, force) {
  * @api public
  */
 
-ClassList$1.prototype.array = function () {
+ClassList.prototype.array = function () {
   var className = this.el.getAttribute('class') || '';
   var str = className.replace(/^\s+|\s+$/g, '');
-  var arr = str.split(re$2);
+  var arr = str.split(re);
   if ('' === arr[0]) arr.shift();
   return arr;
 };
@@ -5971,14 +5968,14 @@ ClassList$1.prototype.array = function () {
  * @api public
  */
 
-ClassList$1.prototype.has = ClassList$1.prototype.contains = function (name) {
+ClassList.prototype.has = ClassList.prototype.contains = function (name) {
   return this.list ? this.list.contains(name) : !!~indexof(this.array(), name);
 };
 
 /**
  * Remove all children from the given element.
  */
-function clear$1(el) {
+function clear(el) {
 
   var c;
 
@@ -6041,9 +6038,9 @@ function closest (element, selector, checkYourSelf) {
   return matchesSelector(currentElem, selector) ? currentElem : null;
 }
 
-var bind$1 = window.addEventListener ? 'addEventListener' : 'attachEvent',
+var bind = window.addEventListener ? 'addEventListener' : 'attachEvent',
     unbind = window.removeEventListener ? 'removeEventListener' : 'detachEvent',
-    prefix = bind$1 !== 'addEventListener' ? 'on' : '';
+    prefix$5 = bind !== 'addEventListener' ? 'on' : '';
 
 /**
  * Bind `el` event `type` to `fn`.
@@ -6057,7 +6054,7 @@ var bind$1 = window.addEventListener ? 'addEventListener' : 'attachEvent',
  */
 
 var bind_1 = function(el, type, fn, capture){
-  el[bind$1](prefix + type, fn, capture || false);
+  el[bind](prefix$5 + type, fn, capture || false);
   return fn;
 };
 
@@ -6073,7 +6070,7 @@ var bind_1 = function(el, type, fn, capture){
  */
 
 var unbind_1 = function(el, type, fn, capture){
-  el[unbind](prefix + type, fn, capture || false);
+  el[unbind](prefix$5 + type, fn, capture || false);
   return fn;
 };
 
@@ -6104,7 +6101,7 @@ var componentEvent = {
 // when delegating.
 var forceCaptureEvents = ['focus', 'blur'];
 
-function bind$1$1(el, selector, type, fn, capture) {
+function bind$1(el, selector, type, fn, capture) {
   if (forceCaptureEvents.indexOf(type) !== -1) {
     capture = true;
   }
@@ -6136,7 +6133,7 @@ function unbind$1(el, type, fn, capture) {
 }
 
 var delegate = {
-  bind: bind$1$1,
+  bind: bind$1,
   unbind: unbind$1
 };
 
@@ -6144,7 +6141,7 @@ var delegate = {
  * Expose `parse`.
  */
 
-var domify = parse$1;
+var domify = parse;
 
 /**
  * Tests for browser support.
@@ -6166,7 +6163,7 @@ if (typeof document !== 'undefined') {
  * Wrap map from jquery.
  */
 
-var map$1 = {
+var map = {
   legend: [1, '<fieldset>', '</fieldset>'],
   tr: [2, '<table><tbody>', '</tbody></table>'],
   col: [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],
@@ -6175,27 +6172,27 @@ var map$1 = {
   _default: innerHTMLBug ? [1, 'X<div>', '</div>'] : [0, '', '']
 };
 
-map$1.td =
-map$1.th = [3, '<table><tbody><tr>', '</tr></tbody></table>'];
+map.td =
+map.th = [3, '<table><tbody><tr>', '</tr></tbody></table>'];
 
-map$1.option =
-map$1.optgroup = [1, '<select multiple="multiple">', '</select>'];
+map.option =
+map.optgroup = [1, '<select multiple="multiple">', '</select>'];
 
-map$1.thead =
-map$1.tbody =
-map$1.colgroup =
-map$1.caption =
-map$1.tfoot = [1, '<table>', '</table>'];
+map.thead =
+map.tbody =
+map.colgroup =
+map.caption =
+map.tfoot = [1, '<table>', '</table>'];
 
-map$1.polyline =
-map$1.ellipse =
-map$1.polygon =
-map$1.circle =
-map$1.text =
-map$1.line =
-map$1.path =
-map$1.rect =
-map$1.g = [1, '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">','</svg>'];
+map.polyline =
+map.ellipse =
+map.polygon =
+map.circle =
+map.text =
+map.line =
+map.path =
+map.rect =
+map.g = [1, '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">','</svg>'];
 
 /**
  * Parse `html` and return a DOM Node instance, which could be a TextNode,
@@ -6208,7 +6205,7 @@ map$1.g = [1, '<svg xmlns="http://www.w3.org/2000/svg" version="1.1">','</svg>']
  * @api private
  */
 
-function parse$1(html, doc) {
+function parse(html, doc) {
   if ('string' != typeof html) throw new TypeError('String expected');
 
   // default to the global `document` object
@@ -6230,7 +6227,7 @@ function parse$1(html, doc) {
   }
 
   // wrap map
-  var wrap = map$1[tag] || map$1._default;
+  var wrap = map[tag] || map._default;
   var depth = wrap[0];
   var prefix = wrap[1];
   var suffix = wrap[2];
@@ -6275,7 +6272,7 @@ function remove$1(el) {
  * @param {number} angle
  * @param {number} amount
  */
-function transform$1(gfx, x, y, angle, amount) {
+function transform(gfx, x, y, angle, amount) {
   var translate = createTransform();
   translate.setTranslate(x, y);
 
@@ -6285,7 +6282,7 @@ function transform$1(gfx, x, y, angle, amount) {
   var scale = createTransform();
   scale.setScale(amount || 1, amount || 1);
 
-  transform(gfx, [ translate, rotate, scale ]);
+  transform$1(gfx, [ translate, rotate, scale ]);
 }
 
 
@@ -6294,11 +6291,11 @@ function transform$1(gfx, x, y, angle, amount) {
  * @param {number} x
  * @param {number} y
  */
-function translate(gfx, x, y) {
+function translate$1(gfx, x, y) {
   var translate = createTransform();
   translate.setTranslate(x, y);
 
-  transform(gfx, translate);
+  transform$1(gfx, translate);
 }
 
 
@@ -6310,14 +6307,14 @@ function rotate(gfx, angle) {
   var rotate = createTransform();
   rotate.setRotate(angle, 0, 0);
 
-  transform(gfx, rotate);
+  transform$1(gfx, rotate);
 }
 
-function createCommonjsModule$1(fn, module) {
+function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
 
-var hat_1 = createCommonjsModule$1(function (module) {
+var hat_1 = createCommonjsModule(function (module) {
 var hat = module.exports = function (bits, base) {
     if (!base) base = 16;
     if (bits === undefined) bits = 128;
@@ -6518,13 +6515,13 @@ function BpmnRenderer(
       attrs.strokeDasharray = [10000, 1];
     }
 
-    var marker = create('marker');
+    var marker = create$1('marker');
 
-    attr(options.element, attrs);
+    attr$1(options.element, attrs);
 
     append(marker, options.element);
 
-    attr(marker, {
+    attr$1(marker, {
       id: id,
       viewBox: '0 0 20 20',
       refX: ref.x,
@@ -6537,7 +6534,7 @@ function BpmnRenderer(
     var defs = query('defs', canvas._svg);
 
     if (!defs) {
-      defs = create('defs');
+      defs = create$1('defs');
 
       append(canvas._svg, defs);
     }
@@ -6566,8 +6563,8 @@ function BpmnRenderer(
   function createMarker(id, type, fill, stroke) {
 
     if (type === 'sequenceflow-end') {
-      var sequenceflowEnd = create('path');
-      attr(sequenceflowEnd, { d: 'M 1 5 L 11 10 L 1 15 Z' });
+      var sequenceflowEnd = create$1('path');
+      attr$1(sequenceflowEnd, { d: 'M 1 5 L 11 10 L 1 15 Z' });
 
       addMarker(id, {
         element: sequenceflowEnd,
@@ -6581,8 +6578,8 @@ function BpmnRenderer(
     }
 
     if (type === 'messageflow-start') {
-      var messageflowStart = create('circle');
-      attr(messageflowStart, { cx: 6, cy: 6, r: 3.5 });
+      var messageflowStart = create$1('circle');
+      attr$1(messageflowStart, { cx: 6, cy: 6, r: 3.5 });
 
       addMarker(id, {
         element: messageflowStart,
@@ -6595,8 +6592,8 @@ function BpmnRenderer(
     }
 
     if (type === 'messageflow-end') {
-      var messageflowEnd = create('path');
-      attr(messageflowEnd, { d: 'm 1 5 l 0 -3 l 7 3 l -7 3 z' });
+      var messageflowEnd = create$1('path');
+      attr$1(messageflowEnd, { d: 'm 1 5 l 0 -3 l 7 3 l -7 3 z' });
 
       addMarker(id, {
         element: messageflowEnd,
@@ -6610,8 +6607,8 @@ function BpmnRenderer(
     }
 
     if (type === 'association-start') {
-      var associationStart = create('path');
-      attr(associationStart, { d: 'M 11 5 L 1 10 L 11 15' });
+      var associationStart = create$1('path');
+      attr$1(associationStart, { d: 'M 11 5 L 1 10 L 11 15' });
 
       addMarker(id, {
         element: associationStart,
@@ -6626,8 +6623,8 @@ function BpmnRenderer(
     }
 
     if (type === 'association-end') {
-      var associationEnd = create('path');
-      attr(associationEnd, { d: 'M 1 5 L 11 10 L 1 15' });
+      var associationEnd = create$1('path');
+      attr$1(associationEnd, { d: 'M 1 5 L 11 10 L 1 15' });
 
       addMarker(id, {
         element: associationEnd,
@@ -6642,8 +6639,8 @@ function BpmnRenderer(
     }
 
     if (type === 'conditional-flow-marker') {
-      var conditionalflowMarker = create('path');
-      attr(conditionalflowMarker, { d: 'M 0 10 L 8 6 L 16 10 L 8 14 Z' });
+      var conditionalflowMarker = create$1('path');
+      attr$1(conditionalflowMarker, { d: 'M 0 10 L 8 6 L 16 10 L 8 14 Z' });
 
       addMarker(id, {
         element: conditionalflowMarker,
@@ -6657,8 +6654,8 @@ function BpmnRenderer(
     }
 
     if (type === 'conditional-default-flow-marker') {
-      var conditionaldefaultflowMarker = create('path');
-      attr(conditionaldefaultflowMarker, { d: 'M 6 4 L 10 16' });
+      var conditionaldefaultflowMarker = create$1('path');
+      attr$1(conditionaldefaultflowMarker, { d: 'M 6 4 L 10 16' });
 
       addMarker(id, {
         element: conditionaldefaultflowMarker,
@@ -6673,7 +6670,7 @@ function BpmnRenderer(
 
   function drawCircle(parentGfx, width, height, offset, attrs) {
 
-    if (isObject(offset)) {
+    if (isObject$1(offset)) {
       attrs = offset;
       offset = 0;
     }
@@ -6693,13 +6690,13 @@ function BpmnRenderer(
     var cx = width / 2,
         cy = height / 2;
 
-    var circle = create('circle');
-    attr(circle, {
+    var circle = create$1('circle');
+    attr$1(circle, {
       cx: cx,
       cy: cy,
       r: Math.round((width + height) / 4 - offset)
     });
-    attr(circle, attrs);
+    attr$1(circle, attrs);
 
     append(parentGfx, circle);
 
@@ -6708,7 +6705,7 @@ function BpmnRenderer(
 
   function drawRect(parentGfx, width, height, r, offset, attrs) {
 
-    if (isObject(offset)) {
+    if (isObject$1(offset)) {
       attrs = offset;
       offset = 0;
     }
@@ -6721,8 +6718,8 @@ function BpmnRenderer(
       fill: 'white'
     });
 
-    var rect = create('rect');
-    attr(rect, {
+    var rect = create$1('rect');
+    attr$1(rect, {
       x: offset,
       y: offset,
       width: width - offset * 2,
@@ -6730,7 +6727,7 @@ function BpmnRenderer(
       rx: r,
       ry: r
     });
-    attr(rect, attrs);
+    attr$1(rect, attrs);
 
     append(parentGfx, rect);
 
@@ -6754,11 +6751,11 @@ function BpmnRenderer(
       fill: 'white'
     });
 
-    var polygon = create('polygon');
-    attr(polygon, {
+    var polygon = create$1('polygon');
+    attr$1(polygon, {
       points: pointsString
     });
-    attr(polygon, attrs);
+    attr$1(polygon, attrs);
 
     append(parentGfx, polygon);
 
@@ -6786,9 +6783,9 @@ function BpmnRenderer(
       stroke: 'black'
     });
 
-    var path = create('path');
-    attr(path, { d: d });
-    attr(path, attrs);
+    var path = create$1('path');
+    attr$1(path, { d: d });
+    attr$1(path, attrs);
 
     append(parentGfx, path);
 
@@ -6876,7 +6873,7 @@ function BpmnRenderer(
 
     var text = textRenderer.createText(label || '', options);
 
-    classes(text).add('djs-label');
+    classes$1(text).add('djs-label');
 
     append(parentGfx, text);
 
@@ -6932,7 +6929,7 @@ function BpmnRenderer(
 
     var top = -1 * element.height;
 
-    transform$1(textBox, 0, -top, 270);
+    transform(textBox, 0, -top, 270);
   }
 
   function createPathFromConnection(connection) {
@@ -7488,7 +7485,7 @@ function BpmnRenderer(
       });
 
       var businessHeaderPath = drawPath(parentGfx, headerPathData);
-      attr(businessHeaderPath, {
+      attr$1(businessHeaderPath, {
         strokeWidth: 1,
         fill: getFillColor(element, '#aaaaaa'),
         stroke: getStrokeColor(element, defaultStrokeColor)
@@ -7502,7 +7499,7 @@ function BpmnRenderer(
       });
 
       var businessPath = drawPath(parentGfx, headerData);
-      attr(businessPath, {
+      attr$1(businessPath, {
         strokeWidth: 1,
         stroke: getStrokeColor(element, defaultStrokeColor)
       });
@@ -7520,7 +7517,7 @@ function BpmnRenderer(
       var expanded = isExpanded(element);
 
       if (isEventSubProcess(element)) {
-        attr(rect, {
+        attr$1(rect, {
           strokeDasharray: '1,2'
         });
       }
@@ -7742,7 +7739,7 @@ function BpmnRenderer(
         });
 
         var parallelPath = drawPath(parentGfx, pathData);
-        attr(parallelPath, {
+        attr$1(parallelPath, {
           strokeWidth: 1,
           fill: 'none'
         });
@@ -7750,7 +7747,7 @@ function BpmnRenderer(
 
         if (!instantiate) {
           var innerCircle = drawCircle(parentGfx, element.width, element.height, element.height * 0.26);
-          attr(innerCircle, {
+          attr$1(innerCircle, {
             strokeWidth: 1,
             fill: 'none',
             stroke: getStrokeColor(element, defaultStrokeColor)
@@ -7795,7 +7792,7 @@ function BpmnRenderer(
 
         // conditional flow marker
         if (sequenceFlow.conditionExpression && source.$instanceOf('bpmn:Activity')) {
-          attr(path, {
+          attr$1(path, {
             markerStart: marker('conditional-flow-marker', fill, stroke)
           });
         }
@@ -7803,7 +7800,7 @@ function BpmnRenderer(
         // default marker
         if (source.default && (source.$instanceOf('bpmn:Gateway') || source.$instanceOf('bpmn:Activity')) &&
             source.default === sequenceFlow) {
-          attr(path, {
+          attr$1(path, {
             markerStart: marker('conditional-default-flow-marker', fill, stroke)
           });
         }
@@ -8082,7 +8079,7 @@ function BpmnRenderer(
 
       // Process marker is placed in the middle of the box
       // therefore fixed values can be used here
-      translate(markerRect, element.width / 2 - 7.5, element.height - 20);
+      translate$1(markerRect, element.width / 2 - 7.5, element.height - 20);
 
       var markerPath = pathMap.getScaledPath('MARKER_SUB_PROCESS', {
         xScaleFactor: 1.5,
@@ -8287,7 +8284,7 @@ BpmnRenderer.$inject = [
 
 
 BpmnRenderer.prototype.canRender = function(element) {
-  return is(element, 'bpmn:BaseElement');
+  return is$2(element, 'bpmn:BaseElement');
 };
 
 BpmnRenderer.prototype.drawShape = function(parentGfx, element) {
@@ -8308,15 +8305,15 @@ BpmnRenderer.prototype.drawConnection = function(parentGfx, element) {
 
 BpmnRenderer.prototype.getShapePath = function(element) {
 
-  if (is(element, 'bpmn:Event')) {
+  if (is$2(element, 'bpmn:Event')) {
     return getCirclePath(element);
   }
 
-  if (is(element, 'bpmn:Activity')) {
+  if (is$2(element, 'bpmn:Activity')) {
     return getRoundRectPath(element, TASK_BORDER_RADIUS);
   }
 
-  if (is(element, 'bpmn:Gateway')) {
+  if (is$2(element, 'bpmn:Gateway')) {
     return getDiamondPath(element);
   }
 
@@ -8325,7 +8322,7 @@ BpmnRenderer.prototype.getShapePath = function(element) {
 
 var DEFAULT_BOX_PADDING = 0;
 
-var DEFAULT_LABEL_SIZE = {
+var DEFAULT_LABEL_SIZE$1 = {
   width: 150,
   height: 50
 };
@@ -8343,7 +8340,7 @@ function parseAlign(align) {
 
 function parsePadding(padding) {
 
-  if (isObject(padding)) {
+  if (isObject$1(padding)) {
     return assign({ top: 0, left: 0, right: 0, bottom: 0 }, padding);
   } else {
     return {
@@ -8502,9 +8499,9 @@ function getHelperSvg() {
   var helperSvg = document.getElementById('helper-svg');
 
   if (!helperSvg) {
-    helperSvg = create('svg');
+    helperSvg = create$1('svg');
 
-    attr(helperSvg, {
+    attr$1(helperSvg, {
       id: 'helper-svg',
       width: 0,
       height: 0,
@@ -8530,7 +8527,7 @@ function getHelperSvg() {
 function Text(config) {
 
   this._config = assign({}, {
-    size: DEFAULT_LABEL_SIZE,
+    size: DEFAULT_LABEL_SIZE$1,
     padding: DEFAULT_BOX_PADDING,
     style: {},
     align: 'center-top'
@@ -8594,9 +8591,9 @@ Text.prototype.layoutText = function(text, options) {
   var maxWidth = box.width - padding.left - padding.right;
 
   // ensure correct rendering by attaching helper text node to invisible SVG
-  var helperText = create('text');
-  attr(helperText, { x: 0, y: 0 });
-  attr(helperText, style);
+  var helperText = create$1('text');
+  attr$1(helperText, { x: 0, y: 0 });
+  attr$1(helperText, style);
 
   var helperSvg = getHelperSvg();
 
@@ -8629,9 +8626,9 @@ Text.prototype.layoutText = function(text, options) {
   y -= (lineHeight || layouted[0].height) / 4;
 
 
-  var textElement = create('text');
+  var textElement = create$1('text');
 
-  attr(textElement, style);
+  attr$1(textElement, style);
 
   // layout each line taking into account that parent
   // shape might resize to fit text size
@@ -8658,15 +8655,15 @@ Text.prototype.layoutText = function(text, options) {
         - line.width) / 2 + padding.left), 0);
     }
 
-    var tspan = create('tspan');
-    attr(tspan, { x: x, y: y });
+    var tspan = create$1('tspan');
+    attr$1(tspan, { x: x, y: y });
 
     tspan.textContent = line.text;
 
     append(textElement, tspan);
   });
 
-  remove(helperText);
+  remove$2(helperText);
 
   var dimensions = {
     width: maxLineWidth,
@@ -9232,7 +9229,7 @@ function PathMap() {
     }
 
     // Apply value to raw path
-    var path = format(
+    var path = format$1(
       rawPath.d, {
         mx: mx,
         my: my,
@@ -9265,13 +9262,13 @@ function replacer(all, key, obj) {
   return res;
 }
 
-function format(str, obj) {
+function format$1(str, obj) {
   return String(str).replace(tokenRegex, function(all, key) {
     return replacer(all, key, obj);
   });
 }
 
-var DrawModule = {
+var DrawModule$1 = {
   __init__: [ 'bpmnRenderer' ],
   bpmnRenderer: [ 'type', BpmnRenderer ],
   textRenderer: [ 'type', TextRenderer ],
@@ -9296,7 +9293,7 @@ var DrawModule = {
  *
  * @return {string} the translated string
  */
-function translate$1(template, replacements) {
+function translate(template, replacements) {
 
   replacements = replacements || {};
 
@@ -9306,10 +9303,10 @@ function translate$1(template, replacements) {
 }
 
 var TranslateModule = {
-  translate: [ 'value', translate$1 ]
+  translate: [ 'value', translate ]
 };
 
-var DEFAULT_LABEL_SIZE$1 = {
+var DEFAULT_LABEL_SIZE = {
   width: 90,
   height: 20
 };
@@ -9324,15 +9321,15 @@ var FLOW_LABEL_INDENT = 15;
  * @return {boolean} true if has label
  */
 function isLabelExternal(semantic) {
-  return is(semantic, 'bpmn:Event') ||
-         is(semantic, 'bpmn:Gateway') ||
-         is(semantic, 'bpmn:DataStoreReference') ||
-         is(semantic, 'bpmn:DataObjectReference') ||
-         is(semantic, 'bpmn:DataInput') ||
-         is(semantic, 'bpmn:DataOutput') ||
-         is(semantic, 'bpmn:SequenceFlow') ||
-         is(semantic, 'bpmn:MessageFlow') ||
-         is(semantic, 'bpmn:Group');
+  return is$2(semantic, 'bpmn:Event') ||
+         is$2(semantic, 'bpmn:Gateway') ||
+         is$2(semantic, 'bpmn:DataStoreReference') ||
+         is$2(semantic, 'bpmn:DataObjectReference') ||
+         is$2(semantic, 'bpmn:DataInput') ||
+         is$2(semantic, 'bpmn:DataOutput') ||
+         is$2(semantic, 'bpmn:SequenceFlow') ||
+         is$2(semantic, 'bpmn:MessageFlow') ||
+         is$2(semantic, 'bpmn:Group');
 }
 
 /**
@@ -9392,15 +9389,15 @@ function getExternalLabelMid(element) {
 
   if (element.waypoints) {
     return getFlowLabelPosition(element.waypoints);
-  } else if (is(element, 'bpmn:Group')) {
+  } else if (is$2(element, 'bpmn:Group')) {
     return {
       x: element.x + element.width / 2,
-      y: element.y + DEFAULT_LABEL_SIZE$1.height / 2
+      y: element.y + DEFAULT_LABEL_SIZE.height / 2
     };
   } else {
     return {
       x: element.x + element.width / 2,
-      y: element.y + element.height + DEFAULT_LABEL_SIZE$1.height / 2
+      y: element.y + element.height + DEFAULT_LABEL_SIZE.height / 2
     };
   }
 }
@@ -9425,7 +9422,7 @@ function getExternalLabelBounds(semantic, element) {
     bounds = label.bounds;
 
     size = {
-      width: Math.max(DEFAULT_LABEL_SIZE$1.width, bounds.width),
+      width: Math.max(DEFAULT_LABEL_SIZE.width, bounds.width),
       height: bounds.height
     };
 
@@ -9437,7 +9434,7 @@ function getExternalLabelBounds(semantic, element) {
 
     mid = getExternalLabelMid(element);
 
-    size = DEFAULT_LABEL_SIZE$1;
+    size = DEFAULT_LABEL_SIZE;
   }
 
   return assign({
@@ -9462,7 +9459,7 @@ function roundPoint(point) {
  *
  * @return {Point}
  */
-function getMid(bounds) {
+function getMid$2(bounds) {
   return roundPoint({
     x: bounds.x + (bounds.width || 0) / 2,
     y: bounds.y + (bounds.height || 0) / 2
@@ -9490,7 +9487,7 @@ function getWaypoints(bo, source, target) {
   var waypoints = bo.di.waypoint;
 
   if (!waypoints || waypoints.length < 2) {
-    return [ getMid(source), getMid(target) ];
+    return [ getMid$2(source), getMid$2(target) ];
   }
 
   return waypoints.map(function(p) {
@@ -9555,7 +9552,7 @@ BpmnImporter.prototype.add = function(semantic, parentElement) {
   // ROOT ELEMENT
   // handle the special case that we deal with a
   // invisible root element (process or collaboration)
-  if (is(di, 'bpmndi:BPMNPlane')) {
+  if (is$2(di, 'bpmndi:BPMNPlane')) {
 
     // add a virtual element (not being drawn)
     element = this._elementFactory.createRoot(elementData(semantic));
@@ -9564,10 +9561,10 @@ BpmnImporter.prototype.add = function(semantic, parentElement) {
   }
 
   // SHAPE
-  else if (is(di, 'bpmndi:BPMNShape')) {
+  else if (is$2(di, 'bpmndi:BPMNShape')) {
 
     var collapsed = !isExpanded(semantic),
-        isFrame = isFrameElement(semantic);
+        isFrame = isFrameElement$1(semantic);
     hidden = parentElement && (parentElement.hidden || parentElement.collapsed);
 
     var bounds = semantic.di.bounds;
@@ -9582,19 +9579,19 @@ BpmnImporter.prototype.add = function(semantic, parentElement) {
       isFrame: isFrame
     }));
 
-    if (is(semantic, 'bpmn:BoundaryEvent')) {
+    if (is$2(semantic, 'bpmn:BoundaryEvent')) {
       this._attachBoundary(semantic, element);
     }
 
     // insert lanes behind other flow nodes (cf. #727)
-    if (is(semantic, 'bpmn:Lane')) {
+    if (is$2(semantic, 'bpmn:Lane')) {
       parentIndex = 0;
     }
 
-    if (is(semantic, 'bpmn:DataStoreReference')) {
+    if (is$2(semantic, 'bpmn:DataStoreReference')) {
 
       // check whether data store is inside our outside of its semantic parent
-      if (!isPointInsideBBox(parentElement, getMid(bounds))) {
+      if (!isPointInsideBBox(parentElement, getMid$2(bounds))) {
         parentElement = this._canvas.getRootElement();
       }
     }
@@ -9603,7 +9600,7 @@ BpmnImporter.prototype.add = function(semantic, parentElement) {
   }
 
   // CONNECTION
-  else if (is(di, 'bpmndi:BPMNEdge')) {
+  else if (is$2(di, 'bpmndi:BPMNEdge')) {
 
     var source = this._getSource(semantic),
         target = this._getTarget(semantic);
@@ -9617,7 +9614,7 @@ BpmnImporter.prototype.add = function(semantic, parentElement) {
       waypoints: getWaypoints(semantic, source, target)
     }));
 
-    if (is(semantic, 'bpmn:DataAssociation')) {
+    if (is$2(semantic, 'bpmn:DataAssociation')) {
 
       // render always on top; this ensures DataAssociations
       // are rendered correctly across different "hacks" people
@@ -9627,7 +9624,7 @@ BpmnImporter.prototype.add = function(semantic, parentElement) {
     }
 
     // insert sequence flows behind other flow nodes (cf. #727)
-    if (is(semantic, 'bpmn:SequenceFlow')) {
+    if (is$2(semantic, 'bpmn:SequenceFlow')) {
       parentIndex = 0;
     }
 
@@ -9787,8 +9784,8 @@ function isPointInsideBBox(bbox, point) {
     y <= bbox.y + bbox.height;
 }
 
-function isFrameElement(semantic) {
-  return is(semantic, 'bpmn:Group');
+function isFrameElement$1(semantic) {
+  return is$2(semantic, 'bpmn:Group');
 }
 
 var ImportModule = {
@@ -9798,9 +9795,9 @@ var ImportModule = {
   bpmnImporter: [ 'type', BpmnImporter ]
 };
 
-var CoreModule = {
+var CoreModule$1 = {
   __depends__: [
-    DrawModule,
+    DrawModule$1,
     ImportModule
   ]
 };
@@ -9874,7 +9871,7 @@ function allowPrimaryAndAuxiliary(event) {
   return isPrimaryButton(event) || isAuxiliaryButton(event);
 }
 
-var LOW_PRIORITY = 500;
+var LOW_PRIORITY$3 = 500;
 
 
 /**
@@ -10069,7 +10066,7 @@ function InteractionEvents(eventBus, elementRegistry, styles) {
   eventBus.on([
     'shape.changed',
     'connection.changed'
-  ], LOW_PRIORITY, function(event) {
+  ], LOW_PRIORITY$3, function(event) {
 
     var element = event.element,
         gfx = event.gfx;
@@ -10077,7 +10074,7 @@ function InteractionEvents(eventBus, elementRegistry, styles) {
     eventBus.fire('interactionEvents.updateHit', { element: element, gfx: gfx });
   });
 
-  eventBus.on('interactionEvents.createHit', LOW_PRIORITY, function(event) {
+  eventBus.on('interactionEvents.createHit', LOW_PRIORITY$3, function(event) {
     var element = event.element,
         gfx = event.gfx;
 
@@ -10127,7 +10124,7 @@ function InteractionEvents(eventBus, elementRegistry, styles) {
       throw new Error('invalid hit type <' + type + '>');
     }
 
-    attr(hit, attrs);
+    attr$1(hit, attrs);
 
     return hit;
   }
@@ -10147,7 +10144,7 @@ function InteractionEvents(eventBus, elementRegistry, styles) {
   this.removeHits = function(gfx) {
     var hits = all('.djs-hit', gfx);
 
-    forEach(hits, remove);
+    forEach(hits, remove$2);
   };
 
   /**
@@ -10211,11 +10208,11 @@ function InteractionEvents(eventBus, elementRegistry, styles) {
       y: 0
     }, attrs);
 
-    var hit = create('rect');
+    var hit = create$1('rect');
 
     applyStyle(hit, type);
 
-    attr(hit, attrs);
+    attr$1(hit, attrs);
 
     appendHit(gfx, hit);
 
@@ -10241,7 +10238,7 @@ function InteractionEvents(eventBus, elementRegistry, styles) {
     if (element.waypoints) {
       updateLine(hit, element.waypoints);
     } else {
-      attr(hit, {
+      attr$1(hit, {
         width: element.width,
         height: element.height
       });
@@ -10361,7 +10358,7 @@ var InteractionEventsModule = {
 function getBBox(elements, stopRecursion) {
 
   stopRecursion = !!stopRecursion;
-  if (!isArray(elements)) {
+  if (!isArray$1(elements)) {
     elements = [elements];
   }
 
@@ -10420,12 +10417,12 @@ function getType(element) {
   return 'root';
 }
 
-function isFrameElement$1(element) {
+function isFrameElement(element) {
 
   return !!(element && element.isFrame);
 }
 
-var LOW_PRIORITY$1 = 500;
+var LOW_PRIORITY$2 = 500;
 
 
 /**
@@ -10447,9 +10444,9 @@ function Outline(eventBus, styles, elementRegistry) {
   var self = this;
 
   function createOutline(gfx, bounds) {
-    var outline = create('rect');
+    var outline = create$1('rect');
 
-    attr(outline, assign({
+    attr$1(outline, assign({
       x: 10,
       y: 10,
       width: 100,
@@ -10463,7 +10460,7 @@ function Outline(eventBus, styles, elementRegistry) {
 
   // A low priortity is necessary, because outlines of labels have to be updated
   // after the label bounds have been updated in the renderer.
-  eventBus.on([ 'shape.added', 'shape.changed' ], LOW_PRIORITY$1, function(event) {
+  eventBus.on([ 'shape.added', 'shape.changed' ], LOW_PRIORITY$2, function(event) {
     var element = event.element,
         gfx = event.gfx;
 
@@ -10500,7 +10497,7 @@ function Outline(eventBus, styles, elementRegistry) {
  */
 Outline.prototype.updateShapeOutline = function(outline, element) {
 
-  attr(outline, {
+  attr$1(outline, {
     x: -this.offset,
     y: -this.offset,
     width: element.width + this.offset * 2,
@@ -10521,7 +10518,7 @@ Outline.prototype.updateConnectionOutline = function(outline, connection) {
 
   var bbox = getBBox(connection);
 
-  attr(outline, {
+  attr$1(outline, {
     x: bbox.x - this.offset,
     y: bbox.y - this.offset,
     width: bbox.width + this.offset * 2,
@@ -10606,7 +10603,7 @@ Selection.prototype.select = function(elements, add) {
   var selectedElements = this._selectedElements,
       oldSelection = selectedElements.slice();
 
-  if (!isArray(elements)) {
+  if (!isArray$1(elements)) {
     elements = elements ? [ elements ] : [];
   }
 
@@ -10716,7 +10713,7 @@ function SelectionBehavior(eventBus, selection, canvas, elementRegistry) {
         return;
       }
 
-      if (isArray(autoSelect)) {
+      if (isArray$1(autoSelect)) {
         selection.select(autoSelect);
       } else {
 
@@ -10846,9 +10843,9 @@ IdGenerator.prototype.next = function() {
 };
 
 // document wide unique overlay ids
-var ids = new IdGenerator('ov');
+var ids$1 = new IdGenerator('ov');
 
-var LOW_PRIORITY$2 = 500;
+var LOW_PRIORITY$1 = 500;
 
 
 /**
@@ -10921,7 +10918,7 @@ function Overlays(config, eventBus, canvas, elementRegistry) {
   this._canvas = canvas;
   this._elementRegistry = elementRegistry;
 
-  this._ids = ids;
+  this._ids = ids$1;
 
   this._overlayDefaults = assign({
 
@@ -10943,7 +10940,7 @@ function Overlays(config, eventBus, canvas, elementRegistry) {
   this._overlayContainers = [];
 
   // root html element for all overlays
-  this._overlayRoot = createRoot(canvas.getContainer());
+  this._overlayRoot = createRoot$1(canvas.getContainer());
 
   this._init();
 }
@@ -11037,7 +11034,7 @@ Overlays.prototype.get = function(search) {
  */
 Overlays.prototype.add = function(element, type, overlay) {
 
-  if (isObject(type)) {
+  if (isObject$1(type)) {
     overlay = type;
     type = null;
   }
@@ -11085,7 +11082,7 @@ Overlays.prototype.remove = function(filter) {
 
   var overlays = this.get(filter) || [];
 
-  if (!isArray(overlays)) {
+  if (!isArray$1(overlays)) {
     overlays = [ overlays ];
   }
 
@@ -11117,12 +11114,12 @@ Overlays.prototype.remove = function(filter) {
 
 
 Overlays.prototype.show = function() {
-  setVisible(this._overlayRoot);
+  setVisible$1(this._overlayRoot);
 };
 
 
 Overlays.prototype.hide = function() {
-  setVisible(this._overlayRoot, false);
+  setVisible$1(this._overlayRoot, false);
 };
 
 Overlays.prototype.clear = function() {
@@ -11130,7 +11127,7 @@ Overlays.prototype.clear = function() {
 
   this._overlayContainers = [];
 
-  clear$1(this._overlayRoot);
+  clear(this._overlayRoot);
 };
 
 Overlays.prototype._updateOverlayContainer = function(container) {
@@ -11149,9 +11146,9 @@ Overlays.prototype._updateOverlayContainer = function(container) {
     y = bbox.y;
   }
 
-  setPosition(html, x, y);
+  setPosition$1(html, x, y);
 
-  attr$1(container.html, 'data-container-id', element.id);
+  attr(container.html, 'data-container-id', element.id);
 };
 
 
@@ -11194,7 +11191,7 @@ Overlays.prototype._updateOverlay = function(overlay) {
     top = position.bottom * -1 + height;
   }
 
-  setPosition(htmlContainer, left || 0, top || 0);
+  setPosition$1(htmlContainer, left || 0, top || 0);
 };
 
 
@@ -11275,7 +11272,7 @@ Overlays.prototype._addOverlay = function(overlay) {
   htmlContainer.appendChild(html);
 
   if (overlay.type) {
-    classes$1(htmlContainer).add('djs-overlay-' + overlay.type);
+    classes(htmlContainer).add('djs-overlay-' + overlay.type);
   }
 
   overlay.htmlContainer = htmlContainer;
@@ -11305,7 +11302,7 @@ Overlays.prototype._updateOverlayVisibilty = function(overlay, viewbox) {
       visible = false;
     }
 
-    setVisible(htmlContainer, visible);
+    setVisible$1(htmlContainer, visible);
   }
 
   this._updateOverlayScale(overlay, viewbox);
@@ -11406,7 +11403,7 @@ Overlays.prototype._init = function() {
 
   // move integration
 
-  eventBus.on('element.changed', LOW_PRIORITY$2, function(e) {
+  eventBus.on('element.changed', LOW_PRIORITY$1, function(e) {
     var element = e.element;
 
     var container = self._getOverlayContainer(element, true);
@@ -11426,7 +11423,7 @@ Overlays.prototype._init = function() {
   eventBus.on('element.marker.update', function(e) {
     var container = self._getOverlayContainer(e.element, true);
     if (container) {
-      classes$1(container.html)[e.add ? 'add' : 'remove'](e.marker);
+      classes(container.html)[e.add ? 'add' : 'remove'](e.marker);
     }
   });
 
@@ -11440,7 +11437,7 @@ Overlays.prototype._init = function() {
 
 // helpers /////////////////////////////
 
-function createRoot(parentNode) {
+function createRoot$1(parentNode) {
   var root = domify(
     '<div class="djs-overlay-container" style="position: absolute; width: 0; height: 0;" />'
   );
@@ -11450,11 +11447,11 @@ function createRoot(parentNode) {
   return root;
 }
 
-function setPosition(el, x, y) {
+function setPosition$1(el, x, y) {
   assign(el.style, { left: x + 'px', top: y + 'px' });
 }
 
-function setVisible(el, visible) {
+function setVisible$1(el, visible) {
   el.style.display = visible === false ? 'none' : '';
 }
 
@@ -11478,7 +11475,7 @@ function isClass(fn) {
   return CLASS_PATTERN.test(fn.toString());
 }
 
-function isArray$1(obj) {
+function isArray(obj) {
   return Object.prototype.toString.call(obj) === '[object Array]';
 }
 
@@ -11489,7 +11486,7 @@ function hasOwnProp(obj, prop) {
 function annotate() {
   var args = Array.prototype.slice.call(arguments);
 
-  if (args.length === 1 && isArray$1(args[0])) {
+  if (args.length === 1 && isArray(args[0])) {
     args = args[0];
   }
 
@@ -11633,7 +11630,7 @@ function Injector(modules, parent) {
     }
 
     if (typeof fn !== 'function') {
-      if (isArray$1(fn)) {
+      if (isArray(fn)) {
         fn = annotate(fn.slice());
       } else {
         throw new Error('Cannot invoke "' + fn + '". Expected a function!');
@@ -11752,7 +11749,7 @@ function Injector(modules, parent) {
   modules.forEach(function(module) {
 
     function arrayUnwrap(type, value) {
-      if (type !== 'value' && isArray$1(value)) {
+      if (type !== 'value' && isArray(value)) {
         value = annotate(value.slice());
       }
 
@@ -11809,7 +11806,7 @@ function Injector(modules, parent) {
 
 // apply default renderer with lowest possible priority
 // so that it only kicks in if noone else could render
-var DEFAULT_RENDER_PRIORITY$1 = 1;
+var DEFAULT_RENDER_PRIORITY = 1;
 
 /**
  * The default renderer used for shapes and connections.
@@ -11820,7 +11817,7 @@ var DEFAULT_RENDER_PRIORITY$1 = 1;
 function DefaultRenderer(eventBus, styles) {
 
   //
-  BaseRenderer.call(this, eventBus, DEFAULT_RENDER_PRIORITY$1);
+  BaseRenderer.call(this, eventBus, DEFAULT_RENDER_PRIORITY);
 
   this.CONNECTION_STYLE = styles.style([ 'no-fill' ], { strokeWidth: 5, stroke: 'fuchsia' });
   this.SHAPE_STYLE = styles.style({ fill: 'white', stroke: 'fuchsia', strokeWidth: 2 });
@@ -11835,19 +11832,19 @@ DefaultRenderer.prototype.canRender = function() {
 };
 
 DefaultRenderer.prototype.drawShape = function drawShape(visuals, element) {
-  var rect = create('rect');
+  var rect = create$1('rect');
 
-  attr(rect, {
+  attr$1(rect, {
     x: 0,
     y: 0,
     width: element.width || 0,
     height: element.height || 0
   });
 
-  if (isFrameElement$1(element)) {
-    attr(rect, this.FRAME_STYLE);
+  if (isFrameElement(element)) {
+    attr$1(rect, this.FRAME_STYLE);
   } else {
-    attr(rect, this.SHAPE_STYLE);
+    attr$1(rect, this.SHAPE_STYLE);
   }
 
   append(visuals, rect);
@@ -11946,7 +11943,7 @@ function Styles() {
    */
   this.style = function(traits, additionalAttrs) {
 
-    if (!isArray(traits) && !additionalAttrs) {
+    if (!isArray$1(traits) && !additionalAttrs) {
       additionalAttrs = traits;
       traits = [];
     }
@@ -11959,7 +11956,7 @@ function Styles() {
   };
 
   this.computeStyle = function(custom, traits, defaultStyles) {
-    if (!isArray(traits)) {
+    if (!isArray$1(traits)) {
       defaultStyles = traits;
       traits = [];
     }
@@ -11968,7 +11965,7 @@ function Styles() {
   };
 }
 
-var DrawModule$1 = {
+var DrawModule = {
   __init__: [ 'defaultRenderer' ],
   defaultRenderer: [ 'type', DefaultRenderer ],
   styles: [ 'type', Styles ]
@@ -11982,7 +11979,7 @@ var DrawModule$1 = {
  *
  * @return {number} the previous index of the element
  */
-function remove$2(collection, element) {
+function remove(collection, element) {
 
   if (!collection || !element) {
     return -1;
@@ -12088,8 +12085,8 @@ function createContainer(options) {
 }
 
 function createGroup(parent, cls, childIndex) {
-  var group = create('g');
-  classes(group).add(cls);
+  var group = create$1('g');
+  classes$1(group).add(cls);
 
   var index = childIndex !== undefined ? childIndex : parent.childNodes.length - 1;
 
@@ -12157,8 +12154,8 @@ Canvas.prototype._init = function(config) {
   // html container
   var container = this._container = createContainer(config);
 
-  var svg = this._svg = create('svg');
-  attr(svg, { width: '100%', height: '100%' });
+  var svg = this._svg = create$1('svg');
+  attr$1(svg, { width: '100%', height: '100%' });
 
   append(container, svg);
 
@@ -12169,7 +12166,7 @@ Canvas.prototype._init = function(config) {
   // debounce canvas.viewbox.changed events
   // for smoother diagram interaction
   if (config.deferUpdate !== false) {
-    this._viewboxChanged = debounce(bind(this._viewboxChanged, this), 300);
+    this._viewboxChanged = debounce(bind$2(this._viewboxChanged, this), 300);
   }
 
   eventBus.on('diagram.init', function() {
@@ -12355,9 +12352,9 @@ Canvas.prototype._updateMarker = function(element, marker, add) {
 
       // invoke either addClass or removeClass based on mode
       if (add) {
-        classes(gfx).add(marker);
+        classes$1(gfx).add(marker);
       } else {
-        classes(gfx).remove(marker);
+        classes$1(gfx).remove(marker);
       }
     }
   });
@@ -12423,7 +12420,7 @@ Canvas.prototype.hasMarker = function(element, marker) {
 
   var gfx = this.getGraphics(element);
 
-  return classes(gfx).has(marker);
+  return classes$1(gfx).has(marker);
 };
 
 /**
@@ -12627,7 +12624,7 @@ Canvas.prototype._removeElement = function(element, type) {
   graphicsFactory.remove(element);
 
   // unset parent <-> child relationship
-  remove$2(element.parent && element.parent.children, element);
+  remove(element.parent && element.parent.children, element);
   element.parent = null;
 
   eventBus.fire(type + '.removed', { element: element });
@@ -12802,7 +12799,7 @@ Canvas.prototype.viewbox = function(box) {
       innerBox,
       outerBox = this.getSize(),
       matrix,
-      transform$1,
+      transform,
       scale,
       x, y;
 
@@ -12813,8 +12810,8 @@ Canvas.prototype.viewbox = function(box) {
     // external components, such as overlays
     innerBox = this.getDefaultLayer().getBBox();
 
-    transform$1 = transform(viewport);
-    matrix = transform$1 ? transform$1.matrix : createMatrix();
+    transform = transform$1(viewport);
+    matrix = transform ? transform.matrix : createMatrix();
     scale = round(matrix.a, 1000);
 
     x = round(-matrix.e || 0, 1000);
@@ -12845,7 +12842,7 @@ Canvas.prototype.viewbox = function(box) {
         .scale(scale)
         .translate(-box.x, -box.y);
 
-      transform(viewport, matrix);
+      transform$1(viewport, matrix);
     });
   }
 
@@ -13110,10 +13107,10 @@ ElementRegistry.prototype.add = function(element, gfx, secondaryGfx) {
   this._validateId(id);
 
   // associate dom node with element
-  attr(gfx, ELEMENT_ID, id);
+  attr$1(gfx, ELEMENT_ID, id);
 
   if (secondaryGfx) {
-    attr(secondaryGfx, ELEMENT_ID, id);
+    attr$1(secondaryGfx, ELEMENT_ID, id);
   }
 
   this._elements[id] = { element: element, gfx: gfx, secondaryGfx: secondaryGfx };
@@ -13132,10 +13129,10 @@ ElementRegistry.prototype.remove = function(element) {
   if (container) {
 
     // unset element id on gfx
-    attr(container.gfx, ELEMENT_ID, '');
+    attr$1(container.gfx, ELEMENT_ID, '');
 
     if (container.secondaryGfx) {
-      attr(container.secondaryGfx, ELEMENT_ID, '');
+      attr$1(container.secondaryGfx, ELEMENT_ID, '');
     }
 
     delete elements[id];
@@ -13190,7 +13187,7 @@ ElementRegistry.prototype.get = function(filter) {
   if (typeof filter === 'string') {
     id = filter;
   } else {
-    id = filter && attr(filter, ELEMENT_ID);
+    id = filter && attr$1(filter, ELEMENT_ID);
   }
 
   var container = this._elements[id];
@@ -13327,7 +13324,7 @@ ElementRegistry.prototype._validateId = function(id) {
  *
  * @return {RefsCollection<Object>} the extended array
  */
-function extend$1(collection, refs, property, target) {
+function extend(collection, refs, property, target) {
 
   var inverseProperty = property.inverse;
 
@@ -13422,7 +13419,7 @@ function isExtended(collection) {
   return collection.__refs_collection === true;
 }
 
-var extend_1 = extend$1;
+var extend_1 = extend;
 
 var isExtended_1 = isExtended;
 
@@ -13453,7 +13450,7 @@ function defineCollectionProperty(ref, property, target) {
 }
 
 
-function defineProperty(ref, property, target) {
+function defineProperty$1(ref, property, target) {
 
   var inverseProperty = property.inverse;
 
@@ -13571,7 +13568,7 @@ Refs.prototype.bind = function(target, property) {
   if (property.collection) {
     defineCollectionProperty(this, property, target);
   } else {
-    defineProperty(this, property, target);
+    defineProperty$1(this, property, target);
   }
 };
 
@@ -13646,7 +13643,7 @@ var parentRefs = new objectRefs({ name: 'children', enumerable: true, collection
  *
  * @abstract
  */
-function Base() {
+function Base$1() {
 
   /**
    * The object that backs up the shape
@@ -13725,7 +13722,7 @@ function Base() {
  * @extends Base
  */
 function Shape() {
-  Base.call(this);
+  Base$1.call(this);
 
   /**
    * Indicates frame shapes
@@ -13755,7 +13752,7 @@ function Shape() {
   attacherRefs.bind(this, 'attachers');
 }
 
-inherits_browser(Shape, Base);
+inherits_browser(Shape, Base$1);
 
 
 /**
@@ -13805,7 +13802,7 @@ inherits_browser(Label, Shape);
  * @extends Base
  */
 function Connection() {
-  Base.call(this);
+  Base$1.call(this);
 
   /**
    * The element this connection originates from
@@ -13824,10 +13821,10 @@ function Connection() {
   incomingRefs.bind(this, 'target');
 }
 
-inherits_browser(Connection, Base);
+inherits_browser(Connection, Base$1);
 
 
-var types = {
+var types$5 = {
   connection: Connection,
   shape: Shape,
   label: Label,
@@ -13851,8 +13848,8 @@ var types = {
  *
  * @return {Base} the new model instance
  */
-function create$1(type, attrs) {
-  var Type = types[type];
+function create(type, attrs) {
+  var Type = types$5[type];
   if (!Type) {
     throw new Error('unknown type: <' + type + '>');
   }
@@ -13899,14 +13896,14 @@ ElementFactory.prototype.create = function(type, attrs) {
     attrs.id = type + '_' + (this._uid++);
   }
 
-  return create$1(type, attrs);
+  return create(type, attrs);
 };
 
 var FN_REF = '__fn';
 
-var DEFAULT_PRIORITY = 1000;
+var DEFAULT_PRIORITY$1 = 1000;
 
-var slice$1 = Array.prototype.slice;
+var slice = Array.prototype.slice;
 
 /**
  * A general purpose event bus.
@@ -14019,12 +14016,12 @@ function EventBus() {
  */
 EventBus.prototype.on = function(events, priority, callback, that) {
 
-  events = isArray(events) ? events : [ events ];
+  events = isArray$1(events) ? events : [ events ];
 
-  if (isFunction(priority)) {
+  if (isFunction$1(priority)) {
     that = callback;
     callback = priority;
-    priority = DEFAULT_PRIORITY;
+    priority = DEFAULT_PRIORITY$1;
   }
 
   if (!isNumber(priority)) {
@@ -14034,7 +14031,7 @@ EventBus.prototype.on = function(events, priority, callback, that) {
   var actualCallback = callback;
 
   if (that) {
-    actualCallback = bind(callback, that);
+    actualCallback = bind$2(callback, that);
 
     // make sure we remember and are able to remove
     // bound callbacks via {@link #off} using the original
@@ -14065,10 +14062,10 @@ EventBus.prototype.on = function(events, priority, callback, that) {
 EventBus.prototype.once = function(event, priority, callback, that) {
   var self = this;
 
-  if (isFunction(priority)) {
+  if (isFunction$1(priority)) {
     that = callback;
     callback = priority;
-    priority = DEFAULT_PRIORITY;
+    priority = DEFAULT_PRIORITY$1;
   }
 
   if (!isNumber(priority)) {
@@ -14104,7 +14101,7 @@ EventBus.prototype.once = function(event, priority, callback, that) {
  */
 EventBus.prototype.off = function(events, callback) {
 
-  events = isArray(events) ? events : [ events ];
+  events = isArray$1(events) ? events : [ events ];
 
   var self = this;
 
@@ -14167,7 +14164,7 @@ EventBus.prototype.fire = function(type, data) {
       returnValue,
       args;
 
-  args = slice$1.call(arguments);
+  args = slice.call(arguments);
 
   if (typeof type === 'object') {
     data = type;
@@ -14470,8 +14467,8 @@ GraphicsFactory.prototype._getChildrenContainer = function(element) {
   } else {
     childrenGfx = getChildren(gfx);
     if (!childrenGfx) {
-      childrenGfx = create('g');
-      classes(childrenGfx).add('djs-children');
+      childrenGfx = create$1('g');
+      classes$1(childrenGfx).add('djs-children');
 
       append(gfx.parentNode, childrenGfx);
     }
@@ -14487,7 +14484,7 @@ GraphicsFactory.prototype._getChildrenContainer = function(element) {
 GraphicsFactory.prototype._clear = function(gfx) {
   var visual = getVisual(gfx);
 
-  clear$1(visual);
+  clear(visual);
 
   return visual;
 };
@@ -14522,8 +14519,8 @@ GraphicsFactory.prototype._clear = function(gfx) {
 GraphicsFactory.prototype._createContainer = function(
     type, childrenGfx, parentIndex, isFrame
 ) {
-  var outerGfx = create('g');
-  classes(outerGfx).add('djs-group');
+  var outerGfx = create$1('g');
+  classes$1(outerGfx).add('djs-group');
 
   // insert node at position
   if (typeof parentIndex !== 'undefined') {
@@ -14532,19 +14529,19 @@ GraphicsFactory.prototype._createContainer = function(
     append(childrenGfx, outerGfx);
   }
 
-  var gfx = create('g');
-  classes(gfx).add('djs-element');
-  classes(gfx).add('djs-' + type);
+  var gfx = create$1('g');
+  classes$1(gfx).add('djs-element');
+  classes$1(gfx).add('djs-' + type);
 
   if (isFrame) {
-    classes(gfx).add('djs-frame');
+    classes$1(gfx).add('djs-frame');
   }
 
   append(outerGfx, gfx);
 
   // create visual
-  var visual = create('g');
-  classes(visual).add('djs-visual');
+  var visual = create$1('g');
+  classes$1(visual).add('djs-visual');
 
   append(gfx, visual);
 
@@ -14553,7 +14550,7 @@ GraphicsFactory.prototype._createContainer = function(
 
 GraphicsFactory.prototype.create = function(type, element, parentIndex) {
   var childrenGfx = this._getChildrenContainer(element.parent);
-  return this._createContainer(type, childrenGfx, parentIndex, isFrameElement$1(element));
+  return this._createContainer(type, childrenGfx, parentIndex, isFrameElement(element));
 };
 
 GraphicsFactory.prototype.updateContainments = function(elements) {
@@ -14629,7 +14626,7 @@ GraphicsFactory.prototype.update = function(type, element, gfx) {
     this.drawShape(visual, element);
 
     // update positioning
-    translate(gfx, element.x, element.y);
+    translate$1(gfx, element.x, element.y);
   } else
   if (type === 'connection') {
     this.drawConnection(visual, element);
@@ -14638,9 +14635,9 @@ GraphicsFactory.prototype.update = function(type, element, gfx) {
   }
 
   if (element.hidden) {
-    attr(gfx, 'display', 'none');
+    attr$1(gfx, 'display', 'none');
   } else {
-    attr(gfx, 'display', 'block');
+    attr$1(gfx, 'display', 'block');
   }
 };
 
@@ -14648,7 +14645,7 @@ GraphicsFactory.prototype.remove = function(element) {
   var gfx = this._elementRegistry.getGraphics(element);
 
   // remove
-  remove(gfx.parentNode);
+  remove$2(gfx.parentNode);
 };
 
 
@@ -14666,8 +14663,8 @@ function prependTo(newNode, parentNode, siblingNode) {
   parentNode.insertBefore(newNode, node);
 }
 
-var CoreModule$1 = {
-  __depends__: [ DrawModule$1 ],
+var CoreModule = {
+  __depends__: [ DrawModule ],
   __init__: [ 'canvas' ],
   canvas: [ 'type', Canvas ],
   elementRegistry: [ 'type', ElementRegistry ],
@@ -14751,7 +14748,7 @@ function createInjector(options) {
     'config': ['value', options]
   };
 
-  var modules = [ configModule, CoreModule$1 ].concat(options.modules || []);
+  var modules = [ configModule, CoreModule ].concat(options.modules || []);
 
   return bootstrap(modules);
 }
@@ -14878,13 +14875,13 @@ Diagram.prototype.clear = function() {
 /**
  * Moddle base element.
  */
-function Base$1() { }
+function Base() { }
 
-Base$1.prototype.get = function(name) {
+Base.prototype.get = function(name) {
   return this.$model.properties.get(this, name);
 };
 
-Base$1.prototype.set = function(name, value) {
+Base.prototype.set = function(name, value) {
   this.$model.properties.set(this, name, value);
 };
 
@@ -14905,7 +14902,7 @@ Factory.prototype.createType = function(descriptor) {
   var model = this.model;
 
   var props = this.properties,
-      prototype = Object.create(Base$1.prototype);
+      prototype = Object.create(Base.prototype);
 
   // initialize default values
   forEach(descriptor.properties, function(p) {
@@ -14927,7 +14924,7 @@ Factory.prototype.createType = function(descriptor) {
     props.define(this, '$attrs', { value: {} });
     props.define(this, '$parent', { writable: true });
 
-    forEach(attrs, bind(function(val, key) {
+    forEach(attrs, bind$2(function(val, key) {
       this.set(key, val);
     }, this));
   }
@@ -15216,7 +15213,7 @@ DescriptorBuilder.prototype.addTrait = function(t, inherited) {
     return;
   }
 
-  forEach(t.properties, bind(function(p) {
+  forEach(t.properties, bind$2(function(p) {
 
     // clone property to allow extensions
     p = assign({}, p, {
@@ -15263,7 +15260,7 @@ function Registry(packages, properties) {
 
   this.properties = properties;
 
-  forEach(packages, bind(this.registerPackage, this));
+  forEach(packages, bind$2(this.registerPackage, this));
 }
 
 
@@ -15287,7 +15284,7 @@ Registry.prototype.registerPackage = function(pkg) {
   ensureAvailable(pkgMap, pkg, 'uri');
 
   // register types
-  forEach(pkg.types, bind(function(descriptor) {
+  forEach(pkg.types, bind$2(function(descriptor) {
     this.registerType(descriptor, pkg);
   }, this));
 
@@ -15313,7 +15310,7 @@ Registry.prototype.registerType = function(type, pkg) {
       propertiesByName = {};
 
   // parse properties
-  forEach(type.properties, bind(function(p) {
+  forEach(type.properties, bind$2(function(p) {
 
     // namespace property names
     var propertyNs = parseName(p.name, ns.prefix),
@@ -15339,7 +15336,7 @@ Registry.prototype.registerType = function(type, pkg) {
     propertiesByName: propertiesByName
   });
 
-  forEach(type.extends, bind(function(extendsName) {
+  forEach(type.extends, bind$2(function(extendsName) {
     var extended = this.typeMap[extendsName];
 
     extended.traits = extended.traits || [];
@@ -15469,7 +15466,7 @@ Properties.prototype.set = function(target, name, value) {
 
   var propertyName = property && property.name;
 
-  if (isUndefined$1(value)) {
+  if (isUndefined(value)) {
     // unset the property, if the specified value is undefined;
     // delete from $attrs (for extensions) or the target itself
     if (property) {
@@ -15484,7 +15481,7 @@ Properties.prototype.set = function(target, name, value) {
       if (propertyName in target) {
         target[propertyName] = value;
       } else {
-        defineProperty$1(target, property, value);
+        defineProperty(target, property, value);
       }
     } else {
       target.$attrs[name] = value;
@@ -15512,7 +15509,7 @@ Properties.prototype.get = function(target, name) {
 
   // check if access to collection property and lazily initialize it
   if (!target[propertyName] && property.isMany) {
-    defineProperty$1(target, property, []);
+    defineProperty(target, property, []);
   }
 
   return target[propertyName];
@@ -15546,11 +15543,11 @@ Properties.prototype.defineModel = function(target, model) {
 };
 
 
-function isUndefined$1(val) {
+function isUndefined(val) {
   return typeof val === 'undefined';
 }
 
-function defineProperty$1(target, property, value) {
+function defineProperty(target, property, value) {
   Object.defineProperty(target, property.name, {
     enumerable: !property.isReference,
     writable: true,
@@ -15701,7 +15698,7 @@ Moddle.prototype.createAny = function(name, nsUri, properties) {
   this.properties.define(element, '$parent', { enumerable: false, writable: true });
 
   forEach(properties, function(a, key) {
-    if (isObject(a) && a.value !== undefined) {
+    if (isObject$1(a) && a.value !== undefined) {
       element[a.name] = a.value;
     } else {
       element[key] = a;
@@ -15769,7 +15766,7 @@ Moddle.prototype.getTypeDescriptor = function(type) {
 
 var fromCharCode = String.fromCharCode;
 
-var hasOwnProperty$2 = Object.prototype.hasOwnProperty;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 var ENTITY_PATTERN = /&#(\d+);|&#x([0-9a-f]+);|&(\w+);/ig;
 
@@ -15791,7 +15788,7 @@ function replaceEntities(_, d, x, z) {
 
   // reserved names, i.e. &nbsp;
   if (z) {
-    if (hasOwnProperty$2.call(ENTITY_MAPPING, z)) {
+    if (hasOwnProperty.call(ENTITY_MAPPING, z)) {
       return ENTITY_MAPPING[z];
     } else {
 
@@ -15829,11 +15826,11 @@ function decodeEntities(s) {
 
 var XSI_URI = 'http://www.w3.org/2001/XMLSchema-instance';
 var XSI_PREFIX = 'xsi';
-var XSI_TYPE = 'xsi:type';
+var XSI_TYPE$1 = 'xsi:type';
 
 var NON_WHITESPACE_OUTSIDE_ROOT_NODE = 'non-whitespace outside of root node';
 
-function error(msg) {
+function error$1(msg) {
   return new Error(msg);
 }
 
@@ -15954,7 +15951,7 @@ function Parser(options) {
    */
   function handleError(err) {
     if (!(err instanceof Error)) {
-      err = error(err);
+      err = error$1(err);
     }
 
     returnError = err;
@@ -15974,7 +15971,7 @@ function Parser(options) {
     }
 
     if (!(err instanceof Error)) {
-      err = error(err);
+      err = error$1(err);
     }
 
     onWarning(err, getContext);
@@ -15991,7 +15988,7 @@ function Parser(options) {
   this['on'] = function(name, cb) {
 
     if (typeof cb !== 'function') {
-      throw error('required args <name, cb>');
+      throw error$1('required args <name, cb>');
     }
 
     switch (name) {
@@ -16005,7 +16002,7 @@ function Parser(options) {
     case 'question': onQuestion = cb; break; // <? ....  ?>
     case 'comment': onComment = cb; break;
     default:
-      throw error('unsupported event: ' + name);
+      throw error$1('unsupported event: ' + name);
     }
 
     return this;
@@ -16032,7 +16029,7 @@ function Parser(options) {
     }
 
     if (typeof nsMap !== 'object') {
-      throw error('required args <nsMap={}>');
+      throw error$1('required args <nsMap={}>');
     }
 
     var _nsUriToPrefix = {}, k;
@@ -16059,7 +16056,7 @@ function Parser(options) {
    */
   this['parse'] = function(xml) {
     if (typeof xml !== 'string') {
-      throw error('required args <xml=string>');
+      throw error$1('required args <xml=string>');
     }
 
     returnError = null;
@@ -16368,7 +16365,7 @@ function Parser(options) {
         // end: normalize ns attribute name
 
         // normalize xsi:type ns attribute value
-        if (name === XSI_TYPE) {
+        if (name === XSI_TYPE$1) {
           w = value.indexOf(':');
 
           if (w !== -1) {
@@ -16414,7 +16411,7 @@ function Parser(options) {
             // end: normalize ns attribute name
 
             // normalize xsi:type ns attribute value
-            if (name === XSI_TYPE) {
+            if (name === XSI_TYPE$1) {
               w = value.indexOf(':');
 
               if (w !== -1) {
@@ -16857,14 +16854,14 @@ var DEFAULT_NS_MAP = {
   'xml': 'http://www.w3.org/XML/1998/namespace'
 };
 
-var XSI_TYPE$1 = 'xsi:type';
+var XSI_TYPE = 'xsi:type';
 
 function serializeFormat(element) {
   return element.xml && element.xml.serialize;
 }
 
 function serializeAsType(element) {
-  return serializeFormat(element) === XSI_TYPE$1;
+  return serializeFormat(element) === XSI_TYPE;
 }
 
 function serializeAsProperty(element) {
@@ -16906,7 +16903,7 @@ function normalizeXsiTypeName(name, model) {
   return prefixedToName(nameNs, pkg);
 }
 
-function error$1(message) {
+function error(message) {
   return new Error(message);
 }
 
@@ -16964,7 +16961,7 @@ function Context(options) {
   this.addElement = function(element) {
 
     if (!element) {
-      throw error$1('expected element');
+      throw error('expected element');
     }
 
     var elementsById = this.elementsById;
@@ -16985,7 +16982,7 @@ function Context(options) {
         }
 
         if (elementsById[id]) {
-          throw error$1('duplicate ID <' + id + '>');
+          throw error('duplicate ID <' + id + '>');
         }
 
         elementsById[id] = element;
@@ -17045,7 +17042,7 @@ ReferenceHandler.prototype = Object.create(BodyHandler.prototype);
 ReferenceHandler.prototype.handleNode = function(node) {
 
   if (this.element) {
-    throw error$1('expected no sub nodes');
+    throw error('expected no sub nodes');
   } else {
     this.element = this.createReference(node);
   }
@@ -17129,7 +17126,7 @@ ElementHandler.prototype.handleText = function(text) {
       bodyProperty = descriptor.bodyProperty;
 
   if (!bodyProperty) {
-    throw error$1('unexpected body text <' + text + '>');
+    throw error('unexpected body text <' + text + '>');
   }
 
   BodyHandler.prototype.handleText.call(this, text);
@@ -17235,7 +17232,7 @@ ElementHandler.prototype.getPropertyForNode = function(node) {
   if (property && !property.isAttr) {
 
     if (serializeAsType(property)) {
-      elementTypeName = node.attributes[XSI_TYPE$1];
+      elementTypeName = node.attributes[XSI_TYPE];
 
       // xsi type is optional, if it does not exists the
       // default type is assumed
@@ -17285,7 +17282,7 @@ ElementHandler.prototype.getPropertyForNode = function(node) {
     }
   }
 
-  throw error$1('unrecognized element <' + nameNs.name + '>');
+  throw error('unrecognized element <' + nameNs.name + '>');
 };
 
 ElementHandler.prototype.toString = function() {
@@ -17388,7 +17385,7 @@ RootElementHandler.prototype.createElement = function(node) {
   //
   // this ensures we don't mistakenly import wrong namespace elements
   if (!type.hasType(typeName)) {
-    throw error$1('unexpected element <' + node.originalName + '>');
+    throw error('unexpected element <' + node.originalName + '>');
   }
 
   return ElementHandler.prototype.createElement.call(this, node);
@@ -17556,7 +17553,7 @@ Reader.prototype.fromXML = function(xml, options, done) {
 
       return true;
     } else {
-      throw error$1(message);
+      throw error(message);
     }
   }
 
@@ -17738,7 +17735,7 @@ Reader.prototype.fromXML = function(xml, options, done) {
     var rootElement = rootHandler.element;
 
     if (!err && !rootElement) {
-      err = error$1('failed to parse document as <' + rootHandler.type.$descriptor.name + '>');
+      err = error('failed to parse document as <' + rootHandler.type.$descriptor.name + '>');
     }
 
     var warnings = context.warnings;
@@ -17891,7 +17888,7 @@ function nsName(ns) {
 
 function getNsAttrs(namespaces) {
 
-  return map(namespaces.getUsed(), function(ns) {
+  return map$1(namespaces.getUsed(), function(ns) {
     var name = 'xmlns' + (ns.prefix ? ':' + ns.prefix : '');
     return { name: name, value: ns.uri };
   });
@@ -17957,7 +17954,7 @@ var ESCAPE_MAP = {
   '&': 'amp'
 };
 
-function escape$1(str, charPattern, replaceMap) {
+function escape(str, charPattern, replaceMap) {
 
   // ensure we are handling strings here
   str = isString(str) ? str : '' + str;
@@ -17974,11 +17971,11 @@ function escape$1(str, charPattern, replaceMap) {
  * @return {String} the escaped string
  */
 function escapeAttr(str) {
-  return escape$1(str, ESCAPE_ATTR_CHARS, ESCAPE_ATTR_MAP);
+  return escape(str, ESCAPE_ATTR_CHARS, ESCAPE_ATTR_MAP);
 }
 
 function escapeBody(str) {
-  return escape$1(str, ESCAPE_CHARS, ESCAPE_MAP);
+  return escape(str, ESCAPE_CHARS, ESCAPE_MAP);
 }
 
 function filterAttributes(props) {
@@ -18248,7 +18245,7 @@ ElementSerializer.prototype.parseGenericAttributes = function(element, attribute
 
     // do not serialize xsi:type attribute
     // it is set manually based on the actual implementation type
-    if (attr.name === XSI_TYPE$1) {
+    if (attr.name === XSI_TYPE) {
       return;
     }
 
@@ -18530,7 +18527,7 @@ TypeSerializer.prototype.parseNsAttributes = function(element) {
       typePrefix = (pkg.xml && pkg.xml.typePrefix) || '';
 
   this.addAttribute(
-    this.nsAttributeName(XSI_TYPE$1),
+    this.nsAttributeName(XSI_TYPE),
     (typeNs.prefix ? typeNs.prefix + ':' : '') + typePrefix + descriptor.ns.localName
   );
 
@@ -18705,10 +18702,10 @@ BpmnModdle.prototype.toXML = function(element, options) {
   });
 };
 
-var name = "BPMN20";
-var uri = "http://www.omg.org/spec/BPMN/20100524/MODEL";
+var name$1 = "BPMN20";
+var uri$1 = "http://www.omg.org/spec/BPMN/20100524/MODEL";
 var prefix$1 = "bpmn";
-var associations = [
+var associations$1 = [
 ];
 var types$1 = [
 	{
@@ -21658,22 +21655,22 @@ var enumerations = [
 		]
 	}
 ];
-var xml = {
+var xml$1 = {
 	tagAlias: "lowerCase",
 	typePrefix: "t"
 };
 var BpmnPackage = {
-	name: name,
-	uri: uri,
+	name: name$1,
+	uri: uri$1,
 	prefix: prefix$1,
-	associations: associations,
+	associations: associations$1,
 	types: types$1,
 	enumerations: enumerations,
-	xml: xml
+	xml: xml$1
 };
 
-var name$1 = "BPMNDI";
-var uri$1 = "http://www.omg.org/spec/BPMN/20100524/DI";
+var name$1$1 = "BPMNDI";
+var uri$1$1 = "http://www.omg.org/spec/BPMN/20100524/DI";
 var prefix$1$1 = "bpmndi";
 var types$1$1 = [
 	{
@@ -21862,15 +21859,15 @@ var enumerations$1 = [
 		]
 	}
 ];
-var associations$1 = [
+var associations$1$1 = [
 ];
 var BpmnDiPackage = {
-	name: name$1,
-	uri: uri$1,
+	name: name$1$1,
+	uri: uri$1$1,
 	prefix: prefix$1$1,
 	types: types$1$1,
 	enumerations: enumerations$1,
-	associations: associations$1
+	associations: associations$1$1
 };
 
 var name$2 = "DC";
@@ -22213,7 +22210,7 @@ var types$3 = [
 ];
 var associations$3 = [
 ];
-var xml$1 = {
+var xml$1$1 = {
 	tagAlias: "lowerCase"
 };
 var DiPackage = {
@@ -22222,7 +22219,7 @@ var DiPackage = {
 	prefix: prefix$3,
 	types: types$3,
 	associations: associations$3,
-	xml: xml$1
+	xml: xml$1$1
 };
 
 var name$4 = "bpmn.io colors for BPMN";
@@ -22853,7 +22850,7 @@ function wrapForCompatibility(api) {
     }
 
     var argLen = arguments.length;
-    if (argLen >= 1 && isFunction(arguments[argLen - 1])) {
+    if (argLen >= 1 && isFunction$1(arguments[argLen - 1])) {
 
       var callback = arguments[argLen - 1];
 
@@ -23765,7 +23762,7 @@ inherits_browser(Viewer, BaseViewer);
 
 // modules the viewer is composed of
 Viewer.prototype._modules = [
-  CoreModule,
+  CoreModule$1,
   TranslateModule,
   SelectionModule,
   OverlaysModule
@@ -23803,7 +23800,7 @@ function isCmd(event) {
  * @param {KeyboardEvent} event
  */
 function isKey(keys, event) {
-  keys = isArray(keys) ? keys : [ keys ];
+  keys = isArray$1(keys) ? keys : [ keys ];
 
   return keys.indexOf(event.key) !== -1 || keys.indexOf(event.keyCode) !== -1;
 }
@@ -23818,7 +23815,7 @@ function isShift(event) {
 var KEYDOWN_EVENT = 'keyboard.keydown',
     KEYUP_EVENT = 'keyboard.keyup';
 
-var DEFAULT_PRIORITY$1 = 1000;
+var DEFAULT_PRIORITY = 1000;
 
 
 /**
@@ -23954,10 +23951,10 @@ Keyboard.prototype._fire = function(event) {
  * @param {string} type
  */
 Keyboard.prototype.addListener = function(priority, listener, type) {
-  if (isFunction(priority)) {
+  if (isFunction$1(priority)) {
     type = listener;
     listener = priority;
-    priority = DEFAULT_PRIORITY$1;
+    priority = DEFAULT_PRIORITY;
   }
 
   this._eventBus.on(type || KEYDOWN_EVENT, priority, listener);
@@ -23980,7 +23977,7 @@ function isInput(target) {
   return target && (matchesSelector(target, 'input, textarea') || target.contentEditable === 'true');
 }
 
-var LOW_PRIORITY$3 = 500;
+var LOW_PRIORITY = 500;
 
 var KEYCODE_C = 67;
 var KEYCODE_V = 86;
@@ -24006,7 +24003,7 @@ function KeyboardBindings(eventBus, keyboard) {
 
   var self = this;
 
-  eventBus.on('editorActions.init', LOW_PRIORITY$3, function(event) {
+  eventBus.on('editorActions.init', LOW_PRIORITY, function(event) {
 
     var editorActions = event.editorActions;
 
@@ -24286,18 +24283,18 @@ var KeyboardMoveModule = {
 var CURSOR_CLS_PATTERN = /^djs-cursor-.*$/;
 
 
-function set$1(mode) {
-  var classes = classes$1(document.body);
+function set(mode) {
+  var classes$1 = classes(document.body);
 
-  classes.removeMatching(CURSOR_CLS_PATTERN);
+  classes$1.removeMatching(CURSOR_CLS_PATTERN);
 
   if (mode) {
-    classes.add('djs-cursor-' + mode);
+    classes$1.add('djs-cursor-' + mode);
   }
 }
 
 function unset() {
-  set$1(null);
+  set(null);
 }
 
 var TRAP_PRIORITY = 5000;
@@ -24365,7 +24362,7 @@ function MoveCanvas(eventBus, canvas) {
         install(eventBus);
       }
 
-      set$1('grab');
+      set('grab');
     }
 
     if (context.dragging) {
@@ -24509,7 +24506,7 @@ function ZoomScroll(config, eventBus, canvas) {
   this._canvas = canvas;
   this._container = canvas._container;
 
-  this._handleWheel = bind(this._handleWheel, this);
+  this._handleWheel = bind$2(this._handleWheel, this);
 
   this._totalDelta = 0;
   this._scale = config.scale || DEFAULT_SCALE;
@@ -24727,9 +24724,9 @@ NavigatedViewer.prototype._modules = [].concat(
 
 var require$$0 = /*@__PURE__*/getAugmentedNamespace(index_esm);
 
-var isFunction$1 = require$$0.isFunction,
-    isObject$1 = require$$0.isObject,
-    some$1 = require$$0.some;
+var isFunction = require$$0.isFunction,
+    isObject = require$$0.isObject,
+    some = require$$0.some;
 
 var WILDCARD = '*';
 
@@ -24754,14 +24751,14 @@ CamundaModdleExtension.$inject = [ 'eventBus' ];
 CamundaModdleExtension.prototype.canCopyProperty = function(property, parent) {
 
   // (1) check wether property is allowed in parent
-  if (isObject$1(property) && !isAllowedInParent(property, parent)) {
+  if (isObject(property) && !isAllowedInParent(property, parent)) {
 
     return false;
   }
 
   // (2) check more complex scenarios
 
-  if (is$2(property, 'camunda:InputOutput') && !this.canHostInputOutput(parent)) {
+  if (is(property, 'camunda:InputOutput') && !this.canHostInputOutput(parent)) {
     return false;
   }
 
@@ -24769,7 +24766,7 @@ CamundaModdleExtension.prototype.canCopyProperty = function(property, parent) {
     return false;
   }
 
-  if (is$2(property, 'camunda:In') && !this.canHostIn(parent)) {
+  if (is(property, 'camunda:In') && !this.canHostIn(parent)) {
     return false;
   }
 };
@@ -24794,7 +24791,7 @@ CamundaModdleExtension.prototype.canHostInputOutput = function(parent) {
     return false;
   }
 
-  if (is$2(flowNode, 'bpmn:SubProcess') && flowNode.get('triggeredByEvent')) {
+  if (is(flowNode, 'bpmn:SubProcess') && flowNode.get('triggeredByEvent')) {
     return false;
   }
 
@@ -24805,7 +24802,7 @@ CamundaModdleExtension.prototype.canHostConnector = function(parent) {
 
   var serviceTaskLike = getParent(parent, 'camunda:ServiceTaskLike');
 
-  if (is$2(serviceTaskLike, 'bpmn:MessageEventDefinition')) {
+  if (is(serviceTaskLike, 'bpmn:MessageEventDefinition')) {
 
     // only allow on throw and end events
     return (
@@ -24843,13 +24840,13 @@ var extension = CamundaModdleExtension;
 
 // helpers //////////
 
-function is$2(element, type) {
-  return element && isFunction$1(element.$instanceOf) && element.$instanceOf(type);
+function is(element, type) {
+  return element && isFunction(element.$instanceOf) && element.$instanceOf(type);
 }
 
 function isAny(element, types) {
-  return some$1(types, function(t) {
-    return is$2(element, t);
+  return some(types, function(t) {
+    return is(element, t);
   });
 }
 
@@ -24858,7 +24855,7 @@ function getParent(element, type) {
     return element.$parent;
   }
 
-  if (is$2(element, type)) {
+  if (is(element, type)) {
     return element;
   }
 
@@ -24881,7 +24878,7 @@ function isAllowedInParent(property, parent) {
   }
 
   // (2) check wether property has parent of allowed type
-  return some$1(allowedIn, function(type) {
+  return some(allowedIn, function(type) {
     return getParent(parent, type);
   });
 }
@@ -24890,20 +24887,20 @@ function isWildcard(allowedIn) {
   return allowedIn.indexOf(WILDCARD) !== -1;
 }
 
-var lib = {
+var lib$1 = {
   __init__: [ 'camundaModdleExtension' ],
   camundaModdleExtension: [ 'type', extension ]
 };
 
-var name$5 = "Camunda";
-var uri$5 = "http://camunda.org/schema/1.0/bpmn";
-var prefix$5 = "camunda";
-var xml$2 = {
+var name = "Camunda";
+var uri = "http://camunda.org/schema/1.0/bpmn";
+var prefix = "camunda";
+var xml = {
 	tagAlias: "lowerCase"
 };
-var associations$5 = [
+var associations = [
 ];
-var types$5 = [
+var types = [
 	{
 		name: "Definitions",
 		isAbstract: true,
@@ -25032,7 +25029,7 @@ var types$5 = [
 		]
 	},
 	{
-		name: "SignalEventDefinition",
+		name: "SignalEventDefinitionExtension",
 		isAbstract: true,
 		"extends": [
 			"bpmn:SignalEventDefinition"
@@ -25047,7 +25044,7 @@ var types$5 = [
 		]
 	},
 	{
-		name: "ErrorEventDefinition",
+		name: "ErrorEventDefinitionExtension",
 		isAbstract: true,
 		"extends": [
 			"bpmn:ErrorEventDefinition"
@@ -25064,6 +25061,25 @@ var types$5 = [
 				type: "String"
 			}
 		]
+	},
+	{
+		name: "ErrorEventDefinition",
+		superClass: [
+			"bpmn:ErrorEventDefinition",
+			"Element"
+		],
+		properties: [
+			{
+				name: "expression",
+				isAttr: true,
+				type: "String"
+			}
+		],
+		meta: {
+			allowedIn: [
+				"bpmn:ServiceTask"
+			]
+		}
 	},
 	{
 		name: "Error",
@@ -25200,7 +25216,7 @@ var types$5 = [
 		]
 	},
 	{
-		name: "EscalationEventDefinition",
+		name: "EscalationEventDefinitionExtension",
 		isAbstract: true,
 		"extends": [
 			"bpmn:EscalationEventDefinition"
@@ -26001,7 +26017,7 @@ var types$5 = [
 		]
 	},
 	{
-		name: "ConditionalEventDefinition",
+		name: "ConditionalEventDefinitionExtension",
 		isAbstract: true,
 		"extends": [
 			"bpmn:ConditionalEventDefinition"
@@ -26023,20 +26039,20 @@ var types$5 = [
 var emumerations = [
 ];
 var camundaModdle = {
-	name: name$5,
-	uri: uri$5,
-	prefix: prefix$5,
-	xml: xml$2,
-	associations: associations$5,
-	types: types$5,
+	name: name,
+	uri: uri,
+	prefix: prefix,
+	xml: xml,
+	associations: associations,
+	types: types,
 	emumerations: emumerations
 };
 
 // document wide unique tooltip ids
-var ids$1 = new IdGenerator('tt');
+var ids = new IdGenerator('tt');
 
 
-function createRoot$1(parentNode) {
+function createRoot(parentNode) {
   var root = domify(
     '<div class="djs-tooltip-container" style="position: absolute; width: 0; height: 0;" />'
   );
@@ -26047,11 +26063,11 @@ function createRoot$1(parentNode) {
 }
 
 
-function setPosition$1(el, x, y) {
+function setPosition(el, x, y) {
   assign(el.style, { left: x + 'px', top: y + 'px' });
 }
 
-function setVisible$1(el, visible) {
+function setVisible(el, visible) {
   el.style.display = visible === false ? 'none' : '';
 }
 
@@ -26101,7 +26117,7 @@ function Tooltips(eventBus, canvas) {
   this._eventBus = eventBus;
   this._canvas = canvas;
 
-  this._ids = ids$1;
+  this._ids = ids;
 
   this._tooltipDefaults = {
     show: {
@@ -26116,7 +26132,7 @@ function Tooltips(eventBus, canvas) {
   this._tooltips = {};
 
   // root html element for all tooltips
-  this._tooltipRoot = createRoot$1(canvas.getContainer());
+  this._tooltipRoot = createRoot(canvas.getContainer());
 
 
   var self = this;
@@ -26187,7 +26203,7 @@ Tooltips.prototype.trigger = function(action, event) {
 
   var node = event.delegateTarget || event.target;
 
-  var tooltip = this.get(attr$1(node, 'data-tooltip-id'));
+  var tooltip = this.get(attr(node, 'data-tooltip-id'));
 
   if (!tooltip) {
     return;
@@ -26274,12 +26290,12 @@ Tooltips.prototype.remove = function(id) {
 
 
 Tooltips.prototype.show = function() {
-  setVisible$1(this._tooltipRoot);
+  setVisible(this._tooltipRoot);
 };
 
 
 Tooltips.prototype.hide = function() {
-  setVisible$1(this._tooltipRoot, false);
+  setVisible(this._tooltipRoot, false);
 };
 
 
@@ -26317,11 +26333,11 @@ Tooltips.prototype._addTooltip = function(tooltip) {
   htmlContainer.appendChild(html);
 
   if (tooltip.type) {
-    classes$1(htmlContainer).add('djs-tooltip-' + tooltip.type);
+    classes(htmlContainer).add('djs-tooltip-' + tooltip.type);
   }
 
   if (tooltip.className) {
-    classes$1(htmlContainer).add(tooltip.className);
+    classes(htmlContainer).add(tooltip.className);
   }
 
   tooltip.htmlContainer = htmlContainer;
@@ -26341,7 +26357,7 @@ Tooltips.prototype._updateTooltip = function(tooltip) {
 
   // update overlay html based on tooltip x, y
 
-  setPosition$1(htmlContainer, position.x, position.y);
+  setPosition(htmlContainer, position.x, position.y);
 };
 
 
@@ -26358,7 +26374,7 @@ Tooltips.prototype._updateTooltipVisibilty = function(viewbox) {
         visible = false;
       }
 
-      setVisible$1(htmlContainer, visible);
+      setVisible(htmlContainer, visible);
     }
   });
 };
@@ -26400,11 +26416,11 @@ var RobotTaskRenderer = /** @class */ (function () {
         BaseRenderer.call(this, eventBus, 1500);
     }
     RobotTaskRenderer.prototype.canRender = function (element) {
-        return is(element, 'bpmn:ServiceTask') && element.id.match(/robot/i);
+        return is$2(element, 'bpmn:ServiceTask') && element.id.match(/robot/i);
     };
     RobotTaskRenderer.prototype.drawShape = function (parent, element) {
         this.bpmnRenderer.handlers['bpmn:Task'](parent, element);
-        var gfx = create('image', {
+        var gfx = create$1('image', {
             x: -1,
             y: -1,
             width: 32,
@@ -26448,11 +26464,11 @@ var DEFAULT_ATTRS = {
  * @param {Object} [attrs]
  */
 function createCurve(points, attrs = {}) {
-  var path = create('path');
+  var path = create$1('path');
 
   var data = getData(points);
 
-  attr(path, assign({}, DEFAULT_ATTRS, attrs, {
+  attr$1(path, assign({}, DEFAULT_ATTRS, attrs, {
     d: data
   }));
 
@@ -26471,7 +26487,7 @@ function getData(points) {
   return [
     moveTo(startSegment.start),
     quadraticCurve(startSegment.controlPoint, startSegment.end)
-  ].concat(map(segments, function(segment) {
+  ].concat(map$1(segments, function(segment) {
     return sameCurve(segment.controlPoint, segment.end);
   })).join(' ');
 }
@@ -26587,7 +26603,7 @@ var getConnections = function (activities, elementRegistry) {
             startTimesById.set(activity.activityId, [activity.startTime || 'Z']);
         }
     }
-    var elementById = new Map(map(activities, function (activity) {
+    var elementById = new Map(map$1(activities, function (activity) {
         var _a, _b;
         var element = elementRegistry.get(activity.activityId);
         // Side effect! Populate connectionDenyList for gateways by sorting outgoing
@@ -26632,7 +26648,8 @@ var getConnections = function (activities, elementRegistry) {
                     return false;
                 }
                 var incomingEndTimes = validActivity.get(connection.source.id)
-                    ? (_a = endTimesById.get(connection.source.id)) !== null && _a !== void 0 ? _a : [] : [];
+                    ? (_a = endTimesById.get(connection.source.id)) !== null && _a !== void 0 ? _a : []
+                    : [];
                 return incomingEndTimes.reduce(function (acc, iET) {
                     return acc || currentEndTimes.reduce(function (acc_, cET) { return acc_ || iET <= cET; }, false);
                 }, false);
@@ -26647,7 +26664,7 @@ var getConnections = function (activities, elementRegistry) {
                     return acc || currentEndTimes.reduce(function (acc_, cET) { return acc_ || oET >= cET; }, false);
                 }, false);
             });
-            return __spreadArrays(incoming, outgoing);
+            return __spreadArray(__spreadArray([], incoming), outgoing);
         }
         else {
             return [];
@@ -26655,11 +26672,11 @@ var getConnections = function (activities, elementRegistry) {
     };
     var connections = [];
     forEach(Array.from(elementById.keys()), function (activityId) {
-        connections = uniqueBy('id', __spreadArrays(connections, getActivityConnections(activityId)));
+        connections = uniqueBy('id', __spreadArray(__spreadArray([], connections), getActivityConnections(activityId)));
     });
     return connections;
 };
-var getMid$2 = function (shape) {
+var getMid = function (shape) {
     return {
         x: shape.x + shape.width / 2,
         y: shape.y + shape.height / 2,
@@ -26674,7 +26691,7 @@ var getDottedConnections = function (connections) {
             var source = c.source;
             if (source === target && !notDottedTypes.includes(source.type)) {
                 dottedConnections.push({
-                    waypoints: [connection.waypoints[connection.waypoints.length - 1], getMid$2(target), c.waypoints[0]],
+                    waypoints: [connection.waypoints[connection.waypoints.length - 1], getMid(target), c.waypoints[0]],
                 });
             }
         });
@@ -26689,12 +26706,12 @@ var renderSequenceFlow = function (viewer, activities) {
     var paths = [];
     var defs = query('defs', canvas._svg);
     if (!defs) {
-        defs = create('defs');
+        defs = create$1('defs');
         append(canvas._svg, defs);
     }
-    var marker = create('marker');
-    var path = create('path');
-    attr(marker, {
+    var marker = create$1('marker');
+    var path = create$1('path');
+    attr$1(marker, {
         id: 'arrow',
         viewBox: '0 0 10 10',
         refX: 7,
@@ -26703,7 +26720,7 @@ var renderSequenceFlow = function (viewer, activities) {
         markerHeight: 4,
         orient: 'auto-start-reverse',
     });
-    attr(path, {
+    attr$1(path, {
         d: 'M 0 0 L 10 5 L 0 10 z',
         fill: FILL,
         stroke: 'blue',
@@ -26739,11 +26756,11 @@ var renderSequenceFlow = function (viewer, activities) {
 var clearSequenceFlow = function (nodes) {
     for (var _i = 0, nodes_1 = nodes; _i < nodes_1.length; _i++) {
         var node = nodes_1[_i];
-        remove(node);
+        remove$2(node);
     }
 };
 
-___$insertStyle(".toggle-sequence-flow-button {\n  background: #ffffff;\n  border-radius: 1px;\n  border: 1px solid #cccccc;\n  padding: 0;\n  width: 30px;\n  height: 30px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.toggle-sequence-flow-button:hover {\n  background: #e6e6e6;\n}");
+___$insertStylesToHeader(".toggle-sequence-flow-button {\n  background: #ffffff;\n  border-radius: 1px;\n  border: 1px solid #cccccc;\n  padding: 0;\n  width: 30px;\n  height: 30px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.toggle-sequence-flow-button:hover {\n  background: #e6e6e6;\n}");
 
 var DefaultContext = {
   color: undefined,
@@ -26754,8 +26771,8 @@ var DefaultContext = {
 };
 var IconContext = react.createContext && react.createContext(DefaultContext);
 
-var __assign$1 = undefined && undefined.__assign || function () {
-  __assign$1 = Object.assign || function (t) {
+var __assign = undefined && undefined.__assign || function () {
+  __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
       s = arguments[i];
 
@@ -26765,7 +26782,7 @@ var __assign$1 = undefined && undefined.__assign || function () {
     return t;
   };
 
-  return __assign$1.apply(this, arguments);
+  return __assign.apply(this, arguments);
 };
 
 var __rest = undefined && undefined.__rest || function (s, e) {
@@ -26781,7 +26798,7 @@ var __rest = undefined && undefined.__rest || function (s, e) {
 
 function Tree2Element(tree) {
   return tree && tree.map(function (node, i) {
-    return react.createElement(node.tag, __assign$1({
+    return react.createElement(node.tag, __assign({
       key: i
     }, node.attr), Tree2Element(node.child));
   });
@@ -26789,8 +26806,8 @@ function Tree2Element(tree) {
 
 function GenIcon(data) {
   return function (props) {
-    return react.createElement(IconBase, __assign$1({
-      attr: __assign$1({}, data.attr)
+    return react.createElement(IconBase, __assign({
+      attr: __assign({}, data.attr)
     }, props), Tree2Element(data.child));
   };
 }
@@ -26805,13 +26822,13 @@ function IconBase(props) {
     var className;
     if (conf.className) className = conf.className;
     if (props.className) className = (className ? className + ' ' : '') + props.className;
-    return react.createElement("svg", __assign$1({
+    return react.createElement("svg", __assign({
       stroke: "currentColor",
       fill: "currentColor",
       strokeWidth: "0"
     }, conf.attr, attr, svgProps, {
       className: className,
-      style: __assign$1(__assign$1({
+      style: __assign(__assign({
         color: props.color || conf.color
       }, conf.style), props.style),
       height: computedSize,
@@ -26846,7 +26863,7 @@ var BPMNViewer = function (diagram) { return __awaiter(void 0, void 0, void 0, f
         switch (_a.label) {
             case 0:
                 model = new NavigatedViewer({
-                    additionalModules: [lib, RobotModule, tooltips],
+                    additionalModules: [lib$1, RobotModule, tooltips],
                     moddleExtensions: {
                         camunda: camundaModdle,
                     },
@@ -27000,7 +27017,7 @@ var clipboardToIE11Formatting = {
 
 var defaultMessage = "Copy to clipboard: #{key}, Enter";
 
-function format$1(message) {
+function format(message) {
   var copyKey = (/mac os x/i.test(navigator.userAgent) ? "⌘" : "Ctrl") + "+C";
   return message.replace(/#{\s*key\s*}/g, copyKey);
 }
@@ -27079,7 +27096,7 @@ function copy(text, options) {
     } catch (err) {
       debug && console.error("unable to copy using clipboardData: ", err);
       debug && console.error("falling back to prompt");
-      message = format$1("message" in options ? options.message : defaultMessage);
+      message = format("message" in options ? options.message : defaultMessage);
       window.prompt(message, text);
     }
   } finally {
@@ -27102,7 +27119,7 @@ function copy(text, options) {
 
 var copyToClipboard = copy;
 
-var Component = createCommonjsModule(function (module, exports) {
+var Component = createCommonjsModule$1(function (module, exports) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -27217,7 +27234,7 @@ _defineProperty(CopyToClipboard, "defaultProps", {
 var CopyToClipboard = Component.CopyToClipboard;
 
 CopyToClipboard.CopyToClipboard = CopyToClipboard;
-var lib$1 = CopyToClipboard;
+var lib = CopyToClipboard;
 
 // THIS FILE IS AUTO GENERATED
 function HiCheck (props) {
@@ -27239,7 +27256,7 @@ var Clippy = function (_a) {
             setCopied(false);
         }, style: { display: 'flex', alignItems: 'center' } },
         children,
-        mouseOver ? (react.createElement(lib$1, { text: value, onCopy: function () { return setCopied(true); } },
+        mouseOver ? (react.createElement(lib, { text: value, onCopy: function () { return setCopied(true); } },
             react.createElement("a", { href: "#", onClick: function (e) {
                     e.preventDefault();
                 } },
@@ -27294,12 +27311,12 @@ var HistoryTable = function (_a) {
     }, []);
     var tableInstance = reactTable.useTable({ columns: columns, data: data });
     var getTableProps = tableInstance.getTableProps, getTableBodyProps = tableInstance.getTableBodyProps, headerGroups = tableInstance.headerGroups, rows = tableInstance.rows, prepareRow = tableInstance.prepareRow;
-    return (react.createElement("table", __assign({ className: "cam-table" }, getTableProps()),
-        react.createElement("thead", null, headerGroups.map(function (headerGroup) { return (react.createElement("tr", __assign({}, headerGroup.getHeaderGroupProps()), headerGroup.headers.map(function (column) { return (react.createElement("th", __assign({}, column.getHeaderProps()), column.render('Header'))); }))); })),
-        react.createElement("tbody", __assign({}, getTableBodyProps()), rows.map(function (row) {
+    return (react.createElement("table", __assign$1({ className: "cam-table" }, getTableProps()),
+        react.createElement("thead", null, headerGroups.map(function (headerGroup) { return (react.createElement("tr", __assign$1({}, headerGroup.getHeaderGroupProps()), headerGroup.headers.map(function (column) { return (react.createElement("th", __assign$1({}, column.getHeaderProps()), column.render('Header'))); }))); })),
+        react.createElement("tbody", __assign$1({}, getTableBodyProps()), rows.map(function (row) {
             prepareRow(row);
-            return (react.createElement("tr", __assign({}, row.getRowProps()), row.cells.map(function (cell) {
-                return react.createElement("td", __assign({}, cell.getCellProps()), cell.render('Cell'));
+            return (react.createElement("tr", __assign$1({}, row.getRowProps()), row.cells.map(function (cell) {
+                return react.createElement("td", __assign$1({}, cell.getCellProps()), cell.render('Cell'));
             })));
         }))));
 };
@@ -27332,12 +27349,12 @@ var VariablesTable = function (_a) {
     var data = react.useMemo(function () { return variables; }, []);
     var tableInstance = reactTable.useTable({ columns: columns, data: data });
     var getTableProps = tableInstance.getTableProps, getTableBodyProps = tableInstance.getTableBodyProps, headerGroups = tableInstance.headerGroups, rows = tableInstance.rows, prepareRow = tableInstance.prepareRow;
-    return (react.createElement("table", __assign({ className: "cam-table" }, getTableProps()),
-        react.createElement("thead", null, headerGroups.map(function (headerGroup) { return (react.createElement("tr", __assign({}, headerGroup.getHeaderGroupProps()), headerGroup.headers.map(function (column) { return (react.createElement("th", __assign({}, column.getHeaderProps()), column.render('Header'))); }))); })),
-        react.createElement("tbody", __assign({}, getTableBodyProps()), rows.map(function (row) {
+    return (react.createElement("table", __assign$1({ className: "cam-table" }, getTableProps()),
+        react.createElement("thead", null, headerGroups.map(function (headerGroup) { return (react.createElement("tr", __assign$1({}, headerGroup.getHeaderGroupProps()), headerGroup.headers.map(function (column) { return (react.createElement("th", __assign$1({}, column.getHeaderProps()), column.render('Header'))); }))); })),
+        react.createElement("tbody", __assign$1({}, getTableBodyProps()), rows.map(function (row) {
             prepareRow(row);
-            return (react.createElement("tr", __assign({}, row.getRowProps()), row.cells.map(function (cell) {
-                return react.createElement("td", __assign({}, cell.getCellProps()), cell.render('Cell'));
+            return (react.createElement("tr", __assign$1({}, row.getRowProps()), row.cells.map(function (cell) {
+                return react.createElement("td", __assign$1({}, cell.getCellProps()), cell.render('Cell'));
             })));
         }))));
 };
@@ -27349,7 +27366,7 @@ var headers = function (api) {
         'X-XSRF-TOKEN': api.CSRFToken,
     };
 };
-var get$1 = function (api, path, params) { return __awaiter(void 0, void 0, void 0, function () {
+var get = function (api, path, params) { return __awaiter(void 0, void 0, void 0, function () {
     var query, res, _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -27394,10 +27411,10 @@ var instanceRouteHistory = [
                 var definition, instances;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, get$1(api, "/process-definition/" + processDefinitionId)];
+                        case 0: return [4 /*yield*/, get(api, "/process-definition/" + processDefinitionId)];
                         case 1:
                             definition = _a.sent();
-                            return [4 /*yield*/, get$1(api, '/history/process-instance', {
+                            return [4 /*yield*/, get(api, '/history/process-instance', {
                                     processDefinitionKey: definition.key,
                                     // finished: true,
                                     sortBy: 'endTime',
@@ -27431,14 +27448,14 @@ var instanceRouteHistory = [
                     var instance, _a, diagram, activities, variables, decisions, decisionByActivity;
                     return __generator(this, function (_b) {
                         switch (_b.label) {
-                            case 0: return [4 /*yield*/, get$1(api, "/history/process-instance/" + processInstanceId)];
+                            case 0: return [4 /*yield*/, get(api, "/history/process-instance/" + processInstanceId)];
                             case 1:
                                 instance = _b.sent();
                                 return [4 /*yield*/, Promise.all([
-                                        get$1(api, "/process-definition/" + instance.processDefinitionId + "/xml"),
-                                        get$1(api, '/history/activity-instance', { processInstanceId: processInstanceId }),
-                                        get$1(api, '/history/variable-instance', { processInstanceId: processInstanceId }),
-                                        get$1(api, '/history/decision-instance', { processInstanceId: processInstanceId }),
+                                        get(api, "/process-definition/" + instance.processDefinitionId + "/xml"),
+                                        get(api, '/history/activity-instance', { processInstanceId: processInstanceId }),
+                                        get(api, '/history/variable-instance', { processInstanceId: processInstanceId }),
+                                        get(api, '/history/decision-instance', { processInstanceId: processInstanceId }),
                                     ])];
                             case 2:
                                 _a = _b.sent(), diagram = _a[0], activities = _a[1], variables = _a[2], decisions = _a[3];

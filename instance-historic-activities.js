@@ -1,17 +1,17 @@
-function ___$insertStyle(css) {
+function ___$insertStylesToHeader(css) {
   if (!css) {
-    return;
+    return
   }
   if (typeof window === 'undefined') {
-    return;
+    return
   }
 
-  var style = document.createElement('style');
+  const style = document.createElement('style');
 
   style.setAttribute('type', 'text/css');
   style.innerHTML = css;
   document.head.appendChild(style);
-  return css;
+  return css
 }
 
 /*! *****************************************************************************
@@ -29,15 +29,15 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 
-var __assign = function() {
-    __assign = Object.assign || function __assign(t) {
+var __assign$1 = function() {
+    __assign$1 = Object.assign || function __assign(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
             s = arguments[i];
             for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
         }
         return t;
     };
-    return __assign.apply(this, arguments);
+    return __assign$1.apply(this, arguments);
 };
 
 function __awaiter(thisArg, _arguments, P, generator) {
@@ -78,13 +78,10 @@ function __generator(thisArg, body) {
     }
 }
 
-/** @deprecated */
-function __spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+function __spreadArray(to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
 }
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -661,17 +658,17 @@ var AuditLogTable = function (_a) {
     }, []);
     var tableInstance = reactTable.useTable({ columns: columns, data: data });
     var getTableProps = tableInstance.getTableProps, getTableBodyProps = tableInstance.getTableBodyProps, headerGroups = tableInstance.headerGroups, rows = tableInstance.rows, prepareRow = tableInstance.prepareRow;
-    return (react.createElement("table", __assign({ className: "cam-table" }, getTableProps()),
-        react.createElement("thead", null, headerGroups.map(function (headerGroup) { return (react.createElement("tr", __assign({}, headerGroup.getHeaderGroupProps()), headerGroup.headers.map(function (column) { return (react.createElement("th", __assign({}, column.getHeaderProps()), column.render('Header'))); }))); })),
-        react.createElement("tbody", __assign({}, getTableBodyProps()), rows.map(function (row) {
+    return (react.createElement("table", __assign$1({ className: "cam-table" }, getTableProps()),
+        react.createElement("thead", null, headerGroups.map(function (headerGroup) { return (react.createElement("tr", __assign$1({}, headerGroup.getHeaderGroupProps()), headerGroup.headers.map(function (column) { return (react.createElement("th", __assign$1({}, column.getHeaderProps()), column.render('Header'))); }))); })),
+        react.createElement("tbody", __assign$1({}, getTableBodyProps()), rows.map(function (row) {
             prepareRow(row);
-            return (react.createElement("tr", __assign({}, row.getRowProps()), row.cells.map(function (cell) {
-                return react.createElement("td", __assign({}, cell.getCellProps()), cell.render('Cell'));
+            return (react.createElement("tr", __assign$1({}, row.getRowProps()), row.cells.map(function (cell) {
+                return react.createElement("td", __assign$1({}, cell.getCellProps()), cell.render('Cell'));
             })));
         }))));
 };
 
-___$insertStyle(".toggle-sequence-flow-button {\n  background: #ffffff;\n  border-radius: 1px;\n  border: 1px solid #cccccc;\n  padding: 0;\n  width: 30px;\n  height: 30px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.toggle-sequence-flow-button:hover {\n  background: #e6e6e6;\n}");
+___$insertStylesToHeader(".toggle-sequence-flow-button {\n  background: #ffffff;\n  border-radius: 1px;\n  border: 1px solid #cccccc;\n  padding: 0;\n  width: 30px;\n  height: 30px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.toggle-sequence-flow-button:hover {\n  background: #e6e6e6;\n}");
 
 var DefaultContext = {
   color: undefined,
@@ -682,8 +679,8 @@ var DefaultContext = {
 };
 var IconContext = react.createContext && react.createContext(DefaultContext);
 
-var __assign$1 = undefined && undefined.__assign || function () {
-  __assign$1 = Object.assign || function (t) {
+var __assign = undefined && undefined.__assign || function () {
+  __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
       s = arguments[i];
 
@@ -693,7 +690,7 @@ var __assign$1 = undefined && undefined.__assign || function () {
     return t;
   };
 
-  return __assign$1.apply(this, arguments);
+  return __assign.apply(this, arguments);
 };
 
 var __rest = undefined && undefined.__rest || function (s, e) {
@@ -709,7 +706,7 @@ var __rest = undefined && undefined.__rest || function (s, e) {
 
 function Tree2Element(tree) {
   return tree && tree.map(function (node, i) {
-    return react.createElement(node.tag, __assign$1({
+    return react.createElement(node.tag, __assign({
       key: i
     }, node.attr), Tree2Element(node.child));
   });
@@ -717,8 +714,8 @@ function Tree2Element(tree) {
 
 function GenIcon(data) {
   return function (props) {
-    return react.createElement(IconBase, __assign$1({
-      attr: __assign$1({}, data.attr)
+    return react.createElement(IconBase, __assign({
+      attr: __assign({}, data.attr)
     }, props), Tree2Element(data.child));
   };
 }
@@ -733,13 +730,13 @@ function IconBase(props) {
     var className;
     if (conf.className) className = conf.className;
     if (props.className) className = (className ? className + ' ' : '') + props.className;
-    return react.createElement("svg", __assign$1({
+    return react.createElement("svg", __assign({
       stroke: "currentColor",
       fill: "currentColor",
       strokeWidth: "0"
     }, conf.attr, attr, svgProps, {
       className: className,
-      style: __assign$1(__assign$1({
+      style: __assign(__assign({
         color: props.color || conf.color
       }, conf.style), props.style),
       height: computedSize,
@@ -1357,7 +1354,7 @@ function getSegments(points) {
     return [
       {
         start: points[0],
-        controlPoint: getMid(points[0], points[1]),
+        controlPoint: getMid$1(points[0], points[1]),
         end: points[1]
       }
     ];
@@ -1382,7 +1379,7 @@ function getStartSegment(points) {
   return {
     start: points[0],
     controlPoint: points[1],
-    end: getMid(points[1], points[2])
+    end: getMid$1(points[1], points[2])
   };
 }
 
@@ -1391,9 +1388,9 @@ function getMiddleSegments(points) {
 
   for (var i = 1; i < points.length - 3; i++) {
     segments.push({
-      start: getMid(points[ i ], points[ i + 1 ]),
+      start: getMid$1(points[ i ], points[ i + 1 ]),
       controlPoint: points[ i + 1 ],
-      end: getMid(points[ i + 1 ], points[ i + 2 ])
+      end: getMid$1(points[ i + 1 ], points[ i + 2 ])
     });
   }
 
@@ -1402,7 +1399,7 @@ function getMiddleSegments(points) {
 
 function getEndSegment(points) {
   return {
-    start: getMid(points[points.length - 3], points[points.length - 2]),
+    start: getMid$1(points[points.length - 3], points[points.length - 2]),
     controlPoint: points[points.length - 2],
     end: points[points.length - 1]
   };
@@ -1420,7 +1417,7 @@ function sameCurve(a, b) {
   return [ 'S', a.x, a.y, b.x, b.y ].join(' ');
 }
 
-function getMid(a, b) {
+function getMid$1(a, b) {
   return {
     x: Math.round((a.x + b.x) / 2),
     y: Math.round((a.y + b.y) / 2)
@@ -1499,7 +1496,8 @@ var getConnections = function (activities, elementRegistry) {
                     return false;
                 }
                 var incomingEndTimes = validActivity.get(connection.source.id)
-                    ? (_a = endTimesById.get(connection.source.id)) !== null && _a !== void 0 ? _a : [] : [];
+                    ? (_a = endTimesById.get(connection.source.id)) !== null && _a !== void 0 ? _a : []
+                    : [];
                 return incomingEndTimes.reduce(function (acc, iET) {
                     return acc || currentEndTimes.reduce(function (acc_, cET) { return acc_ || iET <= cET; }, false);
                 }, false);
@@ -1514,7 +1512,7 @@ var getConnections = function (activities, elementRegistry) {
                     return acc || currentEndTimes.reduce(function (acc_, cET) { return acc_ || oET >= cET; }, false);
                 }, false);
             });
-            return __spreadArrays(incoming, outgoing);
+            return __spreadArray(__spreadArray([], incoming), outgoing);
         }
         else {
             return [];
@@ -1522,11 +1520,11 @@ var getConnections = function (activities, elementRegistry) {
     };
     var connections = [];
     forEach(Array.from(elementById.keys()), function (activityId) {
-        connections = uniqueBy('id', __spreadArrays(connections, getActivityConnections(activityId)));
+        connections = uniqueBy('id', __spreadArray(__spreadArray([], connections), getActivityConnections(activityId)));
     });
     return connections;
 };
-var getMid$1 = function (shape) {
+var getMid = function (shape) {
     return {
         x: shape.x + shape.width / 2,
         y: shape.y + shape.height / 2,
@@ -1541,7 +1539,7 @@ var getDottedConnections = function (connections) {
             var source = c.source;
             if (source === target && !notDottedTypes.includes(source.type)) {
                 dottedConnections.push({
-                    waypoints: [connection.waypoints[connection.waypoints.length - 1], getMid$1(target), c.waypoints[0]],
+                    waypoints: [connection.waypoints[connection.waypoints.length - 1], getMid(target), c.waypoints[0]],
                 });
             }
         });

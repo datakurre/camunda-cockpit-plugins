@@ -1,17 +1,17 @@
-function ___$insertStyle(css) {
+function ___$insertStylesToHeader(css) {
   if (!css) {
-    return;
+    return
   }
   if (typeof window === 'undefined') {
-    return;
+    return
   }
 
-  var style = document.createElement('style');
+  const style = document.createElement('style');
 
   style.setAttribute('type', 'text/css');
   style.innerHTML = css;
   document.head.appendChild(style);
-  return css;
+  return css
 }
 
 /*! *****************************************************************************
@@ -519,7 +519,7 @@ var xk={bundleType:wk.bundleType,version:wk.version,rendererPackageName:wk.rende
 pk,findHostInstancesForRefresh:null,scheduleRefresh:null,scheduleRoot:null,setRefreshHandler:null,getCurrentFiber:null};if("undefined"!==typeof __REACT_DEVTOOLS_GLOBAL_HOOK__){var yk=__REACT_DEVTOOLS_GLOBAL_HOOK__;if(!yk.isDisabled&&yk.supportsFiber)try{Lf=yk.inject(xk),Mf=yk;}catch(a){}}var __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED=vk;var createPortal=uk;
 var findDOMNode=function(a){if(null==a)return null;if(1===a.nodeType)return a;var b=a._reactInternals;if(void 0===b){if("function"===typeof a.render)throw Error(y(188));throw Error(y(268,Object.keys(a)));}a=cc(b);a=null===a?null:a.stateNode;return a};var flushSync=function(a,b){var c=X;if(0!==(c&48))return a(b);X|=1;try{if(a)return gg(99,a.bind(null,b))}finally{X=c,ig();}};var hydrate=function(a,b,c){if(!rk(b))throw Error(y(200));return tk(null,a,b,!0,c)};
 var render=function(a,b,c){if(!rk(b))throw Error(y(200));return tk(null,a,b,!1,c)};var unmountComponentAtNode=function(a){if(!rk(a))throw Error(y(40));return a._reactRootContainer?(Xj(function(){tk(null,null,a,!1,function(){a._reactRootContainer=null;a[ff]=null;});}),!0):!1};var unstable_batchedUpdates=Wj;var unstable_createPortal=function(a,b){return uk(a,b,2<arguments.length&&void 0!==arguments[2]?arguments[2]:null)};
-var unstable_renderSubtreeIntoContainer=function(a,b,c,d){if(!rk(c))throw Error(y(200));if(null==a||void 0===a._reactInternals)throw Error(y(38));return tk(a,b,c,!1,d)};var version="17.0.1";
+var unstable_renderSubtreeIntoContainer=function(a,b,c,d){if(!rk(c))throw Error(y(200));if(null==a||void 0===a._reactInternals)throw Error(y(38));return tk(a,b,c,!1,d)};var version$2="17.0.1";
 
 var reactDom_production_min = {
 	__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
@@ -532,7 +532,7 @@ var reactDom_production_min = {
 	unstable_batchedUpdates: unstable_batchedUpdates,
 	unstable_createPortal: unstable_createPortal,
 	unstable_renderSubtreeIntoContainer: unstable_renderSubtreeIntoContainer,
-	version: version
+	version: version$2
 };
 
 var reactDom = createCommonjsModule(function (module) {
@@ -828,7 +828,7 @@ function publishFieldState(formState, field) {
 var fieldSubscriptionItems = ['active', 'data', 'dirty', 'dirtySinceLastSubmit', 'error', 'initial', 'invalid', 'length', 'modified', 'modifiedSinceLastSubmit', 'pristine', 'submitError', 'submitFailed', 'submitSucceeded', 'submitting', 'touched', 'valid', 'value', 'visited', 'validating'];
 
 //      
-var shallowEqual = function shallowEqual(a, b) {
+var shallowEqual$1 = function shallowEqual(a, b) {
   if (a === b) {
     return true;
   }
@@ -864,7 +864,7 @@ function subscriptionFilter (dest, src, previous, subscription, keys, shallowEqu
     if (subscription[key]) {
       dest[key] = src[key];
 
-      if (!previous || (~shallowEqualKeys.indexOf(key) ? !shallowEqual(src[key], previous[key]) : src[key] !== previous[key])) {
+      if (!previous || (~shallowEqualKeys.indexOf(key) ? !shallowEqual$1(src[key], previous[key]) : src[key] !== previous[key])) {
         different = true;
       }
     }
@@ -915,7 +915,7 @@ var memoize = function memoize(fn) {
     }
 
     if (!lastArgs || args.length !== lastArgs.length || args.some(function (arg, index) {
-      return !shallowEqual(lastArgs[index], arg);
+      return !shallowEqual$1(lastArgs[index], arg);
     })) {
       lastArgs = args;
       lastResult = fn.apply(void 0, args);
@@ -929,7 +929,7 @@ var isPromise = (function (obj) {
   return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
 });
 
-var version$1 = "4.20.1";
+var version$1 = "4.20.2";
 
 var tripleEquals = function tripleEquals(a, b) {
   return a === b;
@@ -1049,6 +1049,7 @@ function createForm(config) {
       submitting: false,
       submitFailed: false,
       submitSucceeded: false,
+      resetWhileSubmitting: false,
       valid: true,
       validating: 0,
       values: initialValues ? _extends({}, initialValues) : {}
@@ -1058,6 +1059,7 @@ function createForm(config) {
   var inBatch = 0;
   var validationPaused = false;
   var validationBlocked = false;
+  var preventNotificationWhileValidationPaused = false;
   var nextAsyncValidationKey = 0;
   var asyncValidationPromises = {};
 
@@ -1125,7 +1127,7 @@ function createForm(config) {
           renameField: renameField,
           resetFieldState: api.resetFieldState,
           setIn: setIn,
-          shallowEqual: shallowEqual
+          shallowEqual: shallowEqual$1
         });
         state.formState = mutatableState.formState;
         state.fields = mutatableState.fields;
@@ -1173,19 +1175,19 @@ function createForm(config) {
     }, []);
   };
 
-  var runFieldLevelValidation = function runFieldLevelValidation(field, setError) {
+  var runFieldLevelValidation = function runFieldLevelValidation(name, setError) {
     var promises = [];
-    var validators = getValidators(field);
+    var validators = getValidators(state.fields[name]);
 
     if (validators.length) {
       var error;
       validators.forEach(function (validator) {
-        var errorOrPromise = validator(getIn(state.formState.values, field.name), state.formState.values, validator.length === 0 || validator.length === 3 ? publishFieldState(state.formState, state.fields[field.name]) : undefined);
+        var errorOrPromise = validator(getIn(state.formState.values, name), state.formState.values, validator.length === 0 || validator.length === 3 ? publishFieldState(state.formState, state.fields[name]) : undefined);
 
         if (errorOrPromise && isPromise(errorOrPromise)) {
-          field.validating = true;
+          state.fields[name].validating = true;
           var promise = errorOrPromise.then(function (error) {
-            field.validating = false;
+            state.fields[name].validating = false;
             setError(error);
           }); // errors must be resolved, not rejected
 
@@ -1243,7 +1245,7 @@ function createForm(config) {
     var promises = [].concat(runRecordLevelValidation(function (errors) {
       recordLevelErrors = errors || {};
     }), fieldKeys.reduce(function (result, name) {
-      return result.concat(runFieldLevelValidation(fields[name], function (error) {
+      return result.concat(runFieldLevelValidation(name, function (error) {
         fieldLevelErrors[name] = error;
       }));
     }, []));
@@ -1284,7 +1286,7 @@ function createForm(config) {
         }
       });
 
-      if (!shallowEqual(formState.errors, merged)) {
+      if (!shallowEqual$1(formState.errors, merged)) {
         formState.errors = merged;
       }
 
@@ -1411,12 +1413,12 @@ function createForm(config) {
         touched = _safeFieldKeys$reduce.touched,
         visited = _safeFieldKeys$reduce.visited;
 
-    nextFormState.dirtyFields = lastFormState && shallowEqual(lastFormState.dirtyFields, dirtyFields) ? lastFormState.dirtyFields : dirtyFields;
-    nextFormState.dirtyFieldsSinceLastSubmit = lastFormState && shallowEqual(lastFormState.dirtyFieldsSinceLastSubmit, dirtyFieldsSinceLastSubmit) ? lastFormState.dirtyFieldsSinceLastSubmit : dirtyFieldsSinceLastSubmit;
-    nextFormState.modified = lastFormState && shallowEqual(lastFormState.modified, modified) ? lastFormState.modified : modified;
-    nextFormState.touched = lastFormState && shallowEqual(lastFormState.touched, touched) ? lastFormState.touched : touched;
-    nextFormState.visited = lastFormState && shallowEqual(lastFormState.visited, visited) ? lastFormState.visited : visited;
-    return lastFormState && shallowEqual(lastFormState, nextFormState) ? lastFormState : nextFormState;
+    nextFormState.dirtyFields = lastFormState && shallowEqual$1(lastFormState.dirtyFields, dirtyFields) ? lastFormState.dirtyFields : dirtyFields;
+    nextFormState.dirtyFieldsSinceLastSubmit = lastFormState && shallowEqual$1(lastFormState.dirtyFieldsSinceLastSubmit, dirtyFieldsSinceLastSubmit) ? lastFormState.dirtyFieldsSinceLastSubmit : dirtyFieldsSinceLastSubmit;
+    nextFormState.modified = lastFormState && shallowEqual$1(lastFormState.modified, modified) ? lastFormState.modified : modified;
+    nextFormState.touched = lastFormState && shallowEqual$1(lastFormState.touched, touched) ? lastFormState.touched : touched;
+    nextFormState.visited = lastFormState && shallowEqual$1(lastFormState.visited, visited) ? lastFormState.visited : visited;
+    return lastFormState && shallowEqual$1(lastFormState, nextFormState) ? lastFormState : nextFormState;
   };
 
   var callDebug = function callDebug() {
@@ -1436,7 +1438,7 @@ function createForm(config) {
       notifying = true;
       callDebug();
 
-      if (!inBatch && !validationPaused) {
+      if (!inBatch && !(validationPaused && preventNotificationWhileValidationPaused)) {
         var lastFormState = state.lastFormState;
         var nextFormState = calculateNextFormState();
 
@@ -1614,8 +1616,13 @@ function createForm(config) {
     isValidationPaused: function isValidationPaused() {
       return validationPaused;
     },
-    pauseValidation: function pauseValidation() {
+    pauseValidation: function pauseValidation(preventNotification) {
+      if (preventNotification === void 0) {
+        preventNotification = true;
+      }
+
       validationPaused = true;
+      preventNotificationWhileValidationPaused = preventNotification;
     },
     registerField: function registerField(name, subscriber, subscription, fieldConfig) {
       if (subscription === void 0) {
@@ -1686,14 +1693,17 @@ function createForm(config) {
           state.fields[name].validators[index] = fieldConfig.getValidator;
         }
 
-        if (fieldConfig.initialValue !== undefined && getIn(state.formState.values, name) === undefined // only initialize if we don't yet have any value for this field
+        var noValueInFormState = getIn(state.formState.values, name) === undefined;
+
+        if (fieldConfig.initialValue !== undefined && noValueInFormState && (getIn(state.formState.values, name) === undefined || getIn(state.formState.values, name) === getIn(state.formState.initialValues, name)) // only initialize if we don't yet have any value for this field
         ) {
             state.formState.initialValues = setIn(state.formState.initialValues || {}, name, fieldConfig.initialValue);
             state.formState.values = setIn(state.formState.values, name, fieldConfig.initialValue);
             runValidation(undefined, notify);
-          }
+          } // only use defaultValue if we don't yet have any value for this field
 
-        if (fieldConfig.defaultValue !== undefined && fieldConfig.initialValue === undefined && getIn(state.formState.initialValues, name) === undefined) {
+
+        if (fieldConfig.defaultValue !== undefined && fieldConfig.initialValue === undefined && getIn(state.formState.initialValues, name) === undefined && noValueInFormState) {
           state.formState.values = setIn(state.formState.values, name, fieldConfig.defaultValue);
         }
       }
@@ -1713,8 +1723,14 @@ function createForm(config) {
           delete state.fields[name].validators[index];
         }
 
-        delete state.fieldSubscribers[name].entries[index];
-        var lastOne = !Object.keys(state.fieldSubscribers[name].entries).length;
+        var hasFieldSubscribers = !!state.fieldSubscribers[name];
+
+        if (hasFieldSubscribers) {
+          // state.fieldSubscribers[name] may have been removed by a mutator
+          delete state.fieldSubscribers[name].entries[index];
+        }
+
+        var lastOne = hasFieldSubscribers && !Object.keys(state.fieldSubscribers[name].entries).length;
 
         if (lastOne) {
           delete state.fieldSubscribers[name];
@@ -1748,7 +1764,7 @@ function createForm(config) {
       }
 
       if (state.formState.submitting) {
-        throw Error('Cannot reset() in onSubmit(), use setTimeout(form.reset)');
+        state.formState.resetWhileSubmitting = true;
       }
 
       state.formState.submitFailed = false;
@@ -1808,6 +1824,7 @@ function createForm(config) {
     },
     resumeValidation: function resumeValidation() {
       validationPaused = false;
+      preventNotificationWhileValidationPaused = false;
 
       if (validationBlocked) {
         // validation was attempted while it was paused, so run it now
@@ -1917,6 +1934,11 @@ function createForm(config) {
 
       var complete = function complete(errors) {
         formState.submitting = false;
+        var resetWhileSubmitting = formState.resetWhileSubmitting;
+
+        if (resetWhileSubmitting) {
+          formState.resetWhileSubmitting = false;
+        }
 
         if (errors && hasAnyError(errors)) {
           formState.submitFailed = true;
@@ -1925,8 +1947,11 @@ function createForm(config) {
           formState.submitError = errors[FORM_ERROR];
           markAllFieldsTouched();
         } else {
-          formState.submitFailed = false;
-          formState.submitSucceeded = true;
+          if (!resetWhileSubmitting) {
+            formState.submitFailed = false;
+            formState.submitSucceeded = true;
+          }
+
           afterSubmit();
         }
 
@@ -2070,7 +2095,7 @@ function useConstant(init) {
   return ref.current;
 }
 
-var shallowEqual$1 = function shallowEqual(a, b) {
+var shallowEqual = function shallowEqual(a, b) {
   if (a === b) {
     return true;
   }
@@ -2113,7 +2138,7 @@ function useLatest(value) {
   return ref;
 }
 
-var version$2 = "6.5.2";
+var version = "6.5.2";
 
 var addLazyState = function addLazyState(dest, state, keys) {
   keys.forEach(function (key) {
@@ -2135,7 +2160,7 @@ var addLazyFieldMetaState = function addLazyFieldMetaState(dest, state) {
 
 var versions = {
   'final-form': version$1,
-  'react-final-form': version$2
+  'react-final-form': version
 };
 var all = formSubscriptionItems.reduce(function (result, key) {
   result[key] = true;
@@ -2192,7 +2217,7 @@ function ReactFinalForm(_ref) {
     // We have rendered, so all fields are now registered, so we can unpause validation
     form.isValidationPaused() && form.resumeValidation();
     var unsubscriptions = [form.subscribe(function (s) {
-      if (!shallowEqual$1(s, stateRef.current)) {
+      if (!shallowEqual(s, stateRef.current)) {
         setState(s);
       }
     }, subscription)].concat(decorators ? decorators.map(function (decorator) {
@@ -2222,7 +2247,7 @@ function ReactFinalForm(_ref) {
   });
   useWhenValueChanges(initialValues, function () {
     form.setConfig('initialValues', initialValues);
-  }, initialValuesEqual || shallowEqual$1);
+  }, initialValuesEqual || shallowEqual);
   useWhenValueChanges(mutators, function () {
     form.setConfig('mutators', mutators);
   });
