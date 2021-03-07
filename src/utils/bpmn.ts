@@ -22,15 +22,15 @@ const getConnections = (activities: any[], elementRegistry: any): Activity[] => 
     }
     if (endTimesById.has(activity.activityId)) {
       const endTimes = endTimesById.get(activity.activityId) ?? [];
-      endTimes.push(activity.endTime || 'n/a');
+      endTimes.push(activity.endTime || 'Z');
     } else {
-      endTimesById.set(activity.activityId, [activity.endTime || 'n/a']);
+      endTimesById.set(activity.activityId, [activity.endTime || 'Z']);
     }
     if (startTimesById.has(activity.activityId)) {
       const startTimes = startTimesById.get(activity.activityId) ?? [];
-      startTimes.push(activity.startTime || 'n/a');
+      startTimes.push(activity.startTime || 'Z');
     } else {
-      startTimesById.set(activity.activityId, [activity.startTime || 'n/a']);
+      startTimesById.set(activity.activityId, [activity.startTime || 'Z']);
     }
   }
   const elementById: Map<string, Activity> = new Map(
@@ -46,9 +46,11 @@ const getConnections = (activities: any[], elementRegistry: any): Activity[] => 
         for (let idx = 0; idx < myEndTimes.length; idx++) {
           const myEndTime = myEndTimes[idx];
           element.outgoing.sort((a: any, b: any): number => {
-            const startA = (startTimesById.get(a.target.id) || [])?.[idx] ?? 'Z';
-            const startB = (startTimesById.get(b.target.id) || [])?.[idx] ?? 'Z';
-            return startA < myEndTime ? 1 : startB < myEndTime ? -1 : startA > startB ? 1 : startA < startB ? -1 : 0;
+            const startTimesA = (startTimesById.get(a.target.id) || []);
+            const startTimesB = (startTimesById.get(b.target.id) || []);
+            const startA = (startTimesA)?.[idx] ?? 'Z';
+            const startB = (startTimesB)?.[idx] ?? 'Z';
+            return startTimesA.length <= idx ? 1 : startTimesB.length <= idx ? -1 : startA < myEndTime ? 1 : startB < myEndTime ? -1 : startA > startB ? 1 : startA < startB ? -1 : 0;
           });
           activeConnections.push(element.outgoing[0].id);
         }
