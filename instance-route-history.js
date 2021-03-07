@@ -26574,17 +26574,17 @@ var getConnections = function (activities, elementRegistry) {
         }
         if (endTimesById.has(activity.activityId)) {
             var endTimes = (_a = endTimesById.get(activity.activityId)) !== null && _a !== void 0 ? _a : [];
-            endTimes.push(activity.endTime || 'n/a');
+            endTimes.push(activity.endTime || 'Z');
         }
         else {
-            endTimesById.set(activity.activityId, [activity.endTime || 'n/a']);
+            endTimesById.set(activity.activityId, [activity.endTime || 'Z']);
         }
         if (startTimesById.has(activity.activityId)) {
             var startTimes = (_b = startTimesById.get(activity.activityId)) !== null && _b !== void 0 ? _b : [];
-            startTimes.push(activity.startTime || 'n/a');
+            startTimes.push(activity.startTime || 'Z');
         }
         else {
-            startTimesById.set(activity.activityId, [activity.startTime || 'n/a']);
+            startTimesById.set(activity.activityId, [activity.startTime || 'Z']);
         }
     }
     var elementById = new Map(map(activities, function (activity) {
@@ -26600,9 +26600,11 @@ var getConnections = function (activities, elementRegistry) {
                 var myEndTime = myEndTimes[idx];
                 element.outgoing.sort(function (a, b) {
                     var _a, _b, _c, _d;
-                    var startA = (_b = (_a = (startTimesById.get(a.target.id) || [])) === null || _a === void 0 ? void 0 : _a[idx]) !== null && _b !== void 0 ? _b : 'Z';
-                    var startB = (_d = (_c = (startTimesById.get(b.target.id) || [])) === null || _c === void 0 ? void 0 : _c[idx]) !== null && _d !== void 0 ? _d : 'Z';
-                    return startA < myEndTime ? 1 : startB < myEndTime ? -1 : startA > startB ? 1 : startA < startB ? -1 : 0;
+                    var startTimesA = (startTimesById.get(a.target.id) || []);
+                    var startTimesB = (startTimesById.get(b.target.id) || []);
+                    var startA = (_b = (_a = (startTimesA)) === null || _a === void 0 ? void 0 : _a[idx]) !== null && _b !== void 0 ? _b : 'Z';
+                    var startB = (_d = (_c = (startTimesB)) === null || _c === void 0 ? void 0 : _c[idx]) !== null && _d !== void 0 ? _d : 'Z';
+                    return startTimesA.length <= idx ? 1 : startTimesB.length <= idx ? -1 : startA < myEndTime ? 1 : startB < myEndTime ? -1 : startA > startB ? 1 : startA < startB ? -1 : 0;
                 });
                 activeConnections.push(element.outgoing[0].id);
             };
