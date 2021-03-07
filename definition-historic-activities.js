@@ -14144,7 +14144,7 @@ var StatisticsTable = function (_a) {
             counter[name_1] = counter[name_1] ? counter[name_1] + 1 : 1;
         }
         return counter;
-    }, []);
+    }, [activities]);
     var _b = react$1.useMemo(function () {
         var totals = {};
         var durations = {};
@@ -14162,7 +14162,7 @@ var StatisticsTable = function (_a) {
             }
         }
         return [totals, durations];
-    }, []), totals = _b[0], durations = _b[1];
+    }, [activities]), totals = _b[0], durations = _b[1];
     var activityNames = react$1.useMemo(function () {
         var activityNames = Object.keys(durations);
         activityNames.sort(function (a, b) {
@@ -14175,7 +14175,7 @@ var StatisticsTable = function (_a) {
             return 0;
         });
         return activityNames;
-    }, []);
+    }, [activities]);
     var data = react$1.useMemo(function () {
         return activityNames.map(function (activityName) {
             durations[activityName].sort(function (a, b) {
@@ -14195,7 +14195,7 @@ var StatisticsTable = function (_a) {
                 median: asctime(durations[activityName][Math.floor(durations[activityName].length / 2)]),
             };
         });
-    }, []);
+    }, [activities]);
     var tableInstance = reactTable.useTable({ columns: columns, data: data });
     var getTableProps = tableInstance.getTableProps, getTableBodyProps = tableInstance.getTableBodyProps, headerGroups = tableInstance.headerGroups, rows = tableInstance.rows, prepareRow = tableInstance.prepareRow;
     return (react$1.createElement("table", __assign({ className: "cam-table" }, getTableProps()),

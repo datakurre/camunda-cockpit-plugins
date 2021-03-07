@@ -40,7 +40,7 @@ const StatisticsTable: React.FC<Props> = ({ activities }) => {
       counter[name] = counter[name] ? counter[name] + 1 : 1;
     }
     return counter;
-  }, []);
+  }, [activities]);
   const [totals, durations] = React.useMemo(() => {
     const totals: Record<string, number> = {};
     const durations: Record<string, number[]> = {};
@@ -56,7 +56,7 @@ const StatisticsTable: React.FC<Props> = ({ activities }) => {
       }
     }
     return [totals, durations];
-  }, []);
+  }, [activities]);
   const activityNames = React.useMemo(() => {
     const activityNames = Object.keys(durations);
     activityNames.sort((a, b) => {
@@ -68,7 +68,7 @@ const StatisticsTable: React.FC<Props> = ({ activities }) => {
       return 0;
     });
     return activityNames;
-  }, []);
+  }, [activities]);
   const data = React.useMemo(
     () =>
       activityNames.map((activityName: string) => {
@@ -88,7 +88,7 @@ const StatisticsTable: React.FC<Props> = ({ activities }) => {
           median: asctime(durations[activityName][Math.floor(durations[activityName].length / 2)]),
         };
       }),
-    []
+    [activities]
   );
   const tableInstance = useTable({ columns: columns as any, data });
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
