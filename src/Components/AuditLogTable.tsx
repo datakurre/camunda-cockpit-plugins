@@ -46,7 +46,7 @@ const AuditLogTable: React.FC<Props> = ({ activities, decisions }) => {
         accessor: 'canceled',
       },
     ],
-    []
+    [activities, decisions]
   );
   const data = React.useMemo(
     () =>
@@ -62,7 +62,7 @@ const AuditLogTable: React.FC<Props> = ({ activities, decisions }) => {
           canceled: activity.canceled ? 'true' : 'false',
         };
       }),
-    []
+    [activities, decisions]
   );
   const tableInstance = useTable({ columns: columns as any, data });
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;

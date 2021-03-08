@@ -644,7 +644,7 @@ var AuditLogTable = function (_a) {
             Header: 'Canceled',
             accessor: 'canceled',
         },
-    ]; }, []);
+    ]; }, [activities, decisions]);
     var data = react.useMemo(function () {
         return activities.map(function (activity) {
             return {
@@ -658,7 +658,7 @@ var AuditLogTable = function (_a) {
                 canceled: activity.canceled ? 'true' : 'false',
             };
         });
-    }, []);
+    }, [activities, decisions]);
     var tableInstance = reactTable.useTable({ columns: columns, data: data });
     var getTableProps = tableInstance.getTableProps, getTableBodyProps = tableInstance.getTableBodyProps, headerGroups = tableInstance.headerGroups, rows = tableInstance.rows, prepareRow = tableInstance.prepareRow;
     return (react.createElement("table", __assign({ className: "cam-table" }, getTableProps()),
