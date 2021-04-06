@@ -38,7 +38,7 @@ export default [
           overlay.style.cssText = `
           background: lightgray;
         `;
-          overlays.add(id, {
+          overlays.add(id.split("#")[0], {
             position: {
               bottom: 17,
               right: 10,
