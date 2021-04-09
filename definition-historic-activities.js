@@ -799,7 +799,7 @@ var definitionHistoricActivities = [
                                 overlay.className = 'badge';
                                 overlay.style.cssText = "\n          background: lightgray;\n        ";
                                 try {
-                                    overlays.add(id.split("#")[0], {
+                                    overlays.add(id.split('#')[0], {
                                         position: {
                                             bottom: 17,
                                             right: 10,

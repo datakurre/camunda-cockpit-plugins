@@ -1466,12 +1466,24 @@ var getConnections = function (activities, elementRegistry) {
             var _loop_1 = function (idx) {
                 var myEndTime = myEndTimes[idx];
                 element.outgoing.sort(function (a, b) {
-                    var _a, _b, _c, _d;
-                    var startTimesA = (startTimesById.get(a.target.id) || []);
-                    var startTimesB = (startTimesById.get(b.target.id) || []);
-                    var startA = (_b = (_a = (startTimesA)) === null || _a === void 0 ? void 0 : _a[idx]) !== null && _b !== void 0 ? _b : 'Z';
-                    var startB = (_d = (_c = (startTimesB)) === null || _c === void 0 ? void 0 : _c[idx]) !== null && _d !== void 0 ? _d : 'Z';
-                    return startTimesA.length <= idx ? 1 : startTimesB.length <= idx ? -1 : startA < myEndTime ? 1 : startB < myEndTime ? -1 : startA > startB ? 1 : startA < startB ? -1 : 0;
+                    var _a, _b;
+                    var startTimesA = startTimesById.get(a.target.id) || [];
+                    var startTimesB = startTimesById.get(b.target.id) || [];
+                    var startA = (_a = startTimesA === null || startTimesA === void 0 ? void 0 : startTimesA[idx]) !== null && _a !== void 0 ? _a : 'Z';
+                    var startB = (_b = startTimesB === null || startTimesB === void 0 ? void 0 : startTimesB[idx]) !== null && _b !== void 0 ? _b : 'Z';
+                    return startTimesA.length <= idx
+                        ? 1
+                        : startTimesB.length <= idx
+                            ? -1
+                            : startA < myEndTime
+                                ? 1
+                                : startB < myEndTime
+                                    ? -1
+                                    : startA > startB
+                                        ? 1
+                                        : startA < startB
+                                            ? -1
+                                            : 0;
                 });
                 activeConnections.push(element.outgoing[0].id);
             };
@@ -1645,7 +1657,7 @@ var instanceHistoricActivities = [
                                 overlay.innerText = "" + counter[id];
                                 overlay.className = 'badge';
                                 overlay.style.cssText = "\n          background: lightgray;\n        ";
-                                overlays.add(id.split("#")[0], {
+                                overlays.add(id.split('#')[0], {
                                     position: {
                                         bottom: 17,
                                         right: 10,

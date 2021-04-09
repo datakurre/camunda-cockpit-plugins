@@ -56,7 +56,7 @@ const renderActivities = (viewer: any, activities: any[]) => {
    border: 1px solid #143d52;
    color: #143d52;
  `;
-    overlays.add(id.split("#")[0], {
+    overlays.add(id.split('#')[0], {
       position: {
         bottom: 17,
         right: 10,

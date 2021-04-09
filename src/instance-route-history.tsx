@@ -1,5 +1,6 @@
 import './instance-route-history.scss';
 
+import { Activity } from 'bpmn-moddle';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SplitPane from 'react-split-pane';
@@ -65,6 +66,7 @@ export default [
           const decisionByActivity: Map<string, any> = new Map(
             decisions.map((decision: any) => [decision.activityInstanceId, decision.id])
           );
+          const activityById: Map<string, any> = new Map(activities.map((activity: any) => [activity.id, activity]));
           activities.sort((a: any, b: any) => {
             a = a.endTime ? new Date(a.endTime) : new Date();
             b = b.endTime ? new Date(b.endTime) : new Date();
@@ -89,7 +91,7 @@ export default [
           });
           ReactDOM.render(
             <React.StrictMode>
-              <Page>
+              <Page api={api}>
                 <BreadcrumbsPanel
                   processDefinitionId={instance.processDefinitionId}
                   processDefinitionName={instance.processDefinitionName}
@@ -164,11 +166,7 @@ export default [
                           <AuditLogTable activities={activities} decisions={decisionByActivity} />
                         </TabPanel>
                         <TabPanel className="ctn-tabbed-content ctn-scroll">
-                          <VariablesTable
-                            variables={variables.filter(
-                              (variable: any) => variable.activityInstanceId === processInstanceId
-                            )}
-                          />
+                          <VariablesTable instance={instance} activities={activityById} variables={variables} />
                         </TabPanel>
                         <TabPanel></TabPanel>
                       </Tabs>

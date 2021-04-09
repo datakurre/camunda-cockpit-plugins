@@ -46,11 +46,23 @@ const getConnections = (activities: any[], elementRegistry: any): Activity[] => 
         for (let idx = 0; idx < myEndTimes.length; idx++) {
           const myEndTime = myEndTimes[idx];
           element.outgoing.sort((a: any, b: any): number => {
-            const startTimesA = (startTimesById.get(a.target.id) || []);
-            const startTimesB = (startTimesById.get(b.target.id) || []);
-            const startA = (startTimesA)?.[idx] ?? 'Z';
-            const startB = (startTimesB)?.[idx] ?? 'Z';
-            return startTimesA.length <= idx ? 1 : startTimesB.length <= idx ? -1 : startA < myEndTime ? 1 : startB < myEndTime ? -1 : startA > startB ? 1 : startA < startB ? -1 : 0;
+            const startTimesA = startTimesById.get(a.target.id) || [];
+            const startTimesB = startTimesById.get(b.target.id) || [];
+            const startA = startTimesA?.[idx] ?? 'Z';
+            const startB = startTimesB?.[idx] ?? 'Z';
+            return startTimesA.length <= idx
+              ? 1
+              : startTimesB.length <= idx
+              ? -1
+              : startA < myEndTime
+              ? 1
+              : startB < myEndTime
+              ? -1
+              : startA > startB
+              ? 1
+              : startA < startB
+              ? -1
+              : 0;
           });
           activeConnections.push(element.outgoing[0].id);
         }

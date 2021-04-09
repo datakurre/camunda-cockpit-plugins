@@ -30,16 +30,18 @@ export const Clippy: React.FC<Props> = ({ value, children }) => {
             onClick={e => {
               e.preventDefault();
             }}
+            style={{ fontSize: '120%', paddingLeft: '0.2em' }}
           >
-            {' '}
             {copied ? (
-              <HiCheck style={{ fontSize: '120%', color: 'green', display: 'flex' }} />
+              <HiCheck style={{ color: 'green', display: 'flex' }} />
             ) : (
-              <HiClipboardCopy style={{ fontSize: '120%', display: 'flex' }} />
+              <HiClipboardCopy style={{ display: 'flex' }} />
             )}
           </a>
         </CopyToClipboard>
-      ) : null}
+      ) : (
+        <span style={{ fontSize: '120%', width: '1.2em' }} />
+      )}
     </span>
   );
 };
