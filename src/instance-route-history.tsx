@@ -46,6 +46,7 @@ export default [
     id: 'instanceRouteHistory',
     pluginPoint: 'cockpit.route',
     properties: {
+      path: '/history/process-instance/:id',
       label: '/history',
     },
 
@@ -56,7 +57,8 @@ export default [
       if (processInstanceId) {
         (async () => {
           const instance = await get(api, `/history/process-instance/${processInstanceId}`);
-          const [diagram, activities, variables, decisions] = await Promise.all([
+          const [{ version }, diagram, activities, variables, decisions] = await Promise.all([
+            get(api, `/version`),
             get(api, `/process-definition/${instance.processDefinitionId}/xml`),
             get(api, '/history/activity-instance', { processInstanceId }),
             get(api, '/history/variable-instance', { processInstanceId }),
@@ -90,7 +92,7 @@ export default [
           });
           ReactDOM.render(
             <React.StrictMode>
-              <Page api={api}>
+              <Page version={version ? (version as string) : '7.15.0'} api={api}>
                 <BreadcrumbsPanel
                   processDefinitionId={instance.processDefinitionId}
                   processDefinitionName={instance.processDefinitionName}
