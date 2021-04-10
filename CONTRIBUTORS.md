@@ -1,2 +1,2 @@
-Dirk Budke (dbudke)
-Asko Soukka (datakurre)
+* Dirk Budke (dbudke)
+* Asko Soukka (datakurre)
