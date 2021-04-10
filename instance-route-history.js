@@ -3992,6 +3992,10 @@ var AuditLogTable = function (_a) {
             accessor: 'type',
         },
         {
+            Header: 'User',
+            accessor: 'assignee',
+        },
+        {
             Header: 'Canceled',
             accessor: 'canceled',
         },
@@ -4006,6 +4010,7 @@ var AuditLogTable = function (_a) {
                     ? asctime(new Date(activity.endTime).getTime() - new Date(activity.startTime).getTime())
                     : '',
                 type: activity.activityType,
+                assignee: activity.assignee,
                 canceled: activity.canceled ? 'true' : 'false',
             };
         });
