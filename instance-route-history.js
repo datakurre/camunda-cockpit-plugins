@@ -27243,10 +27243,6 @@ var lib$1 = CopyToClipboard;
 // THIS FILE IS AUTO GENERATED
 function HiCheck (props) {
   return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 20 20","fill":"currentColor"},"child":[{"tag":"path","attr":{"fillRule":"evenodd","d":"M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z","clipRule":"evenodd"}}]})(props);
-}function HiChevronDown (props) {
-  return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 20 20","fill":"currentColor"},"child":[{"tag":"path","attr":{"fillRule":"evenodd","d":"M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z","clipRule":"evenodd"}}]})(props);
-}function HiChevronUp (props) {
-  return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 20 20","fill":"currentColor"},"child":[{"tag":"path","attr":{"fillRule":"evenodd","d":"M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z","clipRule":"evenodd"}}]})(props);
 }function HiClipboardCopy (props) {
   return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 20 20","fill":"currentColor"},"child":[{"tag":"path","attr":{"d":"M8 2a1 1 0 000 2h2a1 1 0 100-2H8z"}},{"tag":"path","attr":{"d":"M3 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6h-4.586l1.293-1.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L10.414 13H15v3a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM15 11h2a1 1 0 110 2h-2v-2z"}}]})(props);
 }
@@ -27327,14 +27323,37 @@ var HistoryTable = function (_a) {
         }))));
 };
 
-var APIContext = react.createContext({ engineApi: '', CSRFToken: '' });
+var APIContext = react.createContext({
+    adminApi: '',
+    baseApi: '',
+    CSRFToken: '',
+    engineApi: '',
+    engine: '',
+    tasklistApi: '',
+});
 
 var Page = function (_a) {
-    var api = _a.api, children = _a.children;
+    var version = _a.version, api = _a.api, children = _a.children;
     return (react.createElement(APIContext.Provider, { value: api },
-        react.createElement("div", { className: "ctn-main" }, children),
-        ";"));
+        react.createElement("div", { className: "ctn-main", style: version.match(/^7\.14.*/)
+                ? {}
+                : {
+                    top: '0px',
+                    bottom: '0px',
+                } }, children)));
 };
+
+// THIS FILE IS AUTO GENERATED
+function GoChevronDown (props) {
+  return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 10 16"},"child":[{"tag":"path","attr":{"fillRule":"evenodd","d":"M5 11L0 6l1.5-1.5L5 8.25 8.5 4.5 10 6l-5 5z"}}]})(props);
+}function GoChevronUp (props) {
+  return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 10 16"},"child":[{"tag":"path","attr":{"fillRule":"evenodd","d":"M10 10l-1.5 1.5L5 7.75 1.5 11.5 0 10l5-5 5 5z"}}]})(props);
+}
+
+// THIS FILE IS AUTO GENERATED
+function TiMinus (props) {
+  return GenIcon({"tag":"svg","attr":{"version":"1.2","baseProfile":"tiny","viewBox":"0 0 24 24"},"child":[{"tag":"path","attr":{"d":"M18 11h-12c-1.104 0-2 .896-2 2s.896 2 2 2h12c1.104 0 2-.896 2-2s-.896-2-2-2z"}}]})(props);
+}
 
 var u=react.createContext({});function l(){var e=react.useContext(u).token,t=react.useCallback(function(t){return e('"'===t||"'"===t?"quotation":"punctuation",t)},[e]);return {token:e,char:t}}function c(e,t,r){return void 0===r&&(r="span"),l().token(e,t,r)}var i=function(e,t,r){return t+"["+r+"]"},s={fontFamily:'Menlo, Monaco, "Courier New", monospace',fontFeatureSettings:'"liga" 0, "calt" 0',lineHeight:"1.5em",whiteSpace:"pre",margin:0},m={styles:{root:Object.assign({},s,{backgroundColor:"#1e2024"}),attribute:{color:"#ef415a"},unquotedAttribute:{color:"#d1d3d7"},string:{color:"#57bedf"},nil:{color:"#f2851e"},number:{color:"#f2851e"},boolean:{color:"#f2851e"},punctuation:{color:"#d1d3d7"}}};Object.assign({},s,{backgroundColor:"#f8f8f8"}),Object.assign({},s,{backgroundColor:"#2c2d25"}),Object.assign({},s,{backgroundColor:"#23241e"}),Object.assign({},s,{backgroundColor:"#212121"}),Object.assign({},s,{backgroundColor:"#fff"});var f=["string","number","object","boolean"],d=function(e){return f.includes(typeof e)},v=function(t){var n=t.value,a=t.theme,o=t.nodeWrapper,l=t.itemKeyGenerator,c=t.sortKeys,p=void 0!==c&&c,s=t.quoteAttributes,f=void 0===s||s,d=react.useMemo(function(){return function(t){return function(n,a,o){void 0===o&&(o="span");var u=t.styles?t.styles[n]:void 0,l=t.classes?t.classes[n]:void 0;return Boolean(u||l)?react.createElement(o,{style:u,className:l},a):react.createElement(react.Fragment,null,a)}}(a?"__esModule"in(t=a)?t.default:t:m);var t;},[a]),v=!0===p?K:p,b=l||i,g=react.useMemo(function(){return {token:d,getItemKey:b,quoteAttributes:f,nodeWrapper:o,sortKeys:v}},[d,b,f,o,v]);return react.createElement(u.Provider,{value:g},d("root",h({value:n,path:"",depth:1,nodeWrapper:o}),"pre"))};function h(t){var r=t.value,n=t.path,a=t.depth,o=t.nodeWrapper,u=function(t,r){return o?react.createElement(o,{path:n,type:r},t):t};if(null===r)return u(react.createElement(W$1,null),"nil");if(Array.isArray(r))return u(react.createElement(E$1,{value:r,path:n,depth:a}),"array");switch(typeof r){case"string":return u(react.createElement(b,{value:r,path:n,depth:a}),"string");case"number":return u(react.createElement(g,{value:r,path:n,depth:a}),"number");case"boolean":return u(react.createElement(y$1,{value:r,path:n,depth:a}),"boolean");case"object":return u(react.createElement(k,{value:r,path:n,depth:a}),"object");default:throw new Error("Unhandled type "+typeof r)}}function b(t){var r=t.value,n=l().char,a=A(r).slice(1,-1);return c("string",react.createElement(react.Fragment,null,n('"'),a,n('"')))}function g(e){return c("number",e.value)}function y$1(e){return c("boolean",e.value?"true":"false")}function E$1(t){var r=t.value,a=t.path,c=t.depth,i=l(),p=i.token,s=i.char,m=react.useContext(u),f=m.getItemKey,v=m.nodeWrapper,b=r.length;return p("array",0===b?react.createElement(react.Fragment,null,s("["),s("]")):react.createElement(react.Fragment,null,s("["),"\n"+C(c),r.map(function(t,r){var n=f(t,a,r),u=r===b-1;return react.createElement(react.Fragment,{key:n},d(t)?h({value:t,path:n,depth:c+1,nodeWrapper:v}):react.createElement(react.Fragment,null,"<",typeof t,"&rt;"),u?"\n"+C(c-1):react.createElement(react.Fragment,null,s(","),"\n"+C(c)))}),s("]")))}function k(t){var r=t.value,a=t.path,c=t.depth,i=react.useContext(u),p=i.nodeWrapper,s=i.sortKeys,m=l(),f=m.token,v=m.char,h=r,b=Object.keys(h),g=s?b.sort(function(e,t){return s(e,t,h)}):b,y=g.length,E=y-1;return f("object",0===y?react.createElement(react.Fragment,null,v("{"),v("}")):react.createElement(react.Fragment,null,v("{"),"\n",g.map(function(t,r){var n=h[t],u=a?a+"."+t:t;return d(n)?react.createElement(react.Fragment,{key:u},react.createElement(j,{attribute:t,value:n,depth:c,path:u,nodeWrapper:p,isLastKey:r===E})):null}),C(c-1),v("}")))}function F$1(t){var r,a=t.value,o=react.useContext(u).quoteAttributes,c=l(),i=c.token,p=c.char,s=A(a).slice(1,-1);return r=o||s.includes('"')?i("attribute",react.createElement(react.Fragment,null,p('"'),s,p('"'))):i("unquotedAttribute",s),react.createElement(react.Fragment,null,r,p(":")," ")}function j(t){var r=t.attribute,n=t.value,a=t.path,u=t.depth,c=t.isLastKey,i=t.nodeWrapper,p=l().char,s=react.createElement(react.Fragment,{key:a},C(u),react.createElement(F$1,{value:r}),h({value:n,path:a,depth:u+1,nodeWrapper:i}),c?"\n":react.createElement(react.Fragment,null,p(","),"\n"));return i?react.createElement(i,{type:"attributePair",path:a},s):s}function W$1(){return c("nil","null")}function A(e){return JSON.stringify(e)}function C(e){return "  ".repeat(e)}function K(e,t){return e.localeCompare(t)}
 
@@ -28706,6 +28725,11 @@ var get$1 = function (api, path, params) { return __awaiter(void 0, void 0, void
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
+                // XXX: Workaround a possible bug where engine api has been parsed wrong
+                if (api.engine.match(/\/#\//)) {
+                    api.engine = api.engine.split('/#/')[0].replace(/.*\//g, '');
+                    api.engineApi = api.baseApi + '/engine/' + api.engine;
+                }
                 query = new URLSearchParams(params || {}).toString();
                 if (!query) return [3 /*break*/, 2];
                 return [4 /*yield*/, fetch("" + api.engineApi + path + "?" + query, {
@@ -28739,7 +28763,11 @@ var Modal = function (_a) {
     var api = react.useContext(APIContext);
     var _c = react.useState(false), isOpen = _c[0], setIsOpen = _c[1];
     return (react.createElement(react.Fragment, null,
-        react.createElement("button", { onClick: function () { return __awaiter(void 0, void 0, void 0, function () {
+        react.createElement("button", { className: "btn btn-link", style: {
+                padding: 0,
+                margin: 0,
+                border: 0,
+            }, onClick: function () { return __awaiter(void 0, void 0, void 0, function () {
                 var data;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
@@ -28829,7 +28857,7 @@ var VariablesTable = function (_a) {
             accessor: 'createTime',
             Cell: function (_a) {
                 var value = _a.value;
-                return react.createElement(Clippy, { value: value }, value);
+                return react.createElement(Clippy, { value: value }, value.split('.')[0]);
             },
         },
     ]; }, []);
@@ -28856,7 +28884,7 @@ var VariablesTable = function (_a) {
             /* @ts-ignore */
             column.isSorted ? (
             /* @ts-ignore */
-            column.isSortedDesc ? (react.createElement(HiChevronDown, null)) : (react.createElement(HiChevronUp, null))) : ('')))); }))); })),
+            column.isSortedDesc ? (react.createElement(GoChevronDown, { style: { color: '#155cb5' } })) : (react.createElement(GoChevronUp, { style: { color: '#155cb5' } }))) : (react.createElement(TiMinus, { style: { color: '#155cb5' } }))))); }))); })),
         react.createElement("tbody", __assign({}, getTableBodyProps()), rows.map(function (row) {
             prepareRow(row);
             return (react.createElement("tr", __assign({}, row.getRowProps()), row.cells.map(function (cell) {
@@ -28902,6 +28930,7 @@ var instanceRouteHistory = [
         id: 'instanceRouteHistory',
         pluginPoint: 'cockpit.route',
         properties: {
+            path: '/history/process-instance/:id',
             label: '/history',
         },
         render: function (node, _a) {
@@ -28912,20 +28941,21 @@ var instanceRouteHistory = [
             var processInstanceId = match ? match[1] : null;
             if (processInstanceId) {
                 (function () { return __awaiter(void 0, void 0, void 0, function () {
-                    var instance, _a, diagram, activities, variables, decisions, decisionByActivity, activityById;
+                    var instance, _a, version, diagram, activities, variables, decisions, decisionByActivity, activityById;
                     return __generator(this, function (_b) {
                         switch (_b.label) {
                             case 0: return [4 /*yield*/, get$1(api, "/history/process-instance/" + processInstanceId)];
                             case 1:
                                 instance = _b.sent();
                                 return [4 /*yield*/, Promise.all([
+                                        get$1(api, "/version"),
                                         get$1(api, "/process-definition/" + instance.processDefinitionId + "/xml"),
                                         get$1(api, '/history/activity-instance', { processInstanceId: processInstanceId }),
                                         get$1(api, '/history/variable-instance', { processInstanceId: processInstanceId }),
                                         get$1(api, '/history/decision-instance', { processInstanceId: processInstanceId }),
                                     ])];
                             case 2:
-                                _a = _b.sent(), diagram = _a[0], activities = _a[1], variables = _a[2], decisions = _a[3];
+                                _a = _b.sent(), version = _a[0].version, diagram = _a[1], activities = _a[2], variables = _a[3], decisions = _a[4];
                                 decisionByActivity = new Map(decisions.map(function (decision) { return [decision.activityInstanceId, decision.id]; }));
                                 activityById = new Map(activities.map(function (activity) { return [activity.id, activity]; }));
                                 activities.sort(function (a, b) {
@@ -28951,7 +28981,7 @@ var instanceRouteHistory = [
                                     return 0;
                                 });
                                 reactDom.render(react.createElement(react.StrictMode, null,
-                                    react.createElement(Page, { api: api },
+                                    react.createElement(Page, { version: version ? version : '7.15.0', api: api },
                                         react.createElement(BreadcrumbsPanel, { processDefinitionId: instance.processDefinitionId, processDefinitionName: instance.processDefinitionName, processInstanceId: processInstanceId }),
                                         react.createElement(Container, null,
                                             react.createElement(SplitPane, { split: "vertical", size: 200 },
