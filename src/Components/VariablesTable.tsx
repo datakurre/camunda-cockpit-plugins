@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { HiChevronDown, HiChevronUp } from 'react-icons/hi';
+import { GoChevronDown, GoChevronUp } from 'react-icons/go';
+import { TiMinus } from 'react-icons/ti';
 import { ReactJason } from 'react-jason';
 import github from 'react-jason/themes/github';
 import ReactModal from 'react-modal';
@@ -22,6 +23,12 @@ const Modal: React.FC<ModalProps> = ({ title, label, variable }) => {
   return (
     <>
       <button
+        className="btn btn-link"
+        style={{
+          padding: 0,
+          margin: 0,
+          border: 0,
+        }}
         onClick={async () => {
           if (variable.type !== 'Json') {
             setIsOpen(true);
@@ -131,7 +138,7 @@ const VariablesTable: React.FC<Props> = ({ instance, activities, variables }) =>
       {
         Header: 'Created',
         accessor: 'createTime',
-        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
+        Cell: ({ value }: any) => <Clippy value={value}>{value.split('.')[0]}</Clippy>,
       },
     ],
     []
@@ -171,12 +178,12 @@ const VariablesTable: React.FC<Props> = ({ instance, activities, variables }) =>
                     column.isSorted ? (
                       /* @ts-ignore */
                       column.isSortedDesc ? (
-                        <HiChevronDown />
+                        <GoChevronDown style={{ color: '#155cb5' }} />
                       ) : (
-                        <HiChevronUp />
+                        <GoChevronUp style={{ color: '#155cb5' }} />
                       )
                     ) : (
-                      ''
+                      <TiMinus style={{ color: '#155cb5' }} />
                     )
                   }
                 </span>

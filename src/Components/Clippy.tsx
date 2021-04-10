@@ -3,7 +3,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { HiCheck, HiClipboardCopy } from 'react-icons/hi';
 
 interface Props {
-  value: string;
+  value: any;
 }
 
 export const Clippy: React.FC<Props> = ({ value, children }) => {

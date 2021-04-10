@@ -1,6 +1,5 @@
 import './instance-route-history.scss';
 
-import { Activity } from 'bpmn-moddle';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SplitPane from 'react-split-pane';
