@@ -10,11 +10,17 @@ import { get } from '../utils/api';
 import APIContext from './APIContext';
 import { Clippy } from './Clippy';
 
+// https://github.com/reactjs/react-modal/issues/283
+import "./Modal.scss";
+
 interface ModalProps {
   title: string;
   label: string;
   variable: any;
 }
+
+// https://github.com/reactjs/react-modal/issues/283
+ReactModal.defaultStyles = {}
 
 const Modal: React.FC<ModalProps> = ({ title, label, variable }) => {
   const [value, setValue] = useState(variable.value);

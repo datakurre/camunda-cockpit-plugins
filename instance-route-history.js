@@ -28770,6 +28770,10 @@ var get$1 = function (api, path, params) { return __awaiter(void 0, void 0, void
     });
 }); };
 
+___$insertStyle(".ReactModal__Html--open,\n.ReactModal__Body--open {\n  overflow: hidden;\n  /* prevents background page from scrolling when the modal is open */\n}\n\n.ReactModal__Overlay {\n  position: fixed;\n  z-index: 999999;\n  top: 0;\n  left: 0;\n  width: 100vw;\n  height: 100vh;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ReactModal__Content {\n  background: white;\n  width: 50rem;\n  max-width: calc(100vw - 2rem);\n  max-height: calc(100vh - 2rem);\n  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.25);\n  overflow-y: auto;\n  position: relative;\n}\n\n.modal-close-btn {\n  cursor: pointer;\n  top: 1.5rem;\n  right: 1.5rem;\n  position: absolute;\n  width: 3rem;\n  height: 3rem;\n}");
+
+// https://github.com/reactjs/react-modal/issues/283
+ReactModal.defaultStyles = {};
 var Modal = function (_a) {
     var title = _a.title, label = _a.label, variable = _a.variable;
     var _b = react.useState(variable.value), value = _b[0], setValue = _b[1];
