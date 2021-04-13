@@ -14220,6 +14220,11 @@ var get = function (api, path, params) { return __awaiter(void 0, void 0, void 0
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
+                // XXX: Workaround a possible bug where engine api has been parsed wrong
+                if (api.engine.match(/\/#\//)) {
+                    api.engine = api.engine.split('/#/')[0].replace(/.*\//g, '');
+                    api.engineApi = api.baseApi + '/engine/' + api.engine;
+                }
                 query = new URLSearchParams(params || {}).toString();
                 if (!query) return [3 /*break*/, 2];
                 return [4 /*yield*/, fetch("" + api.engineApi + path + "?" + query, {
@@ -14331,7 +14336,7 @@ var Plugin = function (_a) {
                 overlay.className = 'badge';
                 overlay.style.cssText = "\n          background: lightgray;\n        ";
                 try {
-                    overlays.add(id, {
+                    overlays.add(id.split('#')[0], {
                         position: {
                             bottom: 17,
                             right: 10,

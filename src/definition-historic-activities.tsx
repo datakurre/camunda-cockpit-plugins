@@ -82,7 +82,7 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ api, processDefinitionId }) 
           background: lightgray;
         `;
         try {
-          overlays.add(id, {
+          overlays.add(id.split('#')[0], {
             position: {
               bottom: 17,
               right: 10,

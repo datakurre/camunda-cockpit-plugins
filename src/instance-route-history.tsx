@@ -46,6 +46,7 @@ export default [
     id: 'instanceRouteHistory',
     pluginPoint: 'cockpit.route',
     properties: {
+      path: '/history/process-instance/:id',
       label: '/history',
     },
 
@@ -56,7 +57,8 @@ export default [
       if (processInstanceId) {
         (async () => {
           const instance = await get(api, `/history/process-instance/${processInstanceId}`);
-          const [diagram, activities, variables, decisions] = await Promise.all([
+          const [{ version }, diagram, activities, variables, decisions] = await Promise.all([
+            get(api, `/version`),
             get(api, `/process-definition/${instance.processDefinitionId}/xml`),
             get(api, '/history/activity-instance', { processInstanceId }),
             get(api, '/history/variable-instance', { processInstanceId }),
@@ -65,6 +67,7 @@ export default [
           const decisionByActivity: Map<string, any> = new Map(
             decisions.map((decision: any) => [decision.activityInstanceId, decision.id])
           );
+          const activityById: Map<string, any> = new Map(activities.map((activity: any) => [activity.id, activity]));
           activities.sort((a: any, b: any) => {
             a = a.endTime ? new Date(a.endTime) : new Date();
             b = b.endTime ? new Date(b.endTime) : new Date();
@@ -89,7 +92,7 @@ export default [
           });
           ReactDOM.render(
             <React.StrictMode>
-              <Page>
+              <Page version={version ? (version as string) : '7.15.0'} api={api}>
                 <BreadcrumbsPanel
                   processDefinitionId={instance.processDefinitionId}
                   processDefinitionName={instance.processDefinitionName}
@@ -164,11 +167,7 @@ export default [
                           <AuditLogTable activities={activities} decisions={decisionByActivity} />
                         </TabPanel>
                         <TabPanel className="ctn-tabbed-content ctn-scroll">
-                          <VariablesTable
-                            variables={variables.filter(
-                              (variable: any) => variable.activityInstanceId === processInstanceId
-                            )}
-                          />
+                          <VariablesTable instance={instance} activities={activityById} variables={variables} />
                         </TabPanel>
                         <TabPanel></TabPanel>
                       </Tabs>

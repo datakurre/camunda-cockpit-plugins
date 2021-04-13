@@ -7,7 +7,14 @@ export const headers = (api: API) => {
     'X-XSRF-TOKEN': api.CSRFToken,
   };
 };
+
 export const get = async (api: API, path: string, params?: Record<string, string>) => {
+  // XXX: Workaround a possible bug where engine api has been parsed wrong
+  if (api.engine.match(/\/#\//)) {
+    api.engine = api.engine.split('/#/')[0].replace(/.*\//g, '');
+    api.engineApi = api.baseApi + '/engine/' + api.engine;
+  }
+
   const query = new URLSearchParams(params || {}).toString();
   const res = query
     ? await fetch(`${api.engineApi}${path}?${query}`, {
