@@ -1,7 +1,10 @@
 import React from 'react';
-import { useTable } from 'react-table';
+import { GoChevronDown, GoChevronUp } from 'react-icons/go';
+import { TiMinus } from 'react-icons/ti';
+import { useSortBy, useTable } from 'react-table';
 
 import { asctime } from '../utils/misc';
+import { Clippy } from './Clippy';
 
 interface Props {
   activities: any[];
@@ -13,22 +16,27 @@ const StatisticsTable: React.FC<Props> = ({ activities }) => {
       {
         Header: 'Activity Name',
         accessor: 'activityName',
+        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
       },
       {
         Header: 'Instances',
         accessor: 'instances',
+        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
       },
       {
         Header: 'Total',
         accessor: 'duration',
+        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
       },
       {
         Header: 'Average',
         accessor: 'average',
+        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
       },
       {
         Header: 'Median',
         accessor: 'median',
+        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
       },
     ],
     []
@@ -90,7 +98,7 @@ const StatisticsTable: React.FC<Props> = ({ activities }) => {
       }),
     []
   );
-  const tableInstance = useTable({ columns: columns as any, data });
+  const tableInstance = useTable({ columns: columns as any, data }, useSortBy);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
   return (
     <table className="cam-table" {...getTableProps()}>
@@ -98,7 +106,25 @@ const StatisticsTable: React.FC<Props> = ({ activities }) => {
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+              /* @ts-ignore */
+              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                {column.render('Header')}
+                <span style={{ position: 'absolute', fontSize: '125%' }}>
+                  {
+                    /* @ts-ignore */
+                    column.isSorted ? (
+                      /* @ts-ignore */
+                      column.isSortedDesc ? (
+                        <GoChevronDown style={{ color: '#155cb5' }} />
+                      ) : (
+                        <GoChevronUp style={{ color: '#155cb5' }} />
+                      )
+                    ) : (
+                      <TiMinus style={{ color: '#155cb5' }} />
+                    )
+                  }
+                </span>
+              </th>
             ))}
           </tr>
         ))}

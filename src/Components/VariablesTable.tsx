@@ -1,3 +1,6 @@
+// https://github.com/reactjs/react-modal/issues/283
+import './Modal.scss';
+
 import React, { useContext, useState } from 'react';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 import { TiMinus } from 'react-icons/ti';
@@ -10,9 +13,6 @@ import { get } from '../utils/api';
 import APIContext from './APIContext';
 import { Clippy } from './Clippy';
 
-// https://github.com/reactjs/react-modal/issues/283
-import "./Modal.scss";
-
 interface ModalProps {
   title: string;
   label: string;
@@ -20,7 +20,7 @@ interface ModalProps {
 }
 
 // https://github.com/reactjs/react-modal/issues/283
-ReactModal.defaultStyles = {}
+ReactModal.defaultStyles = {};
 
 const Modal: React.FC<ModalProps> = ({ title, label, variable }) => {
   const [value, setValue] = useState(variable.value);
