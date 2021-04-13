@@ -4044,6 +4044,298 @@ var asctime = function (duration) {
     return hours_ + ':' + minutes_ + ':' + seconds_ + '.' + milliseconds;
 };
 
+var toggleSelection = function () {
+  var selection = document.getSelection();
+  if (!selection.rangeCount) {
+    return function () {};
+  }
+  var active = document.activeElement;
+
+  var ranges = [];
+  for (var i = 0; i < selection.rangeCount; i++) {
+    ranges.push(selection.getRangeAt(i));
+  }
+
+  switch (active.tagName.toUpperCase()) { // .toUpperCase handles XHTML
+    case 'INPUT':
+    case 'TEXTAREA':
+      active.blur();
+      break;
+
+    default:
+      active = null;
+      break;
+  }
+
+  selection.removeAllRanges();
+  return function () {
+    selection.type === 'Caret' &&
+    selection.removeAllRanges();
+
+    if (!selection.rangeCount) {
+      ranges.forEach(function(range) {
+        selection.addRange(range);
+      });
+    }
+
+    active &&
+    active.focus();
+  };
+};
+
+var clipboardToIE11Formatting = {
+  "text/plain": "Text",
+  "text/html": "Url",
+  "default": "Text"
+};
+
+var defaultMessage = "Copy to clipboard: #{key}, Enter";
+
+function format$1(message) {
+  var copyKey = (/mac os x/i.test(navigator.userAgent) ? "⌘" : "Ctrl") + "+C";
+  return message.replace(/#{\s*key\s*}/g, copyKey);
+}
+
+function copy(text, options) {
+  var debug,
+    message,
+    reselectPrevious,
+    range,
+    selection,
+    mark,
+    success = false;
+  if (!options) {
+    options = {};
+  }
+  debug = options.debug || false;
+  try {
+    reselectPrevious = toggleSelection();
+
+    range = document.createRange();
+    selection = document.getSelection();
+
+    mark = document.createElement("span");
+    mark.textContent = text;
+    // reset user styles for span element
+    mark.style.all = "unset";
+    // prevents scrolling to the end of the page
+    mark.style.position = "fixed";
+    mark.style.top = 0;
+    mark.style.clip = "rect(0, 0, 0, 0)";
+    // used to preserve spaces and line breaks
+    mark.style.whiteSpace = "pre";
+    // do not inherit user-select (it may be `none`)
+    mark.style.webkitUserSelect = "text";
+    mark.style.MozUserSelect = "text";
+    mark.style.msUserSelect = "text";
+    mark.style.userSelect = "text";
+    mark.addEventListener("copy", function(e) {
+      e.stopPropagation();
+      if (options.format) {
+        e.preventDefault();
+        if (typeof e.clipboardData === "undefined") { // IE 11
+          debug && console.warn("unable to use e.clipboardData");
+          debug && console.warn("trying IE specific stuff");
+          window.clipboardData.clearData();
+          var format = clipboardToIE11Formatting[options.format] || clipboardToIE11Formatting["default"];
+          window.clipboardData.setData(format, text);
+        } else { // all other browsers
+          e.clipboardData.clearData();
+          e.clipboardData.setData(options.format, text);
+        }
+      }
+      if (options.onCopy) {
+        e.preventDefault();
+        options.onCopy(e.clipboardData);
+      }
+    });
+
+    document.body.appendChild(mark);
+
+    range.selectNodeContents(mark);
+    selection.addRange(range);
+
+    var successful = document.execCommand("copy");
+    if (!successful) {
+      throw new Error("copy command was unsuccessful");
+    }
+    success = true;
+  } catch (err) {
+    debug && console.error("unable to copy using execCommand: ", err);
+    debug && console.warn("trying IE specific stuff");
+    try {
+      window.clipboardData.setData(options.format || "text", text);
+      options.onCopy && options.onCopy(window.clipboardData);
+      success = true;
+    } catch (err) {
+      debug && console.error("unable to copy using clipboardData: ", err);
+      debug && console.error("falling back to prompt");
+      message = format$1("message" in options ? options.message : defaultMessage);
+      window.prompt(message, text);
+    }
+  } finally {
+    if (selection) {
+      if (typeof selection.removeRange == "function") {
+        selection.removeRange(range);
+      } else {
+        selection.removeAllRanges();
+      }
+    }
+
+    if (mark) {
+      document.body.removeChild(mark);
+    }
+    reselectPrevious();
+  }
+
+  return success;
+}
+
+var copyToClipboard = copy;
+
+var Component = createCommonjsModule$1(function (module, exports) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CopyToClipboard = void 0;
+
+var _react = _interopRequireDefault(react);
+
+var _copyToClipboard = _interopRequireDefault(copyToClipboard);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var CopyToClipboard =
+/*#__PURE__*/
+function (_React$PureComponent) {
+  _inherits(CopyToClipboard, _React$PureComponent);
+
+  function CopyToClipboard() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    _classCallCheck(this, CopyToClipboard);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(CopyToClipboard)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_this), "onClick", function (event) {
+      var _this$props = _this.props,
+          text = _this$props.text,
+          onCopy = _this$props.onCopy,
+          children = _this$props.children,
+          options = _this$props.options;
+
+      var elem = _react["default"].Children.only(children);
+
+      var result = (0, _copyToClipboard["default"])(text, options);
+
+      if (onCopy) {
+        onCopy(text, result);
+      } // Bypass onClick if it was present
+
+
+      if (elem && elem.props && typeof elem.props.onClick === 'function') {
+        elem.props.onClick(event);
+      }
+    });
+
+    return _this;
+  }
+
+  _createClass(CopyToClipboard, [{
+    key: "render",
+    value: function render() {
+      var _this$props2 = this.props;
+          _this$props2.text;
+          _this$props2.onCopy;
+          _this$props2.options;
+          var children = _this$props2.children,
+          props = _objectWithoutProperties(_this$props2, ["text", "onCopy", "options", "children"]);
+
+      var elem = _react["default"].Children.only(children);
+
+      return _react["default"].cloneElement(elem, _objectSpread({}, props, {
+        onClick: this.onClick
+      }));
+    }
+  }]);
+
+  return CopyToClipboard;
+}(_react["default"].PureComponent);
+
+exports.CopyToClipboard = CopyToClipboard;
+
+_defineProperty(CopyToClipboard, "defaultProps", {
+  onCopy: undefined,
+  options: undefined
+});
+});
+
+var CopyToClipboard = Component.CopyToClipboard;
+
+CopyToClipboard.CopyToClipboard = CopyToClipboard;
+var lib$2 = CopyToClipboard;
+
+// THIS FILE IS AUTO GENERATED
+function HiCheck (props) {
+  return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 20 20","fill":"currentColor"},"child":[{"tag":"path","attr":{"fillRule":"evenodd","d":"M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z","clipRule":"evenodd"}}]})(props);
+}function HiClipboardCopy (props) {
+  return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 20 20","fill":"currentColor"},"child":[{"tag":"path","attr":{"d":"M8 2a1 1 0 000 2h2a1 1 0 100-2H8z"}},{"tag":"path","attr":{"d":"M3 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6h-4.586l1.293-1.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L10.414 13H15v3a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM15 11h2a1 1 0 110 2h-2v-2z"}}]})(props);
+}
+
+var Clippy = function (_a) {
+    var value = _a.value, children = _a.children;
+    var _b = react.useState(false), mouseOver = _b[0], setMouseOver = _b[1];
+    var _c = react.useState(false), copied = _c[0], setCopied = _c[1];
+    return (react.createElement("span", { onMouseOver: function () {
+            if (!mouseOver) {
+                setMouseOver(true);
+            }
+        }, onMouseLeave: function () {
+            setMouseOver(false);
+            setCopied(false);
+        }, style: { display: 'flex', alignItems: 'center' } },
+        children,
+        mouseOver ? (react.createElement(lib$2, { text: value, onCopy: function () { return setCopied(true); } },
+            react.createElement("a", { href: "#", onClick: function (e) {
+                    e.preventDefault();
+                }, style: { fontSize: '120%', paddingLeft: '0.2em' } }, copied ? (react.createElement(HiCheck, { style: { color: 'green', display: 'flex' } })) : (react.createElement(HiClipboardCopy, { style: { display: 'flex' } }))))) : (react.createElement("span", { style: { fontSize: '120%', width: '1.2em' } }))));
+};
+
 var AuditLogTable = function (_a) {
     var activities = _a.activities, decisions = _a.decisions;
     var columns = react.useMemo(function () { return [
@@ -4061,32 +4353,56 @@ var AuditLogTable = function (_a) {
                 else if (value.activityType === 'callActivity' && value.calledProcessInstanceId) {
                     return react.createElement("a", { href: "#/process-instance/" + value.calledProcessInstanceId + "/runtime" }, value.activityName);
                 }
-                return value.activityName;
+                return react.createElement(Clippy, { value: value.activityName }, value.activityName);
             },
         },
         {
             Header: 'Start Date',
             accessor: 'startDate',
+            Cell: function (_a) {
+                var value = _a.value;
+                return react.createElement(Clippy, { value: value }, value);
+            },
         },
         {
             Header: 'End Date',
             accessor: 'endDate',
+            Cell: function (_a) {
+                var value = _a.value;
+                return react.createElement(Clippy, { value: value }, value);
+            },
         },
         {
             Header: 'Duration',
             accessor: 'duration',
+            Cell: function (_a) {
+                var value = _a.value;
+                return react.createElement(Clippy, { value: value }, value);
+            },
         },
         {
             Header: 'Type',
             accessor: 'type',
+            Cell: function (_a) {
+                var value = _a.value;
+                return react.createElement(Clippy, { value: value }, value);
+            },
         },
         {
             Header: 'User',
             accessor: 'assignee',
+            Cell: function (_a) {
+                var value = _a.value;
+                return react.createElement(Clippy, { value: value }, value);
+            },
         },
         {
             Header: 'Canceled',
             accessor: 'canceled',
+            Cell: function (_a) {
+                var value = _a.value;
+                return react.createElement(Clippy, { value: value }, value);
+            },
         },
     ]; }, [activities, decisions]);
     var data = react.useMemo(function () {
@@ -9343,7 +9659,7 @@ function PathMap() {
     }
 
     // Apply value to raw path
-    var path = format$1(
+    var path = format(
       rawPath.d, {
         mx: mx,
         my: my,
@@ -9376,7 +9692,7 @@ function replacer(all, key, obj) {
   return res;
 }
 
-function format$1(str, obj) {
+function format(str, obj) {
   return String(str).replace(tokenRegex, function(all, key) {
     return replacer(all, key, obj);
   });
@@ -25001,7 +25317,7 @@ function isWildcard(allowedIn) {
   return allowedIn.indexOf(WILDCARD) !== -1;
 }
 
-var lib$2 = {
+var lib$1 = {
   __init__: [ 'camundaModdleExtension' ],
   camundaModdleExtension: [ 'type', extension ]
 };
@@ -26909,7 +27225,7 @@ var BPMNViewer = function (diagram) { return __awaiter(void 0, void 0, void 0, f
         switch (_a.label) {
             case 0:
                 model = new NavigatedViewer({
-                    additionalModules: [lib$2, RobotModule, tooltips],
+                    additionalModules: [lib$1, RobotModule, tooltips],
                     moddleExtensions: {
                         camunda: camundaModdle,
                     },
@@ -27016,298 +27332,6 @@ var BreadcrumbsPanel = function (_a) {
                 " : History"))));
 };
 
-var toggleSelection = function () {
-  var selection = document.getSelection();
-  if (!selection.rangeCount) {
-    return function () {};
-  }
-  var active = document.activeElement;
-
-  var ranges = [];
-  for (var i = 0; i < selection.rangeCount; i++) {
-    ranges.push(selection.getRangeAt(i));
-  }
-
-  switch (active.tagName.toUpperCase()) { // .toUpperCase handles XHTML
-    case 'INPUT':
-    case 'TEXTAREA':
-      active.blur();
-      break;
-
-    default:
-      active = null;
-      break;
-  }
-
-  selection.removeAllRanges();
-  return function () {
-    selection.type === 'Caret' &&
-    selection.removeAllRanges();
-
-    if (!selection.rangeCount) {
-      ranges.forEach(function(range) {
-        selection.addRange(range);
-      });
-    }
-
-    active &&
-    active.focus();
-  };
-};
-
-var clipboardToIE11Formatting = {
-  "text/plain": "Text",
-  "text/html": "Url",
-  "default": "Text"
-};
-
-var defaultMessage = "Copy to clipboard: #{key}, Enter";
-
-function format(message) {
-  var copyKey = (/mac os x/i.test(navigator.userAgent) ? "⌘" : "Ctrl") + "+C";
-  return message.replace(/#{\s*key\s*}/g, copyKey);
-}
-
-function copy(text, options) {
-  var debug,
-    message,
-    reselectPrevious,
-    range,
-    selection,
-    mark,
-    success = false;
-  if (!options) {
-    options = {};
-  }
-  debug = options.debug || false;
-  try {
-    reselectPrevious = toggleSelection();
-
-    range = document.createRange();
-    selection = document.getSelection();
-
-    mark = document.createElement("span");
-    mark.textContent = text;
-    // reset user styles for span element
-    mark.style.all = "unset";
-    // prevents scrolling to the end of the page
-    mark.style.position = "fixed";
-    mark.style.top = 0;
-    mark.style.clip = "rect(0, 0, 0, 0)";
-    // used to preserve spaces and line breaks
-    mark.style.whiteSpace = "pre";
-    // do not inherit user-select (it may be `none`)
-    mark.style.webkitUserSelect = "text";
-    mark.style.MozUserSelect = "text";
-    mark.style.msUserSelect = "text";
-    mark.style.userSelect = "text";
-    mark.addEventListener("copy", function(e) {
-      e.stopPropagation();
-      if (options.format) {
-        e.preventDefault();
-        if (typeof e.clipboardData === "undefined") { // IE 11
-          debug && console.warn("unable to use e.clipboardData");
-          debug && console.warn("trying IE specific stuff");
-          window.clipboardData.clearData();
-          var format = clipboardToIE11Formatting[options.format] || clipboardToIE11Formatting["default"];
-          window.clipboardData.setData(format, text);
-        } else { // all other browsers
-          e.clipboardData.clearData();
-          e.clipboardData.setData(options.format, text);
-        }
-      }
-      if (options.onCopy) {
-        e.preventDefault();
-        options.onCopy(e.clipboardData);
-      }
-    });
-
-    document.body.appendChild(mark);
-
-    range.selectNodeContents(mark);
-    selection.addRange(range);
-
-    var successful = document.execCommand("copy");
-    if (!successful) {
-      throw new Error("copy command was unsuccessful");
-    }
-    success = true;
-  } catch (err) {
-    debug && console.error("unable to copy using execCommand: ", err);
-    debug && console.warn("trying IE specific stuff");
-    try {
-      window.clipboardData.setData(options.format || "text", text);
-      options.onCopy && options.onCopy(window.clipboardData);
-      success = true;
-    } catch (err) {
-      debug && console.error("unable to copy using clipboardData: ", err);
-      debug && console.error("falling back to prompt");
-      message = format("message" in options ? options.message : defaultMessage);
-      window.prompt(message, text);
-    }
-  } finally {
-    if (selection) {
-      if (typeof selection.removeRange == "function") {
-        selection.removeRange(range);
-      } else {
-        selection.removeAllRanges();
-      }
-    }
-
-    if (mark) {
-      document.body.removeChild(mark);
-    }
-    reselectPrevious();
-  }
-
-  return success;
-}
-
-var copyToClipboard = copy;
-
-var Component = createCommonjsModule$1(function (module, exports) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CopyToClipboard = void 0;
-
-var _react = _interopRequireDefault(react);
-
-var _copyToClipboard = _interopRequireDefault(copyToClipboard);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var CopyToClipboard =
-/*#__PURE__*/
-function (_React$PureComponent) {
-  _inherits(CopyToClipboard, _React$PureComponent);
-
-  function CopyToClipboard() {
-    var _getPrototypeOf2;
-
-    var _this;
-
-    _classCallCheck(this, CopyToClipboard);
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(CopyToClipboard)).call.apply(_getPrototypeOf2, [this].concat(args)));
-
-    _defineProperty(_assertThisInitialized(_this), "onClick", function (event) {
-      var _this$props = _this.props,
-          text = _this$props.text,
-          onCopy = _this$props.onCopy,
-          children = _this$props.children,
-          options = _this$props.options;
-
-      var elem = _react["default"].Children.only(children);
-
-      var result = (0, _copyToClipboard["default"])(text, options);
-
-      if (onCopy) {
-        onCopy(text, result);
-      } // Bypass onClick if it was present
-
-
-      if (elem && elem.props && typeof elem.props.onClick === 'function') {
-        elem.props.onClick(event);
-      }
-    });
-
-    return _this;
-  }
-
-  _createClass(CopyToClipboard, [{
-    key: "render",
-    value: function render() {
-      var _this$props2 = this.props;
-          _this$props2.text;
-          _this$props2.onCopy;
-          _this$props2.options;
-          var children = _this$props2.children,
-          props = _objectWithoutProperties(_this$props2, ["text", "onCopy", "options", "children"]);
-
-      var elem = _react["default"].Children.only(children);
-
-      return _react["default"].cloneElement(elem, _objectSpread({}, props, {
-        onClick: this.onClick
-      }));
-    }
-  }]);
-
-  return CopyToClipboard;
-}(_react["default"].PureComponent);
-
-exports.CopyToClipboard = CopyToClipboard;
-
-_defineProperty(CopyToClipboard, "defaultProps", {
-  onCopy: undefined,
-  options: undefined
-});
-});
-
-var CopyToClipboard = Component.CopyToClipboard;
-
-CopyToClipboard.CopyToClipboard = CopyToClipboard;
-var lib$1 = CopyToClipboard;
-
-// THIS FILE IS AUTO GENERATED
-function HiCheck (props) {
-  return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 20 20","fill":"currentColor"},"child":[{"tag":"path","attr":{"fillRule":"evenodd","d":"M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z","clipRule":"evenodd"}}]})(props);
-}function HiClipboardCopy (props) {
-  return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 20 20","fill":"currentColor"},"child":[{"tag":"path","attr":{"d":"M8 2a1 1 0 000 2h2a1 1 0 100-2H8z"}},{"tag":"path","attr":{"d":"M3 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6h-4.586l1.293-1.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L10.414 13H15v3a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM15 11h2a1 1 0 110 2h-2v-2z"}}]})(props);
-}
-
-var Clippy = function (_a) {
-    var value = _a.value, children = _a.children;
-    var _b = react.useState(false), mouseOver = _b[0], setMouseOver = _b[1];
-    var _c = react.useState(false), copied = _c[0], setCopied = _c[1];
-    return (react.createElement("span", { onMouseOver: function () {
-            if (!mouseOver) {
-                setMouseOver(true);
-            }
-        }, onMouseLeave: function () {
-            setMouseOver(false);
-            setCopied(false);
-        }, style: { display: 'flex', alignItems: 'center' } },
-        children,
-        mouseOver ? (react.createElement(lib$1, { text: value, onCopy: function () { return setCopied(true); } },
-            react.createElement("a", { href: "#", onClick: function (e) {
-                    e.preventDefault();
-                }, style: { fontSize: '120%', paddingLeft: '0.2em' } }, copied ? (react.createElement(HiCheck, { style: { color: 'green', display: 'flex' } })) : (react.createElement(HiClipboardCopy, { style: { display: 'flex' } }))))) : (react.createElement("span", { style: { fontSize: '120%', width: '1.2em' } }))));
-};
-
 var Container = function (_a) {
     var children = _a.children;
     return (react.createElement("div", { className: "ctn-fixed-view" },
@@ -27320,26 +27344,43 @@ var HistoryTable = function (_a) {
         {
             Header: 'State',
             accessor: 'state',
+            Cell: function (_a) {
+                var value = _a.value;
+                return react.createElement(Clippy, { value: value }, value);
+            },
         },
         {
             Header: 'Instance ID',
             Cell: function (_a) {
                 var value = _a.value;
-                return react.createElement("a", { href: "#/history/process-instance/" + value }, value);
+                return (react.createElement(Clippy, { value: value },
+                    react.createElement("a", { href: "#/history/process-instance/" + value }, value)));
             },
             accessor: 'id',
         },
         {
             Header: 'Start Time',
             accessor: 'startTime',
+            Cell: function (_a) {
+                var value = _a.value;
+                return react.createElement(Clippy, { value: value }, value);
+            },
         },
         {
             Header: 'End Time',
             accessor: 'endTime',
+            Cell: function (_a) {
+                var value = _a.value;
+                return react.createElement(Clippy, { value: value }, value);
+            },
         },
         {
             Header: 'Business Key',
             accessor: 'businessKey',
+            Cell: function (_a) {
+                var value = _a.value;
+                return react.createElement(Clippy, { value: value }, value);
+            },
         },
     ]; }, []);
     var data = react.useMemo(function () {
@@ -27353,10 +27394,18 @@ var HistoryTable = function (_a) {
             };
         });
     }, []);
-    var tableInstance = reactTable.useTable({ columns: columns, data: data });
+    var tableInstance = reactTable.useTable({ columns: columns, data: data }, reactTable.useSortBy);
     var getTableProps = tableInstance.getTableProps, getTableBodyProps = tableInstance.getTableBodyProps, headerGroups = tableInstance.headerGroups, rows = tableInstance.rows, prepareRow = tableInstance.prepareRow;
     return (react.createElement("table", __assign$1({ className: "cam-table" }, getTableProps()),
-        react.createElement("thead", null, headerGroups.map(function (headerGroup) { return (react.createElement("tr", __assign$1({}, headerGroup.getHeaderGroupProps()), headerGroup.headers.map(function (column) { return (react.createElement("th", __assign$1({}, column.getHeaderProps()), column.render('Header'))); }))); })),
+        react.createElement("thead", null, headerGroups.map(function (headerGroup) { return (react.createElement("tr", __assign$1({}, headerGroup.getHeaderGroupProps()), headerGroup.headers.map(function (column) { return (
+        /* @ts-ignore */
+        react.createElement("th", __assign$1({}, column.getHeaderProps(column.getSortByToggleProps())),
+            column.render('Header'),
+            react.createElement("span", { style: { position: 'absolute', fontSize: '125%' } }, 
+            /* @ts-ignore */
+            column.isSorted ? (
+            /* @ts-ignore */
+            column.isSortedDesc ? (react.createElement(GoChevronDown, { style: { color: '#155cb5' } })) : (react.createElement(GoChevronUp, { style: { color: '#155cb5' } }))) : (react.createElement(TiMinus, { style: { color: '#155cb5' } }))))); }))); })),
         react.createElement("tbody", __assign$1({}, getTableBodyProps()), rows.map(function (row) {
             prepareRow(row);
             return (react.createElement("tr", __assign$1({}, row.getRowProps()), row.cells.map(function (cell) {
@@ -27384,6 +27433,8 @@ var Page = function (_a) {
                     bottom: '0px',
                 } }, children)));
 };
+
+___$insertStylesToHeader(".ReactModal__Html--open,\n.ReactModal__Body--open {\n  overflow: hidden;\n  /* prevents background page from scrolling when the modal is open */\n}\n\n.ReactModal__Overlay {\n  position: fixed;\n  z-index: 999999;\n  top: 0;\n  left: 0;\n  width: 100vw;\n  height: 100vh;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ReactModal__Content {\n  background: white;\n  width: 50rem;\n  max-width: calc(100vw - 2rem);\n  max-height: calc(100vh - 2rem);\n  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.25);\n  overflow-y: auto;\n  position: relative;\n}\n\n.modal-close-btn {\n  cursor: pointer;\n  top: 1.5rem;\n  right: 1.5rem;\n  position: absolute;\n  width: 3rem;\n  height: 3rem;\n}");
 
 var u=react.createContext({});function l(){var e=react.useContext(u).token,t=react.useCallback(function(t){return e('"'===t||"'"===t?"quotation":"punctuation",t)},[e]);return {token:e,char:t}}function c(e,t,r){return void 0===r&&(r="span"),l().token(e,t,r)}var i=function(e,t,r){return t+"["+r+"]"},s={fontFamily:'Menlo, Monaco, "Courier New", monospace',fontFeatureSettings:'"liga" 0, "calt" 0',lineHeight:"1.5em",whiteSpace:"pre",margin:0},m={styles:{root:Object.assign({},s,{backgroundColor:"#1e2024"}),attribute:{color:"#ef415a"},unquotedAttribute:{color:"#d1d3d7"},string:{color:"#57bedf"},nil:{color:"#f2851e"},number:{color:"#f2851e"},boolean:{color:"#f2851e"},punctuation:{color:"#d1d3d7"}}};Object.assign({},s,{backgroundColor:"#f8f8f8"}),Object.assign({},s,{backgroundColor:"#2c2d25"}),Object.assign({},s,{backgroundColor:"#23241e"}),Object.assign({},s,{backgroundColor:"#212121"}),Object.assign({},s,{backgroundColor:"#fff"});var f=["string","number","object","boolean"],d=function(e){return f.includes(typeof e)},v=function(t){var n=t.value,a=t.theme,o=t.nodeWrapper,l=t.itemKeyGenerator,c=t.sortKeys,p=void 0!==c&&c,s=t.quoteAttributes,f=void 0===s||s,d=react.useMemo(function(){return function(t){return function(n,a,o){void 0===o&&(o="span");var u=t.styles?t.styles[n]:void 0,l=t.classes?t.classes[n]:void 0;return Boolean(u||l)?react.createElement(o,{style:u,className:l},a):react.createElement(react.Fragment,null,a)}}(a?"__esModule"in(t=a)?t.default:t:m);var t;},[a]),v=!0===p?K:p,b=l||i,g=react.useMemo(function(){return {token:d,getItemKey:b,quoteAttributes:f,nodeWrapper:o,sortKeys:v}},[d,b,f,o,v]);return react.createElement(u.Provider,{value:g},d("root",h({value:n,path:"",depth:1,nodeWrapper:o}),"pre"))};function h(t){var r=t.value,n=t.path,a=t.depth,o=t.nodeWrapper,u=function(t,r){return o?react.createElement(o,{path:n,type:r},t):t};if(null===r)return u(react.createElement(W,null),"nil");if(Array.isArray(r))return u(react.createElement(E,{value:r,path:n,depth:a}),"array");switch(typeof r){case"string":return u(react.createElement(b,{value:r,path:n,depth:a}),"string");case"number":return u(react.createElement(g,{value:r,path:n,depth:a}),"number");case"boolean":return u(react.createElement(y,{value:r,path:n,depth:a}),"boolean");case"object":return u(react.createElement(k,{value:r,path:n,depth:a}),"object");default:throw new Error("Unhandled type "+typeof r)}}function b(t){var r=t.value,n=l().char,a=A(r).slice(1,-1);return c("string",react.createElement(react.Fragment,null,n('"'),a,n('"')))}function g(e){return c("number",e.value)}function y(e){return c("boolean",e.value?"true":"false")}function E(t){var r=t.value,a=t.path,c=t.depth,i=l(),p=i.token,s=i.char,m=react.useContext(u),f=m.getItemKey,v=m.nodeWrapper,b=r.length;return p("array",0===b?react.createElement(react.Fragment,null,s("["),s("]")):react.createElement(react.Fragment,null,s("["),"\n"+C(c),r.map(function(t,r){var n=f(t,a,r),u=r===b-1;return react.createElement(react.Fragment,{key:n},d(t)?h({value:t,path:n,depth:c+1,nodeWrapper:v}):react.createElement(react.Fragment,null,"<",typeof t,"&rt;"),u?"\n"+C(c-1):react.createElement(react.Fragment,null,s(","),"\n"+C(c)))}),s("]")))}function k(t){var r=t.value,a=t.path,c=t.depth,i=react.useContext(u),p=i.nodeWrapper,s=i.sortKeys,m=l(),f=m.token,v=m.char,h=r,b=Object.keys(h),g=s?b.sort(function(e,t){return s(e,t,h)}):b,y=g.length,E=y-1;return f("object",0===y?react.createElement(react.Fragment,null,v("{"),v("}")):react.createElement(react.Fragment,null,v("{"),"\n",g.map(function(t,r){var n=h[t],u=a?a+"."+t:t;return d(n)?react.createElement(react.Fragment,{key:u},react.createElement(j,{attribute:t,value:n,depth:c,path:u,nodeWrapper:p,isLastKey:r===E})):null}),C(c-1),v("}")))}function F(t){var r,a=t.value,o=react.useContext(u).quoteAttributes,c=l(),i=c.token,p=c.char,s=A(a).slice(1,-1);return r=o||s.includes('"')?i("attribute",react.createElement(react.Fragment,null,p('"'),s,p('"'))):i("unquotedAttribute",s),react.createElement(react.Fragment,null,r,p(":")," ")}function j(t){var r=t.attribute,n=t.value,a=t.path,u=t.depth,c=t.isLastKey,i=t.nodeWrapper,p=l().char,s=react.createElement(react.Fragment,{key:a},C(u),react.createElement(F,{value:r}),h({value:n,path:a,depth:u+1,nodeWrapper:i}),c?"\n":react.createElement(react.Fragment,null,p(","),"\n"));return i?react.createElement(i,{type:"attributePair",path:a},s):s}function W(){return c("nil","null")}function A(e){return JSON.stringify(e)}function C(e){return "  ".repeat(e)}function K(e,t){return e.localeCompare(t)}
 
@@ -28786,8 +28837,6 @@ var get = function (api, path, params) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
-
-___$insertStylesToHeader(".ReactModal__Html--open,\n.ReactModal__Body--open {\n  overflow: hidden;\n  /* prevents background page from scrolling when the modal is open */\n}\n\n.ReactModal__Overlay {\n  position: fixed;\n  z-index: 999999;\n  top: 0;\n  left: 0;\n  width: 100vw;\n  height: 100vh;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.ReactModal__Content {\n  background: white;\n  width: 50rem;\n  max-width: calc(100vw - 2rem);\n  max-height: calc(100vh - 2rem);\n  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.25);\n  overflow-y: auto;\n  position: relative;\n}\n\n.modal-close-btn {\n  cursor: pointer;\n  top: 1.5rem;\n  right: 1.5rem;\n  position: absolute;\n  width: 3rem;\n  height: 3rem;\n}");
 
 // https://github.com/reactjs/react-modal/issues/283
 ReactModal.defaultStyles = {};

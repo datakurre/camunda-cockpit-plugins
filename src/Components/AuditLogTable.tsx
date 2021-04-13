@@ -4,6 +4,7 @@ import { TiMinus } from 'react-icons/ti';
 import { useSortBy, useTable } from 'react-table';
 
 import { asctime } from '../utils/misc';
+import { Clippy } from './Clippy';
 
 interface Props {
   activities: any[];
@@ -24,32 +25,38 @@ const AuditLogTable: React.FC<Props> = ({ activities, decisions }) => {
           } else if (value.activityType === 'callActivity' && value.calledProcessInstanceId) {
             return <a href={`#/process-instance/${value.calledProcessInstanceId}/runtime`}>{value.activityName}</a>;
           }
-          return value.activityName;
+          return <Clippy value={value.activityName}>{value.activityName}</Clippy>;
         },
       },
       {
         Header: 'Start Date',
         accessor: 'startDate',
+        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
       },
       {
         Header: 'End Date',
         accessor: 'endDate',
+        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
       },
       {
         Header: 'Duration',
         accessor: 'duration',
+        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
       },
       {
         Header: 'Type',
         accessor: 'type',
+        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
       },
       {
         Header: 'User',
         accessor: 'assignee',
+        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
       },
       {
         Header: 'Canceled',
         accessor: 'canceled',
+        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
       },
     ],
     [activities, decisions]

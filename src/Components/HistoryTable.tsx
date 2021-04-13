@@ -1,5 +1,9 @@
 import React from 'react';
-import { useTable } from 'react-table';
+import { GoChevronDown, GoChevronUp } from 'react-icons/go';
+import { TiMinus } from 'react-icons/ti';
+import { useSortBy, useTable } from 'react-table';
+
+import { Clippy } from './Clippy';
 
 interface Props {
   instances: any[];
@@ -11,23 +15,32 @@ const HistoryTable: React.FC<Props> = ({ instances }) => {
       {
         Header: 'State',
         accessor: 'state',
+        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
       },
       {
         Header: 'Instance ID',
-        Cell: ({ value }: any) => <a href={`#/history/process-instance/${value}`}>{value}</a>,
+
+        Cell: ({ value }: any) => (
+          <Clippy value={value}>
+            <a href={`#/history/process-instance/${value}`}>{value}</a>
+          </Clippy>
+        ),
         accessor: 'id',
       },
       {
         Header: 'Start Time',
         accessor: 'startTime',
+        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
       },
       {
         Header: 'End Time',
         accessor: 'endTime',
+        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
       },
       {
         Header: 'Business Key',
         accessor: 'businessKey',
+        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
       },
     ],
     []
@@ -45,7 +58,7 @@ const HistoryTable: React.FC<Props> = ({ instances }) => {
       }),
     []
   );
-  const tableInstance = useTable({ columns: columns as any, data });
+  const tableInstance = useTable({ columns: columns as any, data }, useSortBy);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
   return (
     <table className="cam-table" {...getTableProps()}>
@@ -53,7 +66,25 @@ const HistoryTable: React.FC<Props> = ({ instances }) => {
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+              /* @ts-ignore */
+              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                {column.render('Header')}
+                <span style={{ position: 'absolute', fontSize: '125%' }}>
+                  {
+                    /* @ts-ignore */
+                    column.isSorted ? (
+                      /* @ts-ignore */
+                      column.isSortedDesc ? (
+                        <GoChevronDown style={{ color: '#155cb5' }} />
+                      ) : (
+                        <GoChevronUp style={{ color: '#155cb5' }} />
+                      )
+                    ) : (
+                      <TiMinus style={{ color: '#155cb5' }} />
+                    )
+                  }
+                </span>
+              </th>
             ))}
           </tr>
         ))}
