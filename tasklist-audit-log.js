@@ -1136,7 +1136,6 @@ var tasklistAuditLog = [
         },
         render: function (node, _a) {
             var api = _a.api, taskId = _a.taskId;
-            console.log(taskId);
             (function () { return __awaiter(void 0, void 0, void 0, function () {
                 var processInstanceId, _a, activities, decisions, decisionByActivity;
                 return __generator(this, function (_b) {

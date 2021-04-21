@@ -15,7 +15,6 @@ export default [
       label: 'Audit Log',
     },
     render: (node: Element, { api, taskId}: TaskListPluginParams) => {
-      console.log(taskId);
       (async () => {
         const { processInstanceId } = await get(api, `/task/${taskId}`);
         const [activities, decisions] = await Promise.all([
