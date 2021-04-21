@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 
 import RobotModule from '../RobotModule';
 import { clearSequenceFlow, renderSequenceFlow } from '../utils/bpmn';
+import { ToggleHistoryViewButton } from './ToggleHistoryViewButton';
 import { ToggleSequenceFlowButton } from './ToggleSequenceFlowButton';
 
 export const BPMNViewer = async (diagram: string) => {
@@ -29,6 +30,7 @@ interface Props {
   className?: string;
   diagramXML: string;
   style?: Record<string, string | number>;
+  showRuntimeToggle: boolean;
 }
 
 const renderActivities = (viewer: any, activities: any[]) => {
@@ -66,8 +68,8 @@ const renderActivities = (viewer: any, activities: any[]) => {
   }
 };
 
-const BPMN: React.FC<Props> = ({ activities, className, diagramXML, style }) => {
-  const ref = useRef<HTMLDivElement>(null);
+const BPMN: React.FC<Props> = ({ activities, className, diagramXML, style, showRuntimeToggle }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -79,13 +81,13 @@ const BPMN: React.FC<Props> = ({ activities, className, diagramXML, style }) => 
         canvas.zoom('fit-viewport');
         renderActivities(viewer, activities ?? []);
 
-        const toggleSequenceFlowButton = document.createElement('div');
-        toggleSequenceFlowButton.style.cssText = `
+        const buttons = document.createElement('div');
+        buttons.style.cssText = `
           position: absolute;
           right: 15px;
           top: 15px;
         `;
-        viewer._container.appendChild(toggleSequenceFlowButton);
+        viewer._container.appendChild(buttons);
         let sequenceFlow: any[] = [];
         ReactDOM.render(
           <React.StrictMode>
@@ -98,8 +100,20 @@ const BPMN: React.FC<Props> = ({ activities, className, diagramXML, style }) => 
                 }
               }}
             />
+            {showRuntimeToggle ? (
+              <ToggleHistoryViewButton
+                onToggleHistoryView={(value: boolean) => {
+                  if (!value) {
+                    window.location.href =
+                      window.location.href.split('#')[0] +
+                      window.location.hash.split('?')[0].replace(/^#\/history\/process-instance/, '#/process-instance');
+                  }
+                }}
+                initial={true}
+              />
+            ) : null}
           </React.StrictMode>,
-          toggleSequenceFlowButton
+          buttons
         );
       }
     })();

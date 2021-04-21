@@ -12,9 +12,12 @@ import { Clippy } from './Components/Clippy';
 import Container from './Components/Container';
 import HistoryTable from './Components/HistoryTable';
 import Page from './Components/Page';
+import { ToggleHistoryViewButton } from './Components/ToggleHistoryViewButton';
+import { ToggleSequenceFlowButton } from './Components/ToggleSequenceFlowButton';
 import VariablesTable from './Components/VariablesTable';
-import { DefinitionPluginParams, RoutePluginParams } from './types';
+import { DefinitionPluginParams, InstancePluginParams, RoutePluginParams } from './types';
 import { get } from './utils/api';
+import { clearSequenceFlow, renderSequenceFlow } from './utils/bpmn';
 
 export default [
   {
@@ -38,6 +41,39 @@ export default [
             <HistoryTable instances={instances} />
           </React.StrictMode>,
           node
+        );
+      })();
+    },
+  },
+  {
+    id: 'instanceDiagramHistoricToggle',
+    pluginPoint: 'cockpit.processInstance.diagram.plugin',
+    render: (viewer: any) => {
+      (async () => {
+        const buttons = document.createElement('div');
+        buttons.style.cssText = `
+          position: absolute;
+          right: 15px;
+          top: 60px;
+        `;
+        viewer._container.appendChild(buttons);
+        ReactDOM.render(
+          <React.StrictMode>
+            <ToggleHistoryViewButton
+              onToggleHistoryView={(value: boolean) => {
+                if (value) {
+                  window.location.href =
+                    window.location.href.split('#')[0] +
+                    window.location.hash
+                      .split('?')[0]
+                      .replace(/^#\/process-instance/, '#/history/process-instance')
+                      .replace(/\/runtime/, '/');
+                }
+              }}
+              initial={false}
+            />
+          </React.StrictMode>,
+          buttons
         );
       })();
     },
@@ -153,6 +189,7 @@ export default [
                         diagramXML={diagram.bpmn20Xml}
                         className="ctn-content"
                         style={{ width: '100%' }}
+                        showRuntimeToggle={instance.state === 'ACTIVE'}
                       />
                       <Tabs className="ctn-row ctn-content-bottom ctn-tabbed" selectedTabClassName="active">
                         <TabList className="nav nav-tabs">

@@ -27185,7 +27185,24 @@ var clearSequenceFlow = function (nodes) {
     }
 };
 
-___$insertStyle(".toggle-sequence-flow-button {\n  background: #ffffff;\n  border-radius: 1px;\n  border: 1px solid #cccccc;\n  padding: 0;\n  width: 30px;\n  height: 30px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.toggle-sequence-flow-button:hover {\n  background: #e6e6e6;\n}");
+___$insertStyle(".toggle-history-view-button {\n  background: #ffffff;\n  border-radius: 1px;\n  border: 1px solid #cccccc;\n  padding: 0;\n  width: 30px;\n  height: 30px;\n  display: flex;\n  margin-bottom: 15px;\n  align-items: center;\n  justify-content: center;\n}\n.toggle-history-view-button:hover {\n  background: #e6e6e6;\n}");
+
+// THIS FILE IS AUTO GENERATED
+function FaHistory (props) {
+  return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M504 255.531c.253 136.64-111.18 248.372-247.82 248.468-59.015.042-113.223-20.53-155.822-54.911-11.077-8.94-11.905-25.541-1.839-35.607l11.267-11.267c8.609-8.609 22.353-9.551 31.891-1.984C173.062 425.135 212.781 440 256 440c101.705 0 184-82.311 184-184 0-101.705-82.311-184-184-184-48.814 0-93.149 18.969-126.068 49.932l50.754 50.754c10.08 10.08 2.941 27.314-11.313 27.314H24c-8.837 0-16-7.163-16-16V38.627c0-14.254 17.234-21.393 27.314-11.314l49.372 49.372C129.209 34.136 189.552 8 256 8c136.81 0 247.747 110.78 248 247.531zm-180.912 78.784l9.823-12.63c8.138-10.463 6.253-25.542-4.21-33.679L288 256.349V152c0-13.255-10.745-24-24-24h-16c-13.255 0-24 10.745-24 24v135.651l65.409 50.874c10.463 8.137 25.541 6.253 33.679-4.21z"}}]})(props);
+}
+
+var ToggleHistoryViewButton = function (_a) {
+    var onToggleHistoryView = _a.onToggleHistoryView, initial = _a.initial;
+    var _b = react.useState(!!initial), showHistoryView = _b[0], setShowHistoryView = _b[1];
+    react.useEffect(function () {
+        onToggleHistoryView(showHistoryView);
+    }, [showHistoryView]);
+    return (react.createElement("button", { className: "toggle-history-view-button", title: !showHistoryView ? 'Show history view' : 'Show runtime view', "aria-label": !showHistoryView ? 'Show history view' : 'Show runtime view', onClick: function () { return setShowHistoryView(!showHistoryView); } },
+        react.createElement(FaHistory, { style: { opacity: !showHistoryView ? '0.33' : '1.0', fontSize: '133%' } })));
+};
+
+___$insertStyle(".toggle-sequence-flow-button {\n  background: #ffffff;\n  border-radius: 1px;\n  border: 1px solid #cccccc;\n  padding: 0;\n  width: 30px;\n  height: 30px;\n  display: flex;\n  margin-bottom: 15px;\n  align-items: center;\n  justify-content: center;\n}\n.toggle-sequence-flow-button:hover {\n  background: #e6e6e6;\n}");
 
 // THIS FILE IS AUTO GENERATED
 function GiStrikingArrows (props) {
@@ -27259,11 +27276,11 @@ var renderActivities = function (viewer, activities) {
     }
 };
 var BPMN = function (_a) {
-    var activities = _a.activities, className = _a.className, diagramXML = _a.diagramXML, style = _a.style;
+    var activities = _a.activities, className = _a.className, diagramXML = _a.diagramXML, style = _a.style, showRuntimeToggle = _a.showRuntimeToggle;
     var ref = react.useRef(null);
     react.useEffect(function () {
         (function () { return __awaiter(void 0, void 0, void 0, function () {
-            var viewer, canvas, toggleSequenceFlowButton, sequenceFlow_1;
+            var viewer, canvas, buttons, sequenceFlow_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, BPMNViewer(diagramXML)];
@@ -27275,9 +27292,9 @@ var BPMN = function (_a) {
                             canvas = viewer.get('canvas');
                             canvas.zoom('fit-viewport');
                             renderActivities(viewer, activities !== null && activities !== void 0 ? activities : []);
-                            toggleSequenceFlowButton = document.createElement('div');
-                            toggleSequenceFlowButton.style.cssText = "\n          position: absolute;\n          right: 15px;\n          top: 15px;\n        ";
-                            viewer._container.appendChild(toggleSequenceFlowButton);
+                            buttons = document.createElement('div');
+                            buttons.style.cssText = "\n          position: absolute;\n          right: 15px;\n          top: 15px;\n        ";
+                            viewer._container.appendChild(buttons);
                             sequenceFlow_1 = [];
                             reactDom.render(react.createElement(react.StrictMode, null,
                                 react.createElement(ToggleSequenceFlowButton, { onToggleSequenceFlow: function (value) {
@@ -27287,7 +27304,14 @@ var BPMN = function (_a) {
                                         else {
                                             clearSequenceFlow(sequenceFlow_1);
                                         }
-                                    } })), toggleSequenceFlowButton);
+                                    } }),
+                                showRuntimeToggle ? (react.createElement(ToggleHistoryViewButton, { onToggleHistoryView: function (value) {
+                                        if (!value) {
+                                            window.location.href =
+                                                window.location.href.split('#')[0] +
+                                                    window.location.hash.split('?')[0].replace(/^#\/history\/process-instance/, '#/process-instance');
+                                        }
+                                    }, initial: true })) : null), buttons);
                         }
                         return [2 /*return*/];
                 }
@@ -28993,6 +29017,32 @@ var instanceRouteHistory = [
         },
     },
     {
+        id: 'instanceDiagramHistoricToggle',
+        pluginPoint: 'cockpit.processInstance.diagram.plugin',
+        render: function (viewer) {
+            (function () { return __awaiter(void 0, void 0, void 0, function () {
+                var buttons;
+                return __generator(this, function (_a) {
+                    buttons = document.createElement('div');
+                    buttons.style.cssText = "\n          position: absolute;\n          right: 15px;\n          top: 60px;\n        ";
+                    viewer._container.appendChild(buttons);
+                    reactDom.render(react.createElement(react.StrictMode, null,
+                        react.createElement(ToggleHistoryViewButton, { onToggleHistoryView: function (value) {
+                                if (value) {
+                                    window.location.href =
+                                        window.location.href.split('#')[0] +
+                                            window.location.hash
+                                                .split('?')[0]
+                                                .replace(/^#\/process-instance/, '#/history/process-instance')
+                                                .replace(/\/runtime/, '/');
+                                }
+                            }, initial: false })), buttons);
+                    return [2 /*return*/];
+                });
+            }); })();
+        },
+    },
+    {
         id: 'instanceRouteHistory',
         pluginPoint: 'cockpit.route',
         properties: {
@@ -29082,7 +29132,7 @@ var instanceRouteHistory = [
                                                             react.createElement(Clippy, { value: instance.state }, "State")),
                                                         react.createElement("dd", null, instance.state))),
                                                 react.createElement(SplitPane, { split: "horizontal", size: 300 },
-                                                    react.createElement(BPMN, { activities: activities, diagramXML: diagram.bpmn20Xml, className: "ctn-content", style: { width: '100%' } }),
+                                                    react.createElement(BPMN, { activities: activities, diagramXML: diagram.bpmn20Xml, className: "ctn-content", style: { width: '100%' }, showRuntimeToggle: instance.state === 'ACTIVE' }),
                                                     react.createElement(Tabs, { className: "ctn-row ctn-content-bottom ctn-tabbed", selectedTabClassName: "active" },
                                                         react.createElement(TabList, { className: "nav nav-tabs" },
                                                             react.createElement(Tab, null,
