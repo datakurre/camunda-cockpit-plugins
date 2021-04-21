@@ -2,10 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import AuditLogTable from './Components/AuditLogTable';
-import { ToggleSequenceFlowButton } from './Components/ToggleSequenceFlowButton';
-import { InstancePluginParams, TaskListPluginParams } from './types';
-import { get } from './utils/api';
-import { clearSequenceFlow, renderSequenceFlow } from './utils/bpmn';
+import {TaskListPluginParams} from './types';
+import {get} from './utils/api';
 
 export default [
   {
