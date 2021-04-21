@@ -987,14 +987,17 @@ var AuditLogTable = function (_a) {
             accessor: 'activityName',
             Cell: function (_a) {
                 var value = _a.value;
+                var baseUrl = (window.location.href.split('#')[0] + "/")
+                    .replace(/\/+$/, '/')
+                    .replace(/\/app\/tasklist\//, '/app/cockpit/');
                 if (value.activityType === 'businessRuleTask' && decisions.has(value.id)) {
-                    return react.createElement("a", { href: "#/decision-instance/" + decisions.get(value.id) }, value.activityName);
+                    return react.createElement("a", { href: baseUrl + "#/decision-instance/" + decisions.get(value.id) }, value.activityName);
                 }
                 else if (value.activityType === 'callActivity' && value.calledProcessInstanceId && value.endTime) {
-                    return react.createElement("a", { href: "#/history/process-instance/" + value.calledProcessInstanceId }, value.activityName);
+                    return (react.createElement("a", { href: baseUrl + "#/history/process-instance/" + value.calledProcessInstanceId }, value.activityName));
                 }
                 else if (value.activityType === 'callActivity' && value.calledProcessInstanceId) {
-                    return react.createElement("a", { href: "#/process-instance/" + value.calledProcessInstanceId + "/runtime" }, value.activityName);
+                    return (react.createElement("a", { href: baseUrl + "#/process-instance/" + value.calledProcessInstanceId + "/runtime" }, value.activityName));
                 }
                 return react.createElement(Clippy, { value: value.activityName }, value.activityName);
             },

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import AuditLogTable from './Components/AuditLogTable';
 import { ToggleSequenceFlowButton } from './Components/ToggleSequenceFlowButton';
-import {InstancePluginParams, TaskListPluginParams} from './types';
+import { InstancePluginParams, TaskListPluginParams } from './types';
 import { get } from './utils/api';
 import { clearSequenceFlow, renderSequenceFlow } from './utils/bpmn';
 
@@ -14,7 +14,7 @@ export default [
     properties: {
       label: 'Audit Log',
     },
-    render: (node: Element, { api, taskId}: TaskListPluginParams) => {
+    render: (node: Element, { api, taskId }: TaskListPluginParams) => {
       (async () => {
         const { processInstanceId } = await get(api, `/task/${taskId}`);
         const [activities, decisions] = await Promise.all([
