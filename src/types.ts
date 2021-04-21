@@ -20,3 +20,8 @@ export interface InstancePluginParams {
   api: API;
   processInstanceId: string;
 }
+
+export interface TaskListPluginParams {
+  api: API;
+  taskId: string;
+}
