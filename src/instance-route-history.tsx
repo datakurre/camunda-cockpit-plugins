@@ -13,15 +13,13 @@ import Container from './Components/Container';
 import HistoryTable from './Components/HistoryTable';
 import Page from './Components/Page';
 import { ToggleHistoryViewButton } from './Components/ToggleHistoryViewButton';
-import { ToggleSequenceFlowButton } from './Components/ToggleSequenceFlowButton';
 import VariablesTable from './Components/VariablesTable';
-import { DefinitionPluginParams, InstancePluginParams, RoutePluginParams } from './types';
+import { DefinitionPluginParams, RoutePluginParams } from './types';
 import { get } from './utils/api';
-import { clearSequenceFlow, renderSequenceFlow } from './utils/bpmn';
 
 export default [
   {
-    id: 'definitionTabHistoricInstances',
+    id: 'HumbleHistoryPlugin:definitionTabHistoricInstances',
     pluginPoint: 'cockpit.processDefinition.runtime.tab',
     properties: {
       label: 'History',
@@ -46,7 +44,7 @@ export default [
     },
   },
   {
-    id: 'instanceDiagramHistoricToggle',
+    id: 'HumbleHistoryPlugin:instanceDiagramHistoricToggle',
     pluginPoint: 'cockpit.processInstance.diagram.plugin',
     render: (viewer: any) => {
       (async () => {
@@ -79,7 +77,7 @@ export default [
     },
   },
   {
-    id: 'instanceRouteHistory',
+    id: 'HumbleHistoryPlugin:instanceRouteHistory',
     pluginPoint: 'cockpit.route',
     properties: {
       path: '/history/process-instance/:id',

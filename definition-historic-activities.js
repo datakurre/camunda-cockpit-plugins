@@ -1159,7 +1159,7 @@ var get = function (api, path, params) { return __awaiter(void 0, void 0, void 0
 
 var definitionHistoricActivities = [
     {
-        id: 'definitionDiagramHistoricActivities',
+        id: 'HumbleHistoryPlugin:definitionDiagramHistoricActivities',
         pluginPoint: 'cockpit.processDefinition.diagram.plugin',
         render: function (viewer, _a) {
             var api = _a.api, processDefinitionId = _a.processDefinitionId;
@@ -1233,7 +1233,7 @@ var definitionHistoricActivities = [
         },
     },
     {
-        id: 'definitionTabHistoricActivities',
+        id: 'HumbleHistoryPlugin:definitionTabHistoricActivities',
         pluginPoint: 'cockpit.processDefinition.runtime.tab',
         properties: {
             label: 'Statistics',

@@ -9,7 +9,7 @@ import { clearSequenceFlow, renderSequenceFlow } from './utils/bpmn';
 
 export default [
   {
-    id: 'instanceDiagramHistoricActivities',
+    id: 'HumbleHistoryPlugin:instanceDiagramHistoricActivities',
     pluginPoint: 'cockpit.processInstance.diagram.plugin',
     render: (viewer: any, { api, processInstanceId }: InstancePluginParams) => {
       (async () => {
@@ -73,7 +73,7 @@ export default [
     },
   },
   {
-    id: 'instanceTabHistoricActivities',
+    id: 'HumbleHistoryPlugin:instanceTabHistoricActivities',
     pluginPoint: 'cockpit.processInstance.runtime.tab',
     properties: {
       label: 'Audit Log',

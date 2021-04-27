@@ -83,6 +83,17 @@ export default [
       if (warning.code === 'THIS_IS_UNDEFINED') { return; }
       superOnWarn(warning);
     },
+    input: "src/index.tsx",
+    output: {
+      file: "index.js",
+    },
+    plugins,
+  },
+  {
+    onwarn: function(warning, superOnWarn) {
+      if (warning.code === 'THIS_IS_UNDEFINED') { return; }
+      superOnWarn(warning);
+    },
     input: "src/instance-tab-modify.tsx",
     output: {
       file: "instance-tab-modify.js",

@@ -8,7 +8,7 @@ import { filter } from './utils/misc';
 
 export default [
   {
-    id: 'definitionDiagramHistoricActivities',
+    id: 'HumbleHistoryPlugin:definitionDiagramHistoricActivities',
     pluginPoint: 'cockpit.processDefinition.diagram.plugin',
     render: (viewer: any, { api, processDefinitionId }: DefinitionPluginParams) => {
       (async () => {
@@ -62,7 +62,7 @@ export default [
     },
   },
   {
-    id: 'definitionTabHistoricActivities',
+    id: 'HumbleHistoryPlugin:definitionTabHistoricActivities',
     pluginPoint: 'cockpit.processDefinition.runtime.tab',
     properties: {
       label: 'Statistics',
