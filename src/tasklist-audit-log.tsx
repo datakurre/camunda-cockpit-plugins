@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import AuditLogTable from './Components/AuditLogTable';
-import {TaskListPluginParams} from './types';
-import {get} from './utils/api';
+import { TaskListPluginParams } from './types';
+import { get } from './utils/api';
 
 export default [
   {
