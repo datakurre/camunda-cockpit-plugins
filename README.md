@@ -24,6 +24,8 @@ $ docker rm -vf mytemp
 $ docker run --rm -p 8080:8080 -v $(pwd)/camunda-cockpit-plugins:/camunda/webapps/camunda/app/cockpit/scripts/:ro camunda/camunda-bpm-platform:7.15.0
 ```
 
+See also the example [Dockerfile for Camunda Run 7.15.0](https://github.com/datakurre/camunda-cockpit-plugins/issues/16#issuecomment-874499953).
+
 If you don't immediately see the plugin, try again with your browser's private browsing mode. It is a common issue browser has cached a previous Cockpit plugin configuration without these plugins.
 
 Note: Trying out the plugins with Camunda Platform 7.15.0 Docker image is more complex than with the previous version 7.14.0, because the new location of `camunda-cockpit-ui.js` prevents simple override of the scripts folder.
