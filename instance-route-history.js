@@ -29071,7 +29071,7 @@ var instanceRouteHistory = [
             var api = _a.api;
             var hash = (_c = (_b = window === null || window === void 0 ? void 0 : window.location) === null || _b === void 0 ? void 0 : _b.hash) !== null && _c !== void 0 ? _c : '';
             var match = hash.match(/\/history\/process-instance\/([^\/]*)/);
-            var processInstanceId = match ? match[1] : null;
+            var processInstanceId = match ? match[1].split('?')[0] : null;
             if (processInstanceId) {
                 (function () { return __awaiter(void 0, void 0, void 0, function () {
                     var instance, _a, version, diagram, activities, variables, decisions, decisionByActivity, activityById;

@@ -89,7 +89,7 @@ export default [
     render: (node: Element, { api }: RoutePluginParams) => {
       const hash = window?.location?.hash ?? '';
       const match = hash.match(/\/history\/process-instance\/([^\/]*)/);
-      const processInstanceId = match ? match[1] : null;
+      const processInstanceId = match ? match[1].split('?')[0] : null;
       if (processInstanceId) {
         (async () => {
           const instance = await get(api, `/history/process-instance/${processInstanceId}`);
