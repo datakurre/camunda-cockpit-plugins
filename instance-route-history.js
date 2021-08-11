@@ -28839,11 +28839,11 @@ var get$1 = function (api, path, params) { return __awaiter(void 0, void 0, void
                 _h.label = 4;
             case 4:
                 res = _a;
-                if (!(res.status === 200 && res.headers.get('Content-Type') === 'application/json')) return [3 /*break*/, 6];
+                if (!(res.status === 200 && (res.headers.get('Content-Type') || '').startsWith('application/json'))) return [3 /*break*/, 6];
                 return [4 /*yield*/, res.json()];
             case 5: return [2 /*return*/, _h.sent()];
             case 6:
-                if (!(res.headers.get('Content-Type') === 'application/json')) return [3 /*break*/, 8];
+                if (!(res.headers.get('Content-Type') || '').startsWith('application/json')) return [3 /*break*/, 8];
                 _c = (_b = console).debug;
                 _d = [res.status, path];
                 return [4 /*yield*/, res.json()];

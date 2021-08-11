@@ -2662,7 +2662,7 @@ var post = function (api, path, params, payload) { return __awaiter(void 0, void
                 _b.label = 4;
             case 4:
                 res = _a;
-                if (!(res.headers.get('Content-Type') === 'application/json')) return [3 /*break*/, 6];
+                if (!(res.headers.get('Content-Type') || '').startsWith('application/json')) return [3 /*break*/, 6];
                 return [4 /*yield*/, res.json()];
             case 5: return [2 /*return*/, _b.sent()];
             case 6: return [4 /*yield*/, res.text()];

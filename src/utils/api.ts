@@ -25,10 +25,10 @@ export const get = async (api: API, path: string, params?: Record<string, string
         method: 'get',
         headers: headers(api),
       });
-  if (res.status === 200 && res.headers.get('Content-Type') === 'application/json') {
+  if (res.status === 200 && (res.headers.get('Content-Type') || '').startsWith('application/json')) {
     return await res.json();
   } else {
-    if (res.headers.get('Content-Type') === 'application/json') {
+    if ((res.headers.get('Content-Type') || '').startsWith('application/json')) {
       console.debug(res.status, path, await res.json());
     } else {
       console.debug(res.status, path, await res.text());
@@ -49,7 +49,7 @@ export const post = async (api: API, path: string, params?: Record<string, strin
         headers: headers(api),
         body: payload,
       });
-  if (res.headers.get('Content-Type') === 'application/json') {
+  if ((res.headers.get('Content-Type') || '').startsWith('application/json')) {
     return await res.json();
   } else {
     return await res.text();
