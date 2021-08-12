@@ -37,7 +37,7 @@ var roboliteRoute = [
             label: '/jupyter',
         },
         render: function (node, _a) {
-            _a.api;
+            var api = _a.api;
             var iframe = document.createElement('iframe');
             iframe.src = '../scripts/jupyter';
             iframe.style.setProperty('position', 'absolute');
@@ -51,6 +51,12 @@ var roboliteRoute = [
             iframe.setAttribute('width', '100%');
             iframe.setAttribute('height', '100%');
             node.appendChild(iframe);
+            window.addEventListener("message", function (ev) {
+                var _a, _b;
+                if ((_a = iframe.contentWindow) === null || _a === void 0 ? void 0 : _a.location.toString().startsWith(ev.origin)) {
+                    (_b = iframe.contentWindow) === null || _b === void 0 ? void 0 : _b.postMessage(api, ev.origin);
+                }
+            });
         },
     },
 ];

@@ -9,6 +9,17 @@
     "federated_extensions": [
       {
         "extension": "./extension",
+        "load": "static/remoteEntry.a458e80b4361f068e82d.js",
+        "name": "jupyter-matplotlib"
+      },
+      {
+        "extension": "./extension",
+        "load": "static/remoteEntry.7b0dfd91a418a1e7eb37.js",
+        "mimeExtension": "./mimeExtension",
+        "name": "jupyterlab-plotly"
+      },
+      {
+        "extension": "./extension",
         "load": "static/remoteEntry.ca1efc27dc965162ca86.js",
         "name": "@jupyter-widgets/jupyterlab-manager"
       },

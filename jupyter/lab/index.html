@@ -26,6 +26,17 @@
           return;
         }
         await import('../config-utils.js');
+        // Capture and save Camunda API information sent by Camunda Plugin API
+        window.addEventListener('message', function(ev) {
+          if (window.location.toString().startsWith(ev.origin)) {
+            const env = {};
+            for (const key of Object.keys(ev.data)) {
+              env['CAMUNDA_' + key.replace('Api', '_Api').replace('Token', '_Token').toUpperCase()] = key.endsWith('Api') ? ev.origin + ev.data[key] : ev.data[key];
+            }
+            window.localStorage.setItem('env', JSON.stringify(env));
+          }
+        });
+        window.parent.postMessage('ready');
       }.call(this));
     </script>
   </head>

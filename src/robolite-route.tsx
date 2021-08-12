@@ -38,6 +38,11 @@ export default [
         iframe.setAttribute('width', '100%')
         iframe.setAttribute('height', '100%')
         node.appendChild(iframe);
+        window.addEventListener("message", (ev: MessageEvent) => {
+            if (iframe.contentWindow?.location.toString().startsWith(ev.origin)) {
+                iframe.contentWindow?.postMessage(api, ev.origin);
+            }
+        })
     },
   },
 ];
