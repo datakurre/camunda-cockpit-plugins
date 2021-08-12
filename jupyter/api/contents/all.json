@@ -1,0 +1,25 @@
+{
+  "content": [
+    {
+      "content": null,
+      "created": "1980-01-01T00:00:00",
+      "format": null,
+      "last_modified": "1980-01-01T00:00:00",
+      "mimetype": null,
+      "name": "Example.ipynb",
+      "path": "Example.ipynb",
+      "size": 1236194,
+      "type": "notebook",
+      "writable": true
+    }
+  ],
+  "created": "1980-01-01T00:00:00",
+  "format": "json",
+  "last_modified": "1980-01-01T00:00:00",
+  "mimetype": null,
+  "name": "",
+  "path": "",
+  "size": null,
+  "type": "directory",
+  "writable": true
+}

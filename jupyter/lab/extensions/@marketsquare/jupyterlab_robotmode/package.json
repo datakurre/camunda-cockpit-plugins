@@ -1,0 +1,73 @@
+{
+  "name": "@marketsquare/jupyterlab_robotmode",
+  "version": "0.3.1",
+  "description": "A JupyterLab extensions which adds CodeMirror mode for Robot Framework syntax",
+  "author": "MarketSquare",
+  "bugs": {
+    "url": "https://github.com/MarketSquare/jupyterlab_robotmode/issues"
+  },
+  "dependencies": {
+    "@jupyterlab/application": "^3.0.6",
+    "@jupyterlab/codemirror": "^3.0.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.8",
+    "@babel/preset-env": "^7.13.9",
+    "@jupyterlab/builder": "^3.0.4",
+    "@types/codemirror": "^0.0.97",
+    "@types/jest": "^26.0.20",
+    "@types/jsdom": "^16.2.6",
+    "@types/node": "^14.14.31",
+    "babel-jest": "^26.6.3",
+    "cross-env": "^7.0.2",
+    "jest": "^26.6.3",
+    "jest-fetch-mock": "^3.0.3",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^26.5.3",
+    "typescript": "~4.2.3"
+  },
+  "files": [
+    "{lib,style}/**/*.{css,d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}"
+  ],
+  "homepage": "https://github.com/MarketSquare/jupyterlab_robotmode",
+  "jupyterlab": {
+    "extension": "lib/plugin.js",
+    "outputDir": "jupyterlab_robotmode/labextension",
+    "_build": {
+      "load": "static/remoteEntry.09511d7e294e827882b9.js",
+      "extension": "./extension"
+    }
+  },
+  "keywords": [
+    "jupyter",
+    "jupyterlab",
+    "jupyterlab-extension"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MarketSquare/jupyterlab_robotmode.git"
+  },
+  "scripts": {
+    "build": "jlpm run build:lib && jlpm run build:labextension:dev",
+    "build:labextension": "jupyter labextension build .",
+    "build:labextension:dev": "jupyter labextension build --development True .",
+    "build:lib": "tsc",
+    "build:prod": "jlpm run build:lib && jlpm run build:labextension",
+    "clean": "jlpm run clean:lib",
+    "clean:all": "jlpm run clean:lib && jlpm run clean:labextension",
+    "clean:labextension": "rimraf marketsquare_jupyterlab_robotmode/labextension",
+    "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
+    "install:extension": "jupyter labextension develop --overwrite .",
+    "package": "npm pack",
+    "prepare": "jlpm run clean && jlpm run build:prod",
+    "prepublishOnly": "cross-env NODE_ENV=production npm run build",
+    "watch": "run-p watch:src watch:labextension",
+    "watch:labextension": "jupyter labextension watch .",
+    "watch:src": "tsc -w",
+    "test": "jest"
+  },
+  "types": "lib/index.d.ts"
+}
