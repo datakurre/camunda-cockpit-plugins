@@ -28,13 +28,12 @@ export default [
     },
     render: (node: Element, { api, processDefinitionId }: DefinitionPluginParams) => {
       (async () => {
-        const definition = await get(api, `/process-definition/${processDefinitionId}`);
         const instances = await get(api, '/history/process-instance', {
-          processDefinitionKey: definition.key,
+          processDefinitionId,
           // finished: true,
           sortBy: 'endTime',
           sortOrder: 'desc',
-          maxResults: '100',
+          maxResults: '1000',
         });
         ReactDOM.render(
           <React.StrictMode>

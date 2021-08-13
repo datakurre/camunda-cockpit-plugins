@@ -14,18 +14,12 @@ export default [
       (async () => {
         const overlays = viewer.get('overlays');
 
-        const definition = await get(api, `/process-definition/${processDefinitionId}`);
-        const definitions = await get(api, '/process-definition', { key: definition.key });
-        let activities: any[] = [];
-        for (const version of definitions) {
-          const batch = await get(api, '/history/activity-instance', {
-            sortBy: 'endTime',
-            sortOrder: 'desc',
-            maxResults: '100',
-            processDefinitionId: version.id,
-          });
-          activities = activities.concat(batch);
-        }
+        const activities = await get(api, '/history/activity-instance', {
+          sortBy: 'endTime',
+          sortOrder: 'desc',
+          maxResults: '1000',
+          processDefinitionId,
+        });
 
         const counter: Record<string, number> = {};
         for (const activity of activities) {
@@ -69,22 +63,16 @@ export default [
     },
     render: (node: Element, { api, processDefinitionId }: DefinitionPluginParams) => {
       (async () => {
-        const definition = await get(api, `/process-definition/${processDefinitionId}`);
-        const definitions = await get(api, '/process-definition', { key: definition.key });
-        let activities: any[] = [];
-        for (const version of definitions) {
-          const batch = await get(api, '/history/activity-instance', {
-            sortBy: 'endTime',
-            sortOrder: 'desc',
-            maxResults: '100',
-            processDefinitionId: version.id,
-          });
-          activities = activities.concat(batch);
-        }
-        activities = filter(activities, activity => activity.activityName && activity.endTime);
+        const activities = await get(api, '/history/activity-instance', {
+          sortBy: 'endTime',
+          sortOrder: 'desc',
+          maxResults: '1000',
+          processDefinitionId,
+        });
+        const filtered = filter(activities, activity => activity.activityName && activity.endTime);
         ReactDOM.render(
           <React.StrictMode>
-            <StatisticsTable activities={activities} />
+            <StatisticsTable activities={filtered} />
           </React.StrictMode>,
           node
         );
