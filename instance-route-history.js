@@ -29010,20 +29010,17 @@ var instanceRouteHistory = [
         render: function (node, _a) {
             var api = _a.api, processDefinitionId = _a.processDefinitionId;
             (function () { return __awaiter(void 0, void 0, void 0, function () {
-                var definition, instances;
+                var instances;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, get$1(api, "/process-definition/" + processDefinitionId)];
+                        case 0: return [4 /*yield*/, get$1(api, '/history/process-instance', {
+                                processDefinitionId: processDefinitionId,
+                                // finished: true,
+                                sortBy: 'endTime',
+                                sortOrder: 'desc',
+                                maxResults: '1000',
+                            })];
                         case 1:
-                            definition = _a.sent();
-                            return [4 /*yield*/, get$1(api, '/history/process-instance', {
-                                    processDefinitionKey: definition.key,
-                                    // finished: true,
-                                    sortBy: 'endTime',
-                                    sortOrder: 'desc',
-                                    maxResults: '100',
-                                })];
-                        case 2:
                             instances = _a.sent();
                             reactDom.render(react.createElement(react.StrictMode, null,
                                 react.createElement(HistoryTable, { instances: instances })), node);

@@ -1178,46 +1178,28 @@ var definitionHistoricActivities = [
         render: function (viewer, _a) {
             var api = _a.api, processDefinitionId = _a.processDefinitionId;
             (function () { return __awaiter(void 0, void 0, void 0, function () {
-                var overlays, definition, definitions, activities, _i, definitions_1, version, batch, counter, _a, activities_1, activity, id, seen, _b, activities_2, activity, id, overlay;
-                return __generator(this, function (_c) {
-                    switch (_c.label) {
+                var overlays, activities, counter, _i, activities_1, activity, id, seen, _a, activities_2, activity, id, overlay;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
                         case 0:
                             overlays = viewer.get('overlays');
-                            return [4 /*yield*/, get(api, "/process-definition/" + processDefinitionId)];
-                        case 1:
-                            definition = _c.sent();
-                            return [4 /*yield*/, get(api, '/process-definition', { key: definition.key })];
-                        case 2:
-                            definitions = _c.sent();
-                            activities = [];
-                            _i = 0, definitions_1 = definitions;
-                            _c.label = 3;
-                        case 3:
-                            if (!(_i < definitions_1.length)) return [3 /*break*/, 6];
-                            version = definitions_1[_i];
                             return [4 /*yield*/, get(api, '/history/activity-instance', {
                                     sortBy: 'endTime',
                                     sortOrder: 'desc',
-                                    maxResults: '100',
-                                    processDefinitionId: version.id,
+                                    maxResults: '1000',
+                                    processDefinitionId: processDefinitionId,
                                 })];
-                        case 4:
-                            batch = _c.sent();
-                            activities = activities.concat(batch);
-                            _c.label = 5;
-                        case 5:
-                            _i++;
-                            return [3 /*break*/, 3];
-                        case 6:
+                        case 1:
+                            activities = _b.sent();
                             counter = {};
-                            for (_a = 0, activities_1 = activities; _a < activities_1.length; _a++) {
-                                activity = activities_1[_a];
+                            for (_i = 0, activities_1 = activities; _i < activities_1.length; _i++) {
+                                activity = activities_1[_i];
                                 id = activity.activityId;
                                 counter[id] = counter[id] ? counter[id] + 1 : 1;
                             }
                             seen = {};
-                            for (_b = 0, activities_2 = activities; _b < activities_2.length; _b++) {
-                                activity = activities_2[_b];
+                            for (_a = 0, activities_2 = activities; _a < activities_2.length; _a++) {
+                                activity = activities_2[_a];
                                 id = activity.activityId;
                                 if (seen[id]) {
                                     continue;
@@ -1255,38 +1237,20 @@ var definitionHistoricActivities = [
         render: function (node, _a) {
             var api = _a.api, processDefinitionId = _a.processDefinitionId;
             (function () { return __awaiter(void 0, void 0, void 0, function () {
-                var definition, definitions, activities, _i, definitions_2, version, batch;
+                var activities, filtered;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, get(api, "/process-definition/" + processDefinitionId)];
+                        case 0: return [4 /*yield*/, get(api, '/history/activity-instance', {
+                                sortBy: 'endTime',
+                                sortOrder: 'desc',
+                                maxResults: '1000',
+                                processDefinitionId: processDefinitionId,
+                            })];
                         case 1:
-                            definition = _a.sent();
-                            return [4 /*yield*/, get(api, '/process-definition', { key: definition.key })];
-                        case 2:
-                            definitions = _a.sent();
-                            activities = [];
-                            _i = 0, definitions_2 = definitions;
-                            _a.label = 3;
-                        case 3:
-                            if (!(_i < definitions_2.length)) return [3 /*break*/, 6];
-                            version = definitions_2[_i];
-                            return [4 /*yield*/, get(api, '/history/activity-instance', {
-                                    sortBy: 'endTime',
-                                    sortOrder: 'desc',
-                                    maxResults: '100',
-                                    processDefinitionId: version.id,
-                                })];
-                        case 4:
-                            batch = _a.sent();
-                            activities = activities.concat(batch);
-                            _a.label = 5;
-                        case 5:
-                            _i++;
-                            return [3 /*break*/, 3];
-                        case 6:
-                            activities = filter(activities, function (activity) { return activity.activityName && activity.endTime; });
+                            activities = _a.sent();
+                            filtered = filter(activities, function (activity) { return activity.activityName && activity.endTime; });
                             reactDom.render(react.createElement(react.StrictMode, null,
-                                react.createElement(StatisticsTable, { activities: activities })), node);
+                                react.createElement(StatisticsTable, { activities: filtered })), node);
                             return [2 /*return*/];
                     }
                 });
