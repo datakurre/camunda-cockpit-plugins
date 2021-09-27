@@ -14628,9 +14628,9 @@ var headers = function (api) {
     };
 };
 var get = function (api, path, params) { return __awaiter(void 0, void 0, void 0, function () {
-    var query, res, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var query, res, _a, _b, _c, _d, _e, _f, _g;
+    return __generator(this, function (_h) {
+        switch (_h.label) {
             case 0:
                 // XXX: Workaround a possible bug where engine api has been parsed wrong
                 if (api.engine.match(/\/#\//)) {
@@ -14644,22 +14644,36 @@ var get = function (api, path, params) { return __awaiter(void 0, void 0, void 0
                         headers: headers(api),
                     })];
             case 1:
-                _a = _b.sent();
+                _a = _h.sent();
                 return [3 /*break*/, 4];
             case 2: return [4 /*yield*/, fetch("" + api.engineApi + path, {
                     method: 'get',
                     headers: headers(api),
                 })];
             case 3:
-                _a = _b.sent();
-                _b.label = 4;
+                _a = _h.sent();
+                _h.label = 4;
             case 4:
                 res = _a;
-                if (!(res.headers.get('Content-Type') === 'application/json')) return [3 /*break*/, 6];
+                if (!(res.status === 200 && (res.headers.get('Content-Type') || '').startsWith('application/json'))) return [3 /*break*/, 6];
                 return [4 /*yield*/, res.json()];
-            case 5: return [2 /*return*/, _b.sent()];
-            case 6: return [4 /*yield*/, res.text()];
-            case 7: return [2 /*return*/, _b.sent()];
+            case 5: return [2 /*return*/, _h.sent()];
+            case 6:
+                if (!(res.headers.get('Content-Type') || '').startsWith('application/json')) return [3 /*break*/, 8];
+                _c = (_b = console).debug;
+                _d = [res.status, path];
+                return [4 /*yield*/, res.json()];
+            case 7:
+                _c.apply(_b, _d.concat([_h.sent()]));
+                return [3 /*break*/, 10];
+            case 8:
+                _f = (_e = console).debug;
+                _g = [res.status, path];
+                return [4 /*yield*/, res.text()];
+            case 9:
+                _f.apply(_e, _g.concat([_h.sent()]));
+                _h.label = 10;
+            case 10: return [2 /*return*/, []];
         }
     });
 }); };
@@ -14685,31 +14699,14 @@ var Plugin = function (_a) {
     react$1.useEffect(function () {
         if (Object.keys(query).length > 0) {
             (function () { return __awaiter(void 0, void 0, void 0, function () {
-                var definition, definitions, activities, _i, definitions_1, version, batch;
+                var activities;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, get(api, "/process-definition/" + processDefinitionId)];
-                        case 1:
-                            definition = _a.sent();
-                            return [4 /*yield*/, get(api, '/process-definition', { key: definition.key })];
-                        case 2:
-                            definitions = _a.sent();
-                            activities = [];
-                            _i = 0, definitions_1 = definitions;
-                            _a.label = 3;
-                        case 3:
-                            if (!(_i < definitions_1.length)) return [3 /*break*/, 6];
-                            version = definitions_1[_i];
+                        case 0:
                             console.log(query);
-                            return [4 /*yield*/, get(api, '/history/activity-instance', __assign$1(__assign$1({}, query), { processDefinitionId: version.id }))];
-                        case 4:
-                            batch = _a.sent();
-                            activities = activities.concat(batch);
-                            _a.label = 5;
-                        case 5:
-                            _i++;
-                            return [3 /*break*/, 3];
-                        case 6:
+                            return [4 /*yield*/, get(api, '/history/activity-instance', __assign$1(__assign$1({}, query), { processDefinitionId: processDefinitionId }))];
+                        case 1:
+                            activities = _a.sent();
                             setActivities(activities);
                             return [2 /*return*/];
                     }

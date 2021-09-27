@@ -73,6 +73,17 @@ export default [
       if (warning.code === 'THIS_IS_UNDEFINED') { return; }
       superOnWarn(warning);
     },
+    input: "src/tasklist-audit-log.tsx",
+    output: {
+      file: "tasklist-audit-log.js",
+    },
+    plugins,
+  },
+  {
+    onwarn: function(warning, superOnWarn) {
+      if (warning.code === 'THIS_IS_UNDEFINED') { return; }
+      superOnWarn(warning);
+    },
     input: "src/instance-tab-modify.tsx",
     output: {
       file: "instance-tab-modify.js",

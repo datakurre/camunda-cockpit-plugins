@@ -4344,14 +4344,17 @@ var AuditLogTable = function (_a) {
             accessor: 'activityName',
             Cell: function (_a) {
                 var value = _a.value;
+                var baseUrl = (window.location.href.split('#')[0] + "/")
+                    .replace(/\/+$/, '/')
+                    .replace(/\/app\/tasklist\//, '/app/cockpit/');
                 if (value.activityType === 'businessRuleTask' && decisions.has(value.id)) {
-                    return react.createElement("a", { href: "#/decision-instance/" + decisions.get(value.id) }, value.activityName);
+                    return react.createElement("a", { href: baseUrl + "#/decision-instance/" + decisions.get(value.id) }, value.activityName);
                 }
                 else if (value.activityType === 'callActivity' && value.calledProcessInstanceId && value.endTime) {
-                    return react.createElement("a", { href: "#/history/process-instance/" + value.calledProcessInstanceId }, value.activityName);
+                    return (react.createElement("a", { href: baseUrl + "#/history/process-instance/" + value.calledProcessInstanceId }, value.activityName));
                 }
                 else if (value.activityType === 'callActivity' && value.calledProcessInstanceId) {
-                    return react.createElement("a", { href: "#/process-instance/" + value.calledProcessInstanceId + "/runtime" }, value.activityName);
+                    return (react.createElement("a", { href: baseUrl + "#/process-instance/" + value.calledProcessInstanceId + "/runtime" }, value.activityName));
                 }
                 return react.createElement(Clippy, { value: value.activityName }, value.activityName);
             },
@@ -27202,7 +27205,24 @@ var clearSequenceFlow = function (nodes) {
     }
 };
 
-___$insertStylesToHeader(".toggle-sequence-flow-button {\n  background: #ffffff;\n  border-radius: 1px;\n  border: 1px solid #cccccc;\n  padding: 0;\n  width: 30px;\n  height: 30px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.toggle-sequence-flow-button:hover {\n  background: #e6e6e6;\n}");
+___$insertStylesToHeader(".toggle-history-view-button {\n  background: #ffffff;\n  border-radius: 1px;\n  border: 1px solid #cccccc;\n  padding: 0;\n  width: 30px;\n  height: 30px;\n  display: flex;\n  margin-bottom: 15px;\n  align-items: center;\n  justify-content: center;\n}\n.toggle-history-view-button:hover {\n  background: #e6e6e6;\n}");
+
+// THIS FILE IS AUTO GENERATED
+function FaHistory (props) {
+  return GenIcon({"tag":"svg","attr":{"viewBox":"0 0 512 512"},"child":[{"tag":"path","attr":{"d":"M504 255.531c.253 136.64-111.18 248.372-247.82 248.468-59.015.042-113.223-20.53-155.822-54.911-11.077-8.94-11.905-25.541-1.839-35.607l11.267-11.267c8.609-8.609 22.353-9.551 31.891-1.984C173.062 425.135 212.781 440 256 440c101.705 0 184-82.311 184-184 0-101.705-82.311-184-184-184-48.814 0-93.149 18.969-126.068 49.932l50.754 50.754c10.08 10.08 2.941 27.314-11.313 27.314H24c-8.837 0-16-7.163-16-16V38.627c0-14.254 17.234-21.393 27.314-11.314l49.372 49.372C129.209 34.136 189.552 8 256 8c136.81 0 247.747 110.78 248 247.531zm-180.912 78.784l9.823-12.63c8.138-10.463 6.253-25.542-4.21-33.679L288 256.349V152c0-13.255-10.745-24-24-24h-16c-13.255 0-24 10.745-24 24v135.651l65.409 50.874c10.463 8.137 25.541 6.253 33.679-4.21z"}}]})(props);
+}
+
+var ToggleHistoryViewButton = function (_a) {
+    var onToggleHistoryView = _a.onToggleHistoryView, initial = _a.initial;
+    var _b = react.useState(!!initial), showHistoryView = _b[0], setShowHistoryView = _b[1];
+    react.useEffect(function () {
+        onToggleHistoryView(showHistoryView);
+    }, [showHistoryView]);
+    return (react.createElement("button", { className: "toggle-history-view-button", title: !showHistoryView ? 'Show history view' : 'Show runtime view', "aria-label": !showHistoryView ? 'Show history view' : 'Show runtime view', onClick: function () { return setShowHistoryView(!showHistoryView); } },
+        react.createElement(FaHistory, { style: { opacity: !showHistoryView ? '0.33' : '1.0', fontSize: '133%' } })));
+};
+
+___$insertStylesToHeader(".toggle-sequence-flow-button {\n  background: #ffffff;\n  border-radius: 1px;\n  border: 1px solid #cccccc;\n  padding: 0;\n  width: 30px;\n  height: 30px;\n  display: flex;\n  margin-bottom: 15px;\n  align-items: center;\n  justify-content: center;\n}\n.toggle-sequence-flow-button:hover {\n  background: #e6e6e6;\n}");
 
 // THIS FILE IS AUTO GENERATED
 function GiStrikingArrows (props) {
@@ -27276,11 +27296,11 @@ var renderActivities = function (viewer, activities) {
     }
 };
 var BPMN = function (_a) {
-    var activities = _a.activities, className = _a.className, diagramXML = _a.diagramXML, style = _a.style;
+    var activities = _a.activities, className = _a.className, diagramXML = _a.diagramXML, style = _a.style, showRuntimeToggle = _a.showRuntimeToggle;
     var ref = react.useRef(null);
     react.useEffect(function () {
         (function () { return __awaiter(void 0, void 0, void 0, function () {
-            var viewer, canvas, toggleSequenceFlowButton, sequenceFlow_1;
+            var viewer, canvas, buttons, sequenceFlow_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, BPMNViewer(diagramXML)];
@@ -27292,9 +27312,9 @@ var BPMN = function (_a) {
                             canvas = viewer.get('canvas');
                             canvas.zoom('fit-viewport');
                             renderActivities(viewer, activities !== null && activities !== void 0 ? activities : []);
-                            toggleSequenceFlowButton = document.createElement('div');
-                            toggleSequenceFlowButton.style.cssText = "\n          position: absolute;\n          right: 15px;\n          top: 15px;\n        ";
-                            viewer._container.appendChild(toggleSequenceFlowButton);
+                            buttons = document.createElement('div');
+                            buttons.style.cssText = "\n          position: absolute;\n          right: 15px;\n          top: 15px;\n        ";
+                            viewer._container.appendChild(buttons);
                             sequenceFlow_1 = [];
                             reactDom.render(react.createElement(react.StrictMode, null,
                                 react.createElement(ToggleSequenceFlowButton, { onToggleSequenceFlow: function (value) {
@@ -27304,7 +27324,14 @@ var BPMN = function (_a) {
                                         else {
                                             clearSequenceFlow(sequenceFlow_1);
                                         }
-                                    } })), toggleSequenceFlowButton);
+                                    } }),
+                                showRuntimeToggle ? (react.createElement(ToggleHistoryViewButton, { onToggleHistoryView: function (value) {
+                                        if (!value) {
+                                            window.location.href =
+                                                window.location.href.split('#')[0] +
+                                                    window.location.hash.split('?')[0].replace(/^#\/history\/process-instance/, '#/process-instance');
+                                        }
+                                    }, initial: true })) : null), buttons);
                         }
                         return [2 /*return*/];
                 }
@@ -28802,9 +28829,9 @@ var headers = function (api) {
     };
 };
 var get = function (api, path, params) { return __awaiter(void 0, void 0, void 0, function () {
-    var query, res, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var query, res, _a, _b, _c, _d, _e, _f, _g;
+    return __generator(this, function (_h) {
+        switch (_h.label) {
             case 0:
                 // XXX: Workaround a possible bug where engine api has been parsed wrong
                 if (api.engine.match(/\/#\//)) {
@@ -28818,22 +28845,36 @@ var get = function (api, path, params) { return __awaiter(void 0, void 0, void 0
                         headers: headers(api),
                     })];
             case 1:
-                _a = _b.sent();
+                _a = _h.sent();
                 return [3 /*break*/, 4];
             case 2: return [4 /*yield*/, fetch("" + api.engineApi + path, {
                     method: 'get',
                     headers: headers(api),
                 })];
             case 3:
-                _a = _b.sent();
-                _b.label = 4;
+                _a = _h.sent();
+                _h.label = 4;
             case 4:
                 res = _a;
-                if (!(res.headers.get('Content-Type') === 'application/json')) return [3 /*break*/, 6];
+                if (!(res.status === 200 && (res.headers.get('Content-Type') || '').startsWith('application/json'))) return [3 /*break*/, 6];
                 return [4 /*yield*/, res.json()];
-            case 5: return [2 /*return*/, _b.sent()];
-            case 6: return [4 /*yield*/, res.text()];
-            case 7: return [2 /*return*/, _b.sent()];
+            case 5: return [2 /*return*/, _h.sent()];
+            case 6:
+                if (!(res.headers.get('Content-Type') || '').startsWith('application/json')) return [3 /*break*/, 8];
+                _c = (_b = console).debug;
+                _d = [res.status, path];
+                return [4 /*yield*/, res.json()];
+            case 7:
+                _c.apply(_b, _d.concat([_h.sent()]));
+                return [3 /*break*/, 10];
+            case 8:
+                _f = (_e = console).debug;
+                _g = [res.status, path];
+                return [4 /*yield*/, res.text()];
+            case 9:
+                _f.apply(_e, _g.concat([_h.sent()]));
+                _h.label = 10;
+            case 10: return [2 /*return*/, []];
         }
     });
 }); };
@@ -28986,25 +29027,48 @@ var instanceRouteHistory = [
         render: function (node, _a) {
             var api = _a.api, processDefinitionId = _a.processDefinitionId;
             (function () { return __awaiter(void 0, void 0, void 0, function () {
-                var definition, instances;
+                var instances;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, get(api, "/process-definition/" + processDefinitionId)];
+                        case 0: return [4 /*yield*/, get(api, '/history/process-instance', {
+                                processDefinitionId: processDefinitionId,
+                                // finished: true,
+                                sortBy: 'endTime',
+                                sortOrder: 'desc',
+                                maxResults: '1000',
+                            })];
                         case 1:
-                            definition = _a.sent();
-                            return [4 /*yield*/, get(api, '/history/process-instance', {
-                                    processDefinitionKey: definition.key,
-                                    // finished: true,
-                                    sortBy: 'endTime',
-                                    sortOrder: 'desc',
-                                    maxResults: '100',
-                                })];
-                        case 2:
                             instances = _a.sent();
                             reactDom.render(react.createElement(react.StrictMode, null,
                                 react.createElement(HistoryTable, { instances: instances })), node);
                             return [2 /*return*/];
                     }
+                });
+            }); })();
+        },
+    },
+    {
+        id: 'instanceDiagramHistoricToggle',
+        pluginPoint: 'cockpit.processInstance.diagram.plugin',
+        render: function (viewer) {
+            (function () { return __awaiter(void 0, void 0, void 0, function () {
+                var buttons;
+                return __generator(this, function (_a) {
+                    buttons = document.createElement('div');
+                    buttons.style.cssText = "\n          position: absolute;\n          right: 15px;\n          top: 60px;\n        ";
+                    viewer._container.appendChild(buttons);
+                    reactDom.render(react.createElement(react.StrictMode, null,
+                        react.createElement(ToggleHistoryViewButton, { onToggleHistoryView: function (value) {
+                                if (value) {
+                                    window.location.href =
+                                        window.location.href.split('#')[0] +
+                                            window.location.hash
+                                                .split('?')[0]
+                                                .replace(/^#\/process-instance/, '#/history/process-instance')
+                                                .replace(/\/runtime/, '/');
+                                }
+                            }, initial: false })), buttons);
+                    return [2 /*return*/];
                 });
             }); })();
         },
@@ -29021,7 +29085,7 @@ var instanceRouteHistory = [
             var api = _a.api;
             var hash = (_c = (_b = window === null || window === void 0 ? void 0 : window.location) === null || _b === void 0 ? void 0 : _b.hash) !== null && _c !== void 0 ? _c : '';
             var match = hash.match(/\/history\/process-instance\/([^\/]*)/);
-            var processInstanceId = match ? match[1] : null;
+            var processInstanceId = match ? match[1].split('?')[0] : null;
             if (processInstanceId) {
                 (function () { return __awaiter(void 0, void 0, void 0, function () {
                     var instance, _a, version, diagram, activities, variables, decisions, decisionByActivity, activityById;
@@ -29099,7 +29163,7 @@ var instanceRouteHistory = [
                                                             react.createElement(Clippy, { value: instance.state }, "State")),
                                                         react.createElement("dd", null, instance.state))),
                                                 react.createElement(SplitPane, { split: "horizontal", size: 300 },
-                                                    react.createElement(BPMN, { activities: activities, diagramXML: diagram.bpmn20Xml, className: "ctn-content", style: { width: '100%' } }),
+                                                    react.createElement(BPMN, { activities: activities, diagramXML: diagram.bpmn20Xml, className: "ctn-content", style: { width: '100%' }, showRuntimeToggle: instance.state === 'ACTIVE' }),
                                                     react.createElement(Tabs, { className: "ctn-row ctn-content-bottom ctn-tabbed", selectedTabClassName: "active" },
                                                         react.createElement(TabList, { className: "nav nav-tabs" },
                                                             react.createElement(Tab, null,

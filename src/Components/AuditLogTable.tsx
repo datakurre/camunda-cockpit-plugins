@@ -18,12 +18,19 @@ const AuditLogTable: React.FC<Props> = ({ activities, decisions }) => {
         Header: 'Activity Name',
         accessor: 'activityName',
         Cell: ({ value }: any) => {
+          const baseUrl = `${window.location.href.split('#')[0]}/`
+            .replace(/\/+$/, '/')
+            .replace(/\/app\/tasklist\//, '/app/cockpit/');
           if (value.activityType === 'businessRuleTask' && decisions.has(value.id)) {
-            return <a href={`#/decision-instance/${decisions.get(value.id)}`}>{value.activityName}</a>;
+            return <a href={`${baseUrl}#/decision-instance/${decisions.get(value.id)}`}>{value.activityName}</a>;
           } else if (value.activityType === 'callActivity' && value.calledProcessInstanceId && value.endTime) {
-            return <a href={`#/history/process-instance/${value.calledProcessInstanceId}`}>{value.activityName}</a>;
+            return (
+              <a href={`${baseUrl}#/history/process-instance/${value.calledProcessInstanceId}`}>{value.activityName}</a>
+            );
           } else if (value.activityType === 'callActivity' && value.calledProcessInstanceId) {
-            return <a href={`#/process-instance/${value.calledProcessInstanceId}/runtime`}>{value.activityName}</a>;
+            return (
+              <a href={`${baseUrl}#/process-instance/${value.calledProcessInstanceId}/runtime`}>{value.activityName}</a>
+            );
           }
           return <Clippy value={value.activityName}>{value.activityName}</Clippy>;
         },

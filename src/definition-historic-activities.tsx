@@ -34,17 +34,11 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ api, processDefinitionId }) 
   useEffect(() => {
     if (Object.keys(query).length > 0) {
       (async () => {
-        const definition = await get(api, `/process-definition/${processDefinitionId}`);
-        const definitions = await get(api, '/process-definition', { key: definition.key });
-        let activities: any[] = [];
-        for (const version of definitions) {
-          console.log(query);
-          const batch = await get(api, '/history/activity-instance', {
-            ...query,
-            processDefinitionId: version.id,
-          });
-          activities = activities.concat(batch);
-        }
+        console.log(query);
+        const activities = await get(api, '/history/activity-instance', {
+          ...query,
+          processDefinitionId,
+        });
         setActivities(activities);
       })();
     }

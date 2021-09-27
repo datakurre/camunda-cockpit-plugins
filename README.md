@@ -3,6 +3,13 @@ Minimal "history plugins" for Camunda Cockpit
 
 ![Minimal history plugin in action.](plugin.gif)
 
+Breaking changes
+----------------
+
+* [2021-08-13](https://github.com/datakurre/camunda-cockpit-plugins/tree/66888bcb36f351880835b007b5e75dc44c732fb9): Change definition view plugins (historic acticities and instances) to only show data for the current definition version
+
+* [the last version before this changelog](https://github.com/datakurre/camunda-cockpit-plugins/tree/608f7f1d2c240c810dac466890decb91f4da5688)
+
 
 Try it
 ------
@@ -23,6 +30,8 @@ $ docker cp mytemp:/camunda/webapps/camunda/app/cockpit/scripts/camunda-cockpit-
 $ docker rm -vf mytemp
 $ docker run --rm -p 8080:8080 -v $(pwd)/camunda-cockpit-plugins:/camunda/webapps/camunda/app/cockpit/scripts/:ro camunda/camunda-bpm-platform:7.15.0
 ```
+
+See also the example [Dockerfile for Camunda Run 7.15.0](https://github.com/datakurre/camunda-cockpit-plugins/issues/16#issuecomment-874499953).
 
 If you don't immediately see the plugin, try again with your browser's private browsing mode. It is a common issue browser has cached a previous Cockpit plugin configuration without these plugins.
 
