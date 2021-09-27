@@ -91,15 +91,14 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ api, processDefinitionId }) 
   }, [viewer, activities]);
 
   // Tabs
-
-  return (
+  return statistics ? (
     <Portal node={statistics}>
       <HistoricFilterBox onChange={setQuery} />
       {statistics && activities.length ? (
         <StatisticsTable activities={filter(activities, activity => activity.activityName && activity.endTime)} />
       ) : null}
     </Portal>
-  );
+  ) : null;
 };
 
 export default [

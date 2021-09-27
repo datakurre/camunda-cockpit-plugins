@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "build": "rollup -c",
-    "watch": "rollup -w -c",
+    "watch": "rollup -w -c --sourcemap",
     "prettier:check": "prettier --check \"src/**/{*.ts,*.tsx}\"",
     "prettier:format": "prettier --write \"src/**/{*.ts,*.tsx}\"",
     "upgrade": "npx npm-check-updates -u"
