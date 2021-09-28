@@ -72,7 +72,6 @@ const customRenderCompletionItem = (self: any, data: any, registerAndGetPickFunc
     const pick = registerAndGetPickFunc();
     const start = self.from.ch;
     const date = query.substr(start).split(' ')[0];
-    self.to.ch = start + date.length + 1; // Fix code mirror cursor position
     let selected: Date | null;
     try {
       selected = new Date(date);
@@ -84,7 +83,10 @@ const customRenderCompletionItem = (self: any, data: any, registerAndGetPickFunc
         <ReactDatePicker
           selected={selected}
           onChange={(date: Date) => {
-            pick(date?.toISOString().split('T')[0]);
+            const dateString = date?.toISOString().split('T')[0];
+            // Fix code mirror cursor position
+            self.to.ch = start + dateString.length + 1;
+            pick(dateString);
           }}
           inline
         />
@@ -132,13 +134,16 @@ const HistoricFilterBox = (props: any) => {
       <SimpleReactFilterBox
         options={HistoricOptions}
         strictMode={true}
-        query={query}
+        query={defaultQuery()}
         autoCompleteHandler={autoCompleteHandler}
         customRenderCompletionItem={(self: any, data: any, registerAndGetPickFunc: any) =>
           customRenderCompletionItem(self, data, registerAndGetPickFunc, query)
         }
         onChange={(query: string) => setQuery(query)}
-        onParseOk={(expressions: Expression[]) => setExpressions(expressions)}
+        onParseOk={(expressions: Expression[]) => {
+          setExpressions(expressions);
+          (document?.activeElement as HTMLElement)?.blur();
+        }}
       />
     </div>
   );

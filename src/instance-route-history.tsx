@@ -13,11 +13,9 @@ import Container from './Components/Container';
 import HistoryTable from './Components/HistoryTable';
 import Page from './Components/Page';
 import { ToggleHistoryViewButton } from './Components/ToggleHistoryViewButton';
-import { ToggleSequenceFlowButton } from './Components/ToggleSequenceFlowButton';
 import VariablesTable from './Components/VariablesTable';
-import { DefinitionPluginParams, InstancePluginParams, RoutePluginParams } from './types';
+import { DefinitionPluginParams, RoutePluginParams } from './types';
 import { get } from './utils/api';
-import { clearSequenceFlow, renderSequenceFlow } from './utils/bpmn';
 
 export default [
   {

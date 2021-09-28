@@ -12,6 +12,7 @@ export interface RoutePluginParams {
 }
 
 export interface DefinitionPluginParams {
+  root: Element;
   api: API;
   processDefinitionId: string;
 }
