@@ -10,7 +10,7 @@ import typescript from "@rollup/plugin-typescript";
 const plugins = [
   replace({
     preventAssignment: true,
-    "process.env.NODE_ENV": JSON.stringify("production"),
+    "process.env.NODE_ENV": process.env.NODE_ENV === "production" ? JSON.stringify("production") : null,
   }),
   alias({
     entries: [{ find: "inherits", replacement: "inherits/inherits_browser" }],
