@@ -1,7 +1,8 @@
 import './instance-route-history.scss';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
+import { Expression, GridDataAutoCompleteHandler } from 'react-filter-box';
 import SplitPane from 'react-split-pane';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
@@ -10,12 +11,120 @@ import BPMN from './Components/BPMN';
 import BreadcrumbsPanel from './Components/BreadcrumbsPanel';
 import { Clippy } from './Components/Clippy';
 import Container from './Components/Container';
+import FilterBox from './Components/FilterBox';
 import HistoryTable from './Components/HistoryTable';
 import Page from './Components/Page';
+import Portal from './Components/Portal';
 import { ToggleHistoryViewButton } from './Components/ToggleHistoryViewButton';
 import VariablesTable from './Components/VariablesTable';
 import { DefinitionPluginParams, RoutePluginParams } from './types';
 import { get } from './utils/api';
+
+class InstanceQueryAutoCompleteHandler extends GridDataAutoCompleteHandler {
+  query = '';
+
+  setQuery(query: string) {
+    this.query = query;
+  }
+
+  hasCategory(category: string) {
+    return true;
+  }
+
+  needCategories(): string[] {
+    return super.needCategories().filter((value: string) => !(value === 'key' && this.query.includes(value)));
+  }
+
+  needOperators(parsedCategory: string) {
+    if (parsedCategory === 'key') {
+      return ['==', 'like'];
+    }
+    return ['==', 'like'];
+  }
+
+  needValues(parsedCategory: string, parsedOperator: string) {
+    return super.needValues(parsedCategory, parsedOperator);
+  }
+}
+
+const InstanceQueryOptions = [
+  {
+    columnField: 'key',
+    type: 'string',
+  },
+];
+
+const initialState: Record<string, any> = {
+  historyTabNode: null,
+};
+
+const hooks: Record<string, any> = {
+  setHistoryTabNode: (node: Element) => (initialState.historyTabNode = node),
+};
+
+const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinitionId }) => {
+  const [autoCompleteHandler] = useState(new InstanceQueryAutoCompleteHandler([], InstanceQueryOptions));
+  const [expressions, setExpressions] = useState([] as Expression[]);
+  const [query, setQuery] = useState({} as Record<string, string | null>);
+  const [historyTabNode, setHistoryTabNode] = useState(initialState.historyTabNode);
+
+  hooks.setHistoryTabNode = setHistoryTabNode;
+
+  const [instances, setInstances]: any = useState([] as any[]);
+
+  // FETCH
+
+  useEffect(() => {
+    (async () => {
+      const instances = await get(api, '/history/process-instance', {
+        sortBy: 'endTime',
+        sortOrder: 'desc',
+        maxResults: '1000',
+        processDefinitionId,
+        ...query,
+      });
+      setInstances(instances);
+    })();
+  }, [query]);
+
+  useEffect(() => {
+    const query: any = {};
+    const variables = [];
+    for (const { category, operator, value } of expressions) {
+      if (category === 'key' && operator === '==') {
+        query['processInstanceBusinessKey'] = value;
+      } else if (category === 'key' && operator === 'like') {
+        query['processInstanceBusinessKeyLike'] = value;
+      } else if (operator === '==') {
+        variables.push(`${category}_eq_${value}`);
+      } else if (operator === 'like') {
+        variables.push(`${category}_like_${value}`);
+      }
+    }
+    if (variables.length) {
+      query['variables'] = variables.join(',');
+    }
+    setQuery(query);
+    console.log(query);
+  }, [expressions]);
+
+  // Hack to ensure long living HTML node for filter box
+  if (historyTabNode && !Array.from(historyTabNode.children).includes(root)) {
+    historyTabNode.appendChild(root);
+  }
+
+  return historyTabNode ? (
+    <Portal node={root}>
+      <FilterBox
+        options={InstanceQueryOptions}
+        autoCompleteHandler={autoCompleteHandler}
+        onParseOk={setExpressions}
+        defaultQuery={(): string => ''}
+      />
+      {instances.length ? <HistoryTable instances={instances} /> : null}
+    </Portal>
+  ) : null;
+};
 
 export default [
   {
@@ -24,22 +133,18 @@ export default [
     properties: {
       label: 'History',
     },
+    render: (node: Element) => hooks.setHistoryTabNode(node),
+  },
+  {
+    id: 'definitionHistoricInstancesPlugin',
+    pluginPoint: 'cockpit.processDefinition.runtime.action',
     render: (node: Element, { api, processDefinitionId }: DefinitionPluginParams) => {
-      (async () => {
-        const instances = await get(api, '/history/process-instance', {
-          processDefinitionId,
-          // finished: true,
-          sortBy: 'endTime',
-          sortOrder: 'desc',
-          maxResults: '1000',
-        });
-        ReactDOM.render(
-          <React.StrictMode>
-            <HistoryTable instances={instances} />
-          </React.StrictMode>,
-          node
-        );
-      })();
+      ReactDOM.render(
+        <React.StrictMode>
+          <Plugin root={node} api={api} processDefinitionId={processDefinitionId} />
+        </React.StrictMode>,
+        node
+      );
     },
   },
   {
@@ -203,7 +308,6 @@ export default [
                         <TabPanel className="ctn-tabbed-content ctn-scroll">
                           <VariablesTable instance={instance} activities={activityById} variables={variables} />
                         </TabPanel>
-                        <TabPanel></TabPanel>
                       </Tabs>
                     </SplitPane>
                   </SplitPane>

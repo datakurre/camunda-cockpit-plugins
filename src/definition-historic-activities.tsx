@@ -1,13 +1,61 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
+import { Expression, GridDataAutoCompleteHandler } from 'react-filter-box';
 
-import HistoricFilterBox from './Components/HistoricFilterBox';
+import FilterBox from './Components/FilterBox';
 import Portal from './Components/Portal';
 import StatisticsTable from './Components/StatisticsTable';
 import { ToggleHistoryStatisticsButton } from './Components/ToggleHistoryStatisticsButton';
 import { DefinitionPluginParams } from './types';
 import { get } from './utils/api';
 import { filter } from './utils/misc';
+
+class DefinitionFilterAutoCompleteHandler extends GridDataAutoCompleteHandler {
+  query = '';
+
+  setQuery(query: string) {
+    this.query = query;
+  }
+
+  needCategories(): string[] {
+    return super.needCategories().filter((value: string) => !this.query.includes(value));
+  }
+
+  needOperators(parsedCategory: string) {
+    if (parsedCategory === 'started') {
+      return ['after'];
+    }
+    if (parsedCategory === 'finished') {
+      return ['before'];
+    }
+    if (parsedCategory === 'maxResults') {
+      return ['is'];
+    }
+    return [];
+  }
+
+  needValues(parsedCategory: string, parsedOperator: string) {
+    if (parsedOperator === 'after' || parsedOperator === 'before') {
+      return [{ customType: 'date' }];
+    }
+    return super.needValues(parsedCategory, parsedOperator);
+  }
+}
+
+const DefinitionFilterOptions = [
+  {
+    columnField: 'started',
+    type: 'date',
+  },
+  {
+    columnField: 'finished',
+    type: 'date',
+  },
+  {
+    columnField: 'maxResults',
+    type: 'text',
+  },
+];
 
 const initialState: Record<string, any> = {
   viewer: null,
@@ -20,7 +68,9 @@ const hooks: Record<string, any> = {
 };
 
 const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinitionId }) => {
-  const [query, setQuery] = useState({} as Record<string, string>);
+  const [autoCompleteHandler] = useState(new DefinitionFilterAutoCompleteHandler([], DefinitionFilterOptions));
+  const [expressions, setExpressions] = useState([] as Expression[]);
+  const [query, setQuery] = useState({} as Record<string, string | null>);
   const [viewer, setViewer] = useState(initialState.viewer);
   const [statistics, setStatistics] = useState(initialState.statistics);
 
@@ -44,6 +94,19 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinition
       })();
     }
   }, [query]);
+
+  useEffect(() => {
+    const map = new Map(expressions.map(expression => [expression.category, expression.value]));
+    if (map.size > 0) {
+      setQuery({
+        sortBy: 'endTime',
+        sortOrder: 'desc',
+        startedAfter: map.has('started') ? `${map.get('started')}T00:00:00.000+0000` : null,
+        finishedBefore: map.has('finished') ? `${map.get('finished')}T00:00:00.000+0000` : null,
+        maxResults: map.has('maxResults') ? map.get('maxResults') || '100' : '100',
+      });
+    }
+  }, [expressions]);
 
   // Overlay
 
@@ -121,7 +184,18 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinition
   // Tabs
   return statistics ? (
     <Portal node={root}>
-      <HistoricFilterBox onChange={setQuery} />
+      <FilterBox
+        options={DefinitionFilterOptions}
+        autoCompleteHandler={autoCompleteHandler}
+        onParseOk={setExpressions}
+        defaultQuery={(): string => {
+          // @ts-ignore
+          const weekAgo = new Date(new Date() - 1000 * 3600 * 24 * 7).toISOString().split('T')[0];
+          // @ts-ignore
+          const tomorrow = new Date(new Date() - 1000 * 3600 * 24 * -1).toISOString().split('T')[0];
+          return `started after ${weekAgo} AND finished before ${tomorrow} and maxResults is 1000`;
+        }}
+      />
       {activities.length ? (
         <StatisticsTable activities={filter(activities, activity => activity.activityName && activity.endTime)} />
       ) : null}
@@ -131,7 +205,7 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinition
 
 export default [
   {
-    id: 'definitionHistoricActivitiesDiagramBadges',
+    id: 'definitionHistoricActivitiesDiagramTokens',
     pluginPoint: 'cockpit.processDefinition.diagram.plugin',
     render: (viewer: any) => hooks.setViewer(viewer),
   },

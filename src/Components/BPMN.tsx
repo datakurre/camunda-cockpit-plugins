@@ -1,3 +1,4 @@
+import ModelingModule from 'bpmn-js/lib/features/modeling';
 import BpmnViewer from 'bpmn-js/lib/NavigatedViewer';
 import camundaExtensionModule from 'camunda-bpmn-moddle/lib';
 import camundaModdle from 'camunda-bpmn-moddle/resources/camunda.json';
@@ -12,7 +13,7 @@ import { ToggleSequenceFlowButton } from './ToggleSequenceFlowButton';
 
 export const BPMNViewer = async (diagram: string) => {
   const model = new BpmnViewer({
-    additionalModules: [camundaExtensionModule, RobotModule, tooltips],
+    additionalModules: [camundaExtensionModule, RobotModule, tooltips, ModelingModule],
     moddleExtensions: {
       camunda: camundaModdle,
     },

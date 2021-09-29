@@ -106,7 +106,7 @@ const defaultQuery = (): string => {
   return `started after ${weekAgo} AND finished before ${tomorrow} and maxResults is 1000`;
 };
 
-const HistoricFilterBox = (props: any) => {
+const VariableFilterBox = (props: any) => {
   const [query, setQuery] = useState(defaultQuery);
   const [expressions, setExpressions] = useState([] as Expression[]);
   const [autoCompleteHandler] = useState(new HistoricAutoCompleteHandler([], HistoricOptions));
@@ -149,4 +149,4 @@ const HistoricFilterBox = (props: any) => {
   );
 };
 
-export default HistoricFilterBox;
+export default VariableFilterBox;
