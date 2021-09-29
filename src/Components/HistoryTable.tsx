@@ -56,7 +56,7 @@ const HistoryTable: React.FC<Props> = ({ instances }) => {
           endTime: instance.endTime ? instance.endTime.split('.')[0] : '',
         };
       }),
-    []
+    [instances]
   );
   const tableInstance = useTable({ columns: columns as any, data }, useSortBy);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;

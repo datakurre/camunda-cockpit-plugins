@@ -76,14 +76,15 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinition
 
   useEffect(() => {
     (async () => {
-      const instances = await get(api, '/history/process-instance', {
-        sortBy: 'endTime',
-        sortOrder: 'desc',
-        maxResults: '1000',
-        processDefinitionId,
-        ...query,
-      });
-      setInstances(instances);
+      setInstances(
+        await get(api, '/history/process-instance', {
+          sortBy: 'endTime',
+          sortOrder: 'desc',
+          maxResults: '1000',
+          processDefinitionId,
+          ...query,
+        })
+      );
     })();
   }, [query]);
 
@@ -105,7 +106,6 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinition
       query['variables'] = variables.join(',');
     }
     setQuery(query);
-    console.log(query);
   }, [expressions]);
 
   // Hack to ensure long living HTML node for filter box

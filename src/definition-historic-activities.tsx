@@ -103,7 +103,19 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinition
         sortOrder: 'desc',
         startedAfter: map.has('started') ? `${map.get('started')}T00:00:00.000+0000` : null,
         finishedBefore: map.has('finished') ? `${map.get('finished')}T00:00:00.000+0000` : null,
-        maxResults: map.has('maxResults') ? map.get('maxResults') || '100' : '100',
+        maxResults: map.has('maxResults') ? map.get('maxResults') || '1000' : '1000',
+      });
+    } else {
+      /* @ts-ignore */
+      const weekAgo = new Date(new Date() - 1000 * 3600 * 24 * 7).toISOString().split('T')[0];
+      /* @ts-ignore */
+      const tomorrow = new Date(new Date() - 1000 * 3600 * 24 * -1).toISOString().split('T')[0];
+      setQuery({
+        sortBy: 'endTime',
+        sortOrder: 'desc',
+        startedAfter: `${weekAgo}T00:00:00.000+0000`,
+        finishedBefore: `${tomorrow}T00:00:00.000+0000`,
+        maxResults: '1000',
       });
     }
   }, [expressions]);
