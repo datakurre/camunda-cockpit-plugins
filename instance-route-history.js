@@ -58593,6 +58593,39 @@ var get = function (api, path, params) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
+var post = function (api, path, params, payload) { return __awaiter(void 0, void 0, void 0, function () {
+    var query, res, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                query = new URLSearchParams(params || {}).toString();
+                if (!query) return [3 /*break*/, 2];
+                return [4 /*yield*/, fetch("" + api.engineApi + path + "?" + query, {
+                        method: 'post',
+                        headers: headers(api),
+                        body: payload,
+                    })];
+            case 1:
+                _a = _b.sent();
+                return [3 /*break*/, 4];
+            case 2: return [4 /*yield*/, fetch("" + api.engineApi + path, {
+                    method: 'post',
+                    headers: headers(api),
+                    body: payload,
+                })];
+            case 3:
+                _a = _b.sent();
+                _b.label = 4;
+            case 4:
+                res = _a;
+                if (!(res.headers.get('Content-Type') || '').startsWith('application/json')) return [3 /*break*/, 6];
+                return [4 /*yield*/, res.json()];
+            case 5: return [2 /*return*/, _b.sent()];
+            case 6: return [4 /*yield*/, res.text()];
+            case 7: return [2 /*return*/, _b.sent()];
+        }
+    });
+}); };
 
 // https://github.com/reactjs/react-modal/issues/283
 ReactModal.defaultStyles = {};
@@ -58753,7 +58786,7 @@ var InstanceQueryAutoCompleteHandler = /** @class */ (function (_super) {
         if (parsedCategory === 'key') {
             return ['==', 'like'];
         }
-        return ['==', 'like'];
+        return ['==', 'like', 'ilike'];
     };
     InstanceQueryAutoCompleteHandler.prototype.needValues = function (parsedCategory, parsedOperator) {
         return _super.prototype.needValues.call(this, parsedCategory, parsedOperator);
@@ -58788,7 +58821,7 @@ var Plugin = function (_a) {
                 switch (_b.label) {
                     case 0:
                         _a = setInstances;
-                        return [4 /*yield*/, get(api, '/history/process-instance', __assign$1({ sortBy: 'endTime', sortOrder: 'desc', maxResults: '1000', processDefinitionId: processDefinitionId }, query))];
+                        return [4 /*yield*/, post(api, '/history/process-instance', {}, JSON.stringify(__assign$1({ sortBy: 'endTime', sortOrder: 'desc', maxResults: '1000', processDefinitionId: processDefinitionId }, query)))];
                     case 1:
                         _a.apply(void 0, [_b.sent()]);
                         return [2 /*return*/];
@@ -58802,20 +58835,32 @@ var Plugin = function (_a) {
         for (var _i = 0, expressions_1 = expressions; _i < expressions_1.length; _i++) {
             var _a = expressions_1[_i], category = _a.category, operator = _a.operator, value = _a.value;
             if (category === 'key' && operator === '==') {
-                query['processInstanceBusinessKey'] = value;
+                query.processInstanceBusinessKey = value;
             }
             else if (category === 'key' && operator === 'like') {
-                query['processInstanceBusinessKeyLike'] = value;
+                query.processInstanceBusinessKeyLike = value;
             }
             else if (operator === '==') {
-                variables.push(category + "_eq_" + value);
+                variables.push({
+                    name: category,
+                    operator: 'eq',
+                    value: value,
+                });
             }
-            else if (operator === 'like') {
-                variables.push(category + "_like_" + value);
+            else if (operator === 'like' || operator === 'ilike') {
+                variables.push({
+                    name: category,
+                    operator: 'like',
+                    value: value,
+                });
+            }
+            if (operator === 'ilike') {
+                query.variableNamesIgnoreCase = true;
+                query.variableValuesIgnoreCase = true;
             }
         }
         if (variables.length) {
-            query['variables'] = variables.join(',');
+            query['variables'] = variables;
         }
         setQuery(query);
     }, [expressions]);
