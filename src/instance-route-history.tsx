@@ -18,7 +18,7 @@ import Portal from './Components/Portal';
 import { ToggleHistoryViewButton } from './Components/ToggleHistoryViewButton';
 import VariablesTable from './Components/VariablesTable';
 import { DefinitionPluginParams, RoutePluginParams } from './types';
-import { get } from './utils/api';
+import { get, post } from './utils/api';
 
 class InstanceQueryAutoCompleteHandler extends GridDataAutoCompleteHandler {
   query = '';
@@ -39,7 +39,7 @@ class InstanceQueryAutoCompleteHandler extends GridDataAutoCompleteHandler {
     if (parsedCategory === 'key') {
       return ['==', 'like'];
     }
-    return ['==', 'like'];
+    return ['==', 'like', 'ilike'];
   }
 
   needValues(parsedCategory: string, parsedOperator: string) {
@@ -77,13 +77,18 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinition
   useEffect(() => {
     (async () => {
       setInstances(
-        await get(api, '/history/process-instance', {
-          sortBy: 'endTime',
-          sortOrder: 'desc',
-          maxResults: '1000',
-          processDefinitionId,
-          ...query,
-        })
+        await post(
+          api,
+          '/history/process-instance',
+          {},
+          JSON.stringify({
+            sortBy: 'endTime',
+            sortOrder: 'desc',
+            maxResults: '1000',
+            processDefinitionId,
+            ...query,
+          })
+        )
       );
     })();
   }, [query]);
@@ -93,17 +98,29 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinition
     const variables = [];
     for (const { category, operator, value } of expressions) {
       if (category === 'key' && operator === '==') {
-        query['processInstanceBusinessKey'] = value;
+        query.processInstanceBusinessKey = value;
       } else if (category === 'key' && operator === 'like') {
-        query['processInstanceBusinessKeyLike'] = value;
+        query.processInstanceBusinessKeyLike = value;
       } else if (operator === '==') {
-        variables.push(`${category}_eq_${value}`);
-      } else if (operator === 'like') {
-        variables.push(`${category}_like_${value}`);
+        variables.push({
+          name: category,
+          operator: 'eq',
+          value: value,
+        });
+      } else if (operator === 'like' || operator === 'ilike') {
+        variables.push({
+          name: category,
+          operator: 'like',
+          value: value,
+        });
+      }
+      if (operator === 'ilike') {
+        query.variableNamesIgnoreCase = true;
+        query.variableValuesIgnoreCase = true;
       }
     }
     if (variables.length) {
-      query['variables'] = variables.join(',');
+      query['variables'] = variables;
     }
     setQuery(query);
   }, [expressions]);
