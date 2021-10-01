@@ -1,7 +1,8 @@
 import './instance-route-history.scss';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
+import { Expression, GridDataAutoCompleteHandler } from 'react-filter-box';
 import SplitPane from 'react-split-pane';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
@@ -10,14 +11,171 @@ import BPMN from './Components/BPMN';
 import BreadcrumbsPanel from './Components/BreadcrumbsPanel';
 import { Clippy } from './Components/Clippy';
 import Container from './Components/Container';
+import FilterBox from './Components/FilterBox';
 import HistoryTable from './Components/HistoryTable';
 import Page from './Components/Page';
+import Portal from './Components/Portal';
 import { ToggleHistoryViewButton } from './Components/ToggleHistoryViewButton';
-import { ToggleSequenceFlowButton } from './Components/ToggleSequenceFlowButton';
 import VariablesTable from './Components/VariablesTable';
-import { DefinitionPluginParams, InstancePluginParams, RoutePluginParams } from './types';
-import { get } from './utils/api';
-import { clearSequenceFlow, renderSequenceFlow } from './utils/bpmn';
+import { DefinitionPluginParams, RoutePluginParams } from './types';
+import { get, post } from './utils/api';
+
+class InstanceQueryAutoCompleteHandler extends GridDataAutoCompleteHandler {
+  query = '';
+
+  setQuery(query: string) {
+    this.query = query;
+  }
+
+  hasCategory(category: string) {
+    return true;
+  }
+
+  needCategories(): string[] {
+    return super
+      .needCategories()
+      .filter((value: string) => !(['key', 'started', 'finished'].includes(value) && this.query.includes(value)));
+  }
+
+  needOperators(parsedCategory: string) {
+    if (parsedCategory === 'started') {
+      return ['after'];
+    }
+    if (parsedCategory === 'finished') {
+      return ['before'];
+    }
+    if (parsedCategory === 'maxResults') {
+      return ['is'];
+    }
+    if (parsedCategory === 'key') {
+      return ['==', 'like'];
+    }
+    return ['==', 'like', 'ilike'];
+  }
+
+  needValues(parsedCategory: string, parsedOperator: string) {
+    if (parsedOperator === 'after' || parsedOperator === 'before') {
+      return [{ customType: 'date' }];
+    }
+    return super.needValues(parsedCategory, parsedOperator);
+  }
+}
+
+const InstanceQueryOptions = [
+  {
+    columnField: 'started',
+    type: 'date',
+  },
+  {
+    columnField: 'finished',
+    type: 'date',
+  },
+  {
+    columnField: 'maxResults',
+    type: 'text',
+  },
+  {
+    columnField: 'key',
+    type: 'string',
+  },
+];
+
+const initialState: Record<string, any> = {
+  historyTabNode: null,
+};
+
+const hooks: Record<string, any> = {
+  setHistoryTabNode: (node: Element) => (initialState.historyTabNode = node),
+};
+
+const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinitionId }) => {
+  const [autoCompleteHandler] = useState(new InstanceQueryAutoCompleteHandler([], InstanceQueryOptions));
+  const [expressions, setExpressions] = useState([] as Expression[]);
+  const [query, setQuery] = useState({} as Record<string, string | null>);
+  const [historyTabNode, setHistoryTabNode] = useState(initialState.historyTabNode);
+
+  hooks.setHistoryTabNode = setHistoryTabNode;
+
+  const [instances, setInstances]: any = useState([] as any[]);
+
+  // FETCH
+
+  useEffect(() => {
+    (async () => {
+      const maxResults: number = !isNaN(parseInt(`${query.maxResults}`, 10))
+        ? parseInt(`${query.maxResults}`, 10)
+        : 1000;
+      setInstances(
+        await post(
+          api,
+          '/history/process-instance',
+          { maxResults: `${maxResults}` },
+          JSON.stringify({
+            sortBy: 'endTime',
+            sortOrder: 'desc',
+            processDefinitionId,
+            ...query,
+          })
+        )
+      );
+    })();
+  }, [query]);
+
+  useEffect(() => {
+    const query: any = {};
+    const variables = [];
+    for (const { category, operator, value } of expressions) {
+      if (category === 'started' && operator === 'after' && !isNaN(new Date(`${value}`).getTime())) {
+        query['startedAfter'] = `${value}T00:00:00.000+0000`;
+      } else if (category === 'finished' && operator === 'before' && !isNaN(new Date(`${value}`).getTime())) {
+        query['finishedBefore'] = `${value}T00:00:00.000+0000`;
+      } else if (category === 'maxResults' && operator == 'is' && !isNaN(parseInt(`${value}`, 10))) {
+        query['maxResults'] = parseInt(`${value}`, 10);
+      } else if (category === 'key' && operator === '==') {
+        query.processInstanceBusinessKey = value;
+      } else if (category === 'key' && operator === 'like') {
+        query.processInstanceBusinessKeyLike = value;
+      } else if (operator === '==') {
+        variables.push({
+          name: category,
+          operator: 'eq',
+          value: value,
+        });
+      } else if (operator === 'like' || operator === 'ilike') {
+        variables.push({
+          name: category,
+          operator: 'like',
+          value: value,
+        });
+      }
+      if (operator === 'ilike') {
+        query.variableNamesIgnoreCase = true;
+        query.variableValuesIgnoreCase = true;
+      }
+    }
+    if (variables.length) {
+      query['variables'] = variables;
+    }
+    setQuery(query);
+  }, [expressions]);
+
+  // Hack to ensure long living HTML node for filter box
+  if (historyTabNode && !Array.from(historyTabNode.children).includes(root)) {
+    historyTabNode.appendChild(root);
+  }
+
+  return historyTabNode ? (
+    <Portal node={root}>
+      <FilterBox
+        options={InstanceQueryOptions}
+        autoCompleteHandler={autoCompleteHandler}
+        onParseOk={setExpressions}
+        defaultQuery={(): string => ''}
+      />
+      {instances.length ? <HistoryTable instances={instances} /> : null}
+    </Portal>
+  ) : null;
+};
 
 export default [
   {
@@ -26,22 +184,18 @@ export default [
     properties: {
       label: 'History',
     },
+    render: (node: Element) => hooks.setHistoryTabNode(node),
+  },
+  {
+    id: 'definitionHistoricInstancesPlugin',
+    pluginPoint: 'cockpit.processDefinition.runtime.action',
     render: (node: Element, { api, processDefinitionId }: DefinitionPluginParams) => {
-      (async () => {
-        const instances = await get(api, '/history/process-instance', {
-          processDefinitionId,
-          // finished: true,
-          sortBy: 'endTime',
-          sortOrder: 'desc',
-          maxResults: '1000',
-        });
-        ReactDOM.render(
-          <React.StrictMode>
-            <HistoryTable instances={instances} />
-          </React.StrictMode>,
-          node
-        );
-      })();
+      ReactDOM.render(
+        <React.StrictMode>
+          <Plugin root={node} api={api} processDefinitionId={processDefinitionId} />
+        </React.StrictMode>,
+        node
+      );
     },
   },
   {
@@ -205,7 +359,6 @@ export default [
                         <TabPanel className="ctn-tabbed-content ctn-scroll">
                           <VariablesTable instance={instance} activities={activityById} variables={variables} />
                         </TabPanel>
-                        <TabPanel></TabPanel>
                       </Tabs>
                     </SplitPane>
                   </SplitPane>

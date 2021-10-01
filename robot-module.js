@@ -1,17 +1,17 @@
-function ___$insertStyle(css) {
+function ___$insertStylesToHeader(css) {
   if (!css) {
-    return;
+    return
   }
   if (typeof window === 'undefined') {
-    return;
+    return
   }
 
-  var style = document.createElement('style');
+  const style = document.createElement('style');
 
   style.setAttribute('type', 'text/css');
   style.innerHTML = css;
   document.head.appendChild(style);
-  return css;
+  return css
 }
 
 /**
@@ -126,15 +126,11 @@ BaseRenderer.prototype.getShapePath = function() {};
  */
 BaseRenderer.prototype.getConnectionPath = function() {};
 
-function createCommonjsModule(fn) {
-  var module = { exports: {} };
-	return fn(module, module.exports), module.exports;
-}
+var inherits_browser = {exports: {}};
 
-var inherits_browser = createCommonjsModule(function (module) {
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
+  inherits_browser.exports = function inherits(ctor, superCtor) {
     if (superCtor) {
       ctor.super_ = superCtor;
       ctor.prototype = Object.create(superCtor.prototype, {
@@ -149,7 +145,7 @@ if (typeof Object.create === 'function') {
   };
 } else {
   // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
+  inherits_browser.exports = function inherits(ctor, superCtor) {
     if (superCtor) {
       ctor.super_ = superCtor;
       var TempCtor = function () {};
@@ -159,7 +155,8 @@ if (typeof Object.create === 'function') {
     }
   };
 }
-});
+
+var inherits = inherits_browser.exports;
 
 function ensureImported(element, target) {
 
@@ -455,7 +452,7 @@ var RobotTaskRenderer = /** @class */ (function () {
 }());
 var factory = function (eventBus, bpmnRenderer) {
     var instance = new RobotTaskRenderer(eventBus, bpmnRenderer);
-    inherits_browser(instance, BaseRenderer);
+    inherits(instance, BaseRenderer);
     instance.$inject = ['eventBus', 'bpmnRenderer'];
     return instance;
 };
@@ -465,4 +462,4 @@ var index = {
     RobotTaskRenderer: ['type', factory],
 };
 
-export default index;
+export { index as default };

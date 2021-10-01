@@ -4,12 +4,13 @@ import image from "@rollup/plugin-image";
 import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
 import resolve from "@rollup/plugin-node-resolve";
-import sass from 'rollup-plugin-sass';
+import scss from 'rollup-plugin-scss';
 import typescript from "@rollup/plugin-typescript";
 
 const plugins = [
   replace({
-    "process.env.NODE_ENV": JSON.stringify("production"),
+    preventAssignment: true,
+    "process.env.NODE_ENV": process.env.NODE_ENV === "production" ? JSON.stringify("production") : null,
   }),
   alias({
     entries: [{ find: "inherits", replacement: "inherits/inherits_browser" }],
@@ -21,7 +22,7 @@ const plugins = [
   typescript(),
   image(),
   json(),
-  sass({
+  scss({
     insert: true
   }),
 ];
