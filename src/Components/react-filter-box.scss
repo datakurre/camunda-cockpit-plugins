@@ -1,6 +1,9 @@
 .CodeMirror {
   height: 25px;
 }
+.CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler {
+  display: none !important;
+}
 .CodeMirror-sizer + div {
   display: none;
 }

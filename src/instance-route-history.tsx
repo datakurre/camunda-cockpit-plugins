@@ -32,10 +32,21 @@ class InstanceQueryAutoCompleteHandler extends GridDataAutoCompleteHandler {
   }
 
   needCategories(): string[] {
-    return super.needCategories().filter((value: string) => !(value === 'key' && this.query.includes(value)));
+    return super
+      .needCategories()
+      .filter((value: string) => !(['key', 'started', 'finished'].includes(value) && this.query.includes(value)));
   }
 
   needOperators(parsedCategory: string) {
+    if (parsedCategory === 'started') {
+      return ['after'];
+    }
+    if (parsedCategory === 'finished') {
+      return ['before'];
+    }
+    if (parsedCategory === 'maxResults') {
+      return ['is'];
+    }
     if (parsedCategory === 'key') {
       return ['==', 'like'];
     }
@@ -43,11 +54,26 @@ class InstanceQueryAutoCompleteHandler extends GridDataAutoCompleteHandler {
   }
 
   needValues(parsedCategory: string, parsedOperator: string) {
+    if (parsedOperator === 'after' || parsedOperator === 'before') {
+      return [{ customType: 'date' }];
+    }
     return super.needValues(parsedCategory, parsedOperator);
   }
 }
 
 const InstanceQueryOptions = [
+  {
+    columnField: 'started',
+    type: 'date',
+  },
+  {
+    columnField: 'finished',
+    type: 'date',
+  },
+  {
+    columnField: 'maxResults',
+    type: 'text',
+  },
   {
     columnField: 'key',
     type: 'string',
@@ -76,15 +102,17 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinition
 
   useEffect(() => {
     (async () => {
+      const maxResults: number = !isNaN(parseInt(`${query.maxResults}`, 10))
+        ? parseInt(`${query.maxResults}`, 10)
+        : 1000;
       setInstances(
         await post(
           api,
           '/history/process-instance',
-          {},
+          { maxResults: `${maxResults}` },
           JSON.stringify({
             sortBy: 'endTime',
             sortOrder: 'desc',
-            maxResults: '1000',
             processDefinitionId,
             ...query,
           })
@@ -97,7 +125,13 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinition
     const query: any = {};
     const variables = [];
     for (const { category, operator, value } of expressions) {
-      if (category === 'key' && operator === '==') {
+      if (category === 'started' && operator === 'after' && !isNaN(new Date(`${value}`).getTime())) {
+        query['startedAfter'] = `${value}T00:00:00.000+0000`;
+      } else if (category === 'finished' && operator === 'before' && !isNaN(new Date(`${value}`).getTime())) {
+        query['finishedBefore'] = `${value}T00:00:00.000+0000`;
+      } else if (category === 'maxResults' && operator == 'is' && !isNaN(parseInt(`${value}`, 10))) {
+        query['maxResults'] = parseInt(`${value}`, 10);
+      } else if (category === 'key' && operator === '==') {
         query.processInstanceBusinessKey = value;
       } else if (category === 'key' && operator === 'like') {
         query.processInstanceBusinessKeyLike = value;

@@ -25,12 +25,7 @@ const customRenderCompletionItem = (self: any, data: any, registerAndGetPickFunc
     const pick = registerAndGetPickFunc();
     const start = self.from.ch;
     const date = query.substr(start).split(' ')[0];
-    let selected: Date | null;
-    try {
-      selected = new Date(date);
-    } catch (e) {
-      selected = null;
-    }
+    const selected: Date = !isNaN(new Date(date).getTime()) ? new Date(date) : new Date();
     return (
       <div>
         <ReactDatePicker
