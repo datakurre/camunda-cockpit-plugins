@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 import { TiMinus } from 'react-icons/ti';
@@ -30,12 +31,20 @@ const HistoryTable: React.FC<Props> = ({ instances }) => {
       {
         Header: 'Start Time',
         accessor: 'startTime',
-        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
+        Cell: ({ value }: any) => (
+          <Clippy value={value ? value.format('YYYY-MM-DDTHH:mm:ss') : value}>
+            {value ? value.format('YYYY-MM-DDTHH:mm:ss') : value}
+          </Clippy>
+        ),
       },
       {
         Header: 'End Time',
         accessor: 'endTime',
-        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
+        Cell: ({ value }: any) => (
+          <Clippy value={value ? value.format('YYYY-MM-DDTHH:mm:ss') : value}>
+            {value ? value.format('YYYY-MM-DDTHH:mm:ss') : value}
+          </Clippy>
+        ),
       },
       {
         Header: 'Business Key',
@@ -52,8 +61,8 @@ const HistoryTable: React.FC<Props> = ({ instances }) => {
           state: instance.state,
           id: instance.id,
           businessKey: instance.businessKey,
-          startTime: instance.startTime.split('.')[0],
-          endTime: instance.endTime ? instance.endTime.split('.')[0] : '',
+          startTime: moment(instance.startTime),
+          endTime: instance.endTime ? moment(instance.endTime) : '',
         };
       }),
     [instances]
