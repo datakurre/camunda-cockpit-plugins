@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 import { TiMinus } from 'react-icons/ti';
@@ -36,14 +37,22 @@ const AuditLogTable: React.FC<Props> = ({ activities, decisions }) => {
         },
       },
       {
-        Header: 'Start Date',
+        Header: 'Start Time',
         accessor: 'startDate',
-        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
+        Cell: ({ value }: any) => (
+          <Clippy value={value ? value.format('YYYY-MM-DDTHH:mm:ss') : value}>
+            {value ? value.format('YYYY-MM-DDTHH:mm:ss') : value}
+          </Clippy>
+        ),
       },
       {
-        Header: 'End Date',
+        Header: 'End Time',
         accessor: 'endDate',
-        Cell: ({ value }: any) => <Clippy value={value}>{value}</Clippy>,
+        Cell: ({ value }: any) => (
+          <Clippy value={value ? value.format('YYYY-MM-DDTHH:mm:ss') : value}>
+            {value ? value.format('YYYY-MM-DDTHH:mm:ss') : value}
+          </Clippy>
+        ),
       },
       {
         Header: 'Duration',
@@ -73,8 +82,8 @@ const AuditLogTable: React.FC<Props> = ({ activities, decisions }) => {
       activities.map((activity: any) => {
         return {
           activityName: activity,
-          startDate: activity.startTime.split('.')[0],
-          endDate: activity.endTime ? activity.endTime.split('.')[0] : '',
+          startDate: moment(activity.startTime),
+          endDate: activity.endTime ? moment(activity.endTime) : '',
           duration: activity.endTime
             ? asctime(new Date(activity.endTime).getTime() - new Date(activity.startTime).getTime())
             : '',
