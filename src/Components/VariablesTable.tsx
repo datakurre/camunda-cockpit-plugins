@@ -1,6 +1,7 @@
 // https://github.com/reactjs/react-modal/issues/283
 import './Modal.scss';
 
+import moment, { Moment } from 'moment';
 import React, { useContext, useState } from 'react';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 import { TiMinus } from 'react-icons/ti';
@@ -144,7 +145,12 @@ const VariablesTable: React.FC<Props> = ({ instance, activities, variables }) =>
       {
         Header: 'Created',
         accessor: 'createTime',
-        Cell: ({ value }: any) => <Clippy value={value}>{value.split('.')[0]}</Clippy>,
+        Cell: ({ value }: any) =>
+          value
+            ? ((value: Moment) => (
+                <Clippy value={value.format('YYYY-MM-DDTHH:mm:ss')}>{value.format('YYYY-MM-DDTHH:mm:ss')}</Clippy>
+              ))(moment(value))
+            : value,
       },
     ],
     []
