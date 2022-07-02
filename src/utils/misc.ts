@@ -1,3 +1,5 @@
+import * as queryString from 'query-string';
+
 export const asctime = (duration: number): string => {
   const milliseconds = parseInt(`${(duration % 1000) / 100}`, 10),
     seconds = Math.floor((duration / 1000) % 60),
@@ -19,4 +21,29 @@ export const filter: <T>(iterable: T[], condition: (x: T) => boolean) => T[] = (
     }
   }
   return result;
+};
+
+interface PluginSettings {
+  showSequenceFlow: boolean;
+}
+
+const SETTINGS_KEY = 'minimal-history-plugin';
+
+export const loadSettings = (): PluginSettings => {
+  const parsed = queryString.parse(location.hash.substring(location.hash.split('?', 1)[0].length + 1));
+
+  try {
+    const raw: any = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+    return {
+      showSequenceFlow: !!raw?.showSequenceFlow || !!parsed.showSequenceFlow,
+    };
+  } catch (e) {
+    return {
+      showSequenceFlow: false,
+    };
+  }
+};
+
+export const saveSettings = (settings: PluginSettings) => {
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
 };
