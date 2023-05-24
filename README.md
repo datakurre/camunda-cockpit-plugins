@@ -41,7 +41,7 @@ Note: Trying out the plugins with Camunda Platform 7.15.0 Docker image is more c
 Use it
 ------
 
-###Spring Boot
+### Spring Boot
 
 Copy `config.js` and the files it references to `./src/main/resources/META-INF/resources/webjars/camunda/app/cockpit/scripts`. Once you are done, your project structure should look like this:
 ```shell
@@ -61,7 +61,7 @@ src/main/resources/
 ```
 After this you can start the project and the plugin should be loaded. Usually, you customize config.js per project and define there which plugins are included and where the browser should find them. You may use a browser network inspector to check that Cockpit loads your version of config.js and also the plugin JavaScript files get loaded.
 
-###Other Distributions
+### Other Distributions
 
 [Check the forum discussion on how to package plugins for various alternative Camunda distributions.](https://forum.camunda.org/t/minimal-cockpit-history-plugins-for-camunda-7-14-0/24651)
 
