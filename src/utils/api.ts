@@ -15,7 +15,15 @@ export const get = async (api: API, path: string, params?: Record<string, string
     api.engineApi = api.baseApi + '/engine/' + api.engine;
   }
 
-  const query = new URLSearchParams(params || {}).toString();
+  params = params || {};
+  if (
+    ['/history/activity-instance', '/history/variable-instance', '/history/decision-instance'].includes(path) &&
+    !params?.maxResults
+  ) {
+    params.maxResults = '1000';
+  }
+
+  const query = new URLSearchParams(params).toString();
   const res = query
     ? await fetch(`${api.engineApi}${path}?${query}`, {
         method: 'get',
@@ -36,8 +44,17 @@ export const get = async (api: API, path: string, params?: Record<string, string
     return [];
   }
 };
+
 export const post = async (api: API, path: string, params?: Record<string, string>, payload?: string) => {
-  const query = new URLSearchParams(params || {}).toString();
+  params = params || {};
+  if (
+    ['/history/activity-instance', '/history/variable-instance', '/history/decision-instance'].includes(path) &&
+    !params?.maxResults
+  ) {
+    params.maxResults = '1000';
+  }
+
+  const query = new URLSearchParams(params).toString();
   const res = query
     ? await fetch(`${api.engineApi}${path}?${query}`, {
         method: 'post',
