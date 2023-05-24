@@ -20,9 +20,10 @@
     "camunda-bpmn-moddle": "^6.1.0",
     "diagram-js": "^7.4.1",
     "final-form": "^4.20.2",
-    "min-dash": "^3.8.0",
+    "min-dash": "^3.8.1",
     "min-dom": "^3.1.3",
-    "moment": "^2.29.1",
+    "moment": "^2.29.3",
+    "query-string": "^7.1.1",
     "react": "^17.0.2",
     "react-copy-to-clipboard": "^5.0.4",
     "react-datepicker": "^4.2.1",
@@ -36,8 +37,7 @@
     "react-table": "^7.7.0",
     "react-tabs": "^3.2.2",
     "svg-curves": "^1.0.0",
-    "tiny-svg": "^2.2.2",
-    "use-query-params": "^1.2.3"
+    "tiny-svg": "^2.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
