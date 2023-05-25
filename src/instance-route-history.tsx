@@ -1,9 +1,11 @@
+import 'allotment/dist/style.css';
+
 import './instance-route-history.scss';
 
+import { Allotment } from 'allotment';
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Expression, GridDataAutoCompleteHandler } from 'react-filter-box';
-import SplitPane from 'react-split-pane';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
 import AuditLogTable from './Components/AuditLogTable';
@@ -288,62 +290,70 @@ export default [
                   processInstanceId={processInstanceId}
                 />
                 <Container>
-                  <SplitPane split="vertical" size={200}>
-                    <div className="ctn-column">
-                      <dl className="process-information">
-                        <dt>
-                          <Clippy value={instance.id}>Instance ID:</Clippy>
-                        </dt>
-                        <dd>{instance.id}</dd>
-                        <dt>
-                          <Clippy value={instance.businessKey || 'null'}>Business Key:</Clippy>
-                        </dt>
-                        <dd>{instance.businessKey || 'null'}</dd>
-                        <dt>
-                          <Clippy value={instance.processDefinitionVersion}>Definition Version:</Clippy>
-                        </dt>
-                        <dd>{instance.processDefinitionVersion}</dd>
-                        <dt>
-                          <Clippy value={instance.processdefinitionid}>Definition ID:</Clippy>
-                        </dt>
-                        <dd>{instance.processDefinitionId}</dd>
-                        <dt>
-                          <Clippy value={instance.processDefinitionKey}>Definition Key:</Clippy>
-                        </dt>
-                        <dd>{instance.processDefinitionKey}</dd>
-                        <dt>
-                          <Clippy value={instance.processDefinitionName}>Definition Name:</Clippy>
-                        </dt>
-                        <dd>{instance.processDefinitionName}</dd>
-                        <dt>
-                          <Clippy value={instance.tenantId || 'null'}>Tenant ID:</Clippy>
-                        </dt>
-                        <dd>{instance.tenantId || 'null'}</dd>
-                        <dt>
-                          <Clippy value={instance.superProcessInstanceId}>Super Process instance ID:</Clippy>
-                        </dt>
-                        <dd>
-                          {(instance.superProcessInstanceId && (
-                            <a href={`#/history/process-instance/${instance.superProcessInstanceId}`}>
-                              {instance.superProcessInstanceId}
-                            </a>
-                          )) ||
-                            'null'}
-                        </dd>
-                        <dt>
-                          <Clippy value={instance.state}>State</Clippy>
-                        </dt>
-                        <dd>{instance.state}</dd>
-                      </dl>
-                    </div>
-                    <SplitPane split="horizontal" size={300}>
-                      <BPMN
-                        activities={activities}
-                        diagramXML={diagram.bpmn20Xml}
-                        className="ctn-content"
-                        style={{ width: '100%' }}
-                        showRuntimeToggle={instance.state === 'ACTIVE'}
-                      />
+                  <Allotment vertical={true}>
+                    <Allotment.Pane preferredSize="66%">
+                      <Allotment vertical={false}>
+                        <Allotment.Pane preferredSize="33%">
+                          <div className="ctn-column">
+                            <dl className="process-information">
+                              <dt>
+                                <Clippy value={instance.id}>Instance ID:</Clippy>
+                              </dt>
+                              <dd>{instance.id}</dd>
+                              <dt>
+                                <Clippy value={instance.businessKey || 'null'}>Business Key:</Clippy>
+                              </dt>
+                              <dd>{instance.businessKey || 'null'}</dd>
+                              <dt>
+                                <Clippy value={instance.processDefinitionVersion}>Definition Version:</Clippy>
+                              </dt>
+                              <dd>{instance.processDefinitionVersion}</dd>
+                              <dt>
+                                <Clippy value={instance.processdefinitionid}>Definition ID:</Clippy>
+                              </dt>
+                              <dd>{instance.processDefinitionId}</dd>
+                              <dt>
+                                <Clippy value={instance.processDefinitionKey}>Definition Key:</Clippy>
+                              </dt>
+                              <dd>{instance.processDefinitionKey}</dd>
+                              <dt>
+                                <Clippy value={instance.processDefinitionName}>Definition Name:</Clippy>
+                              </dt>
+                              <dd>{instance.processDefinitionName}</dd>
+                              <dt>
+                                <Clippy value={instance.tenantId || 'null'}>Tenant ID:</Clippy>
+                              </dt>
+                              <dd>{instance.tenantId || 'null'}</dd>
+                              <dt>
+                                <Clippy value={instance.superProcessInstanceId}>Super Process instance ID:</Clippy>
+                              </dt>
+                              <dd>
+                                {(instance.superProcessInstanceId && (
+                                  <a href={`#/history/process-instance/${instance.superProcessInstanceId}`}>
+                                    {instance.superProcessInstanceId}
+                                  </a>
+                                )) ||
+                                  'null'}
+                              </dd>
+                              <dt>
+                                <Clippy value={instance.state}>State</Clippy>
+                              </dt>
+                              <dd>{instance.state}</dd>
+                            </dl>
+                          </div>
+                        </Allotment.Pane>
+                        <Allotment.Pane>
+                          <BPMN
+                            activities={activities}
+                            diagramXML={diagram.bpmn20Xml}
+                            className="ctn-content"
+                            style={{ width: '100%', height: '100%' }}
+                            showRuntimeToggle={instance.state === 'ACTIVE'}
+                          />
+                        </Allotment.Pane>
+                      </Allotment>
+                    </Allotment.Pane>
+                    <Allotment.Pane>
                       <Tabs className="ctn-row ctn-content-bottom ctn-tabbed" selectedTabClassName="active">
                         <TabList className="nav nav-tabs">
                           <Tab>
@@ -360,8 +370,8 @@ export default [
                           <VariablesTable instance={instance} activities={activityById} variables={variables} />
                         </TabPanel>
                       </Tabs>
-                    </SplitPane>
-                  </SplitPane>
+                    </Allotment.Pane>
+                  </Allotment>
                 </Container>
               </Page>
             </React.StrictMode>,

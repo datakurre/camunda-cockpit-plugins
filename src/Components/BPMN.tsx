@@ -1,6 +1,6 @@
 import ModelingModule from 'bpmn-js/lib/features/modeling';
 import BpmnViewer from 'bpmn-js/lib/NavigatedViewer';
-import camundaExtensionModule from 'camunda-bpmn-moddle/lib';
+import camundaPlatformBehaviors from 'camunda-bpmn-js-behaviors/lib/camunda-platform';
 import camundaModdle from 'camunda-bpmn-moddle/resources/camunda.json';
 import tooltips from 'diagram-js/lib/features/tooltips';
 import React, { useEffect, useRef } from 'react';
@@ -13,7 +13,7 @@ import { ToggleSequenceFlowButton } from './ToggleSequenceFlowButton';
 
 export const BPMNViewer = async (diagram: string) => {
   const model = new BpmnViewer({
-    additionalModules: [camundaExtensionModule, RobotModule, tooltips, ModelingModule],
+    additionalModules: [camundaPlatformBehaviors, RobotModule, tooltips, ModelingModule],
     moddleExtensions: {
       camunda: camundaModdle,
     },

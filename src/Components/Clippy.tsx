@@ -6,7 +6,7 @@ interface Props {
   value: any;
 }
 
-export const Clippy: React.FC<Props> = ({ value, children }) => {
+export const Clippy: React.FC<React.PropsWithChildren<Props>> = ({ value, children }) => {
   const [mouseOver, setMouseOver] = useState(false);
   const [copied, setCopied] = useState(false);
   return (

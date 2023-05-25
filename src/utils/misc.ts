@@ -1,4 +1,4 @@
-import * as queryString from 'query-string';
+import queryString from 'query-string';
 
 export const asctime = (duration: number): string => {
   const milliseconds = parseInt(`${(duration % 1000) / 100}`, 10),
