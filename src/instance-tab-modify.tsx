@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Field, Form } from 'react-final-form';
 
@@ -11,7 +11,14 @@ interface MoveToken {
   annotation: string;
 }
 
+// TODO:
+// * get available activitity Ids
+// * option list instead of input field
+// * check activity Ids have token
+// * only allow submit once
+
 const MoveTokenForm: React.FC<InstancePluginParams> = ({ api, processInstanceId }) => {
+  const [submitted, setSubmitted] = useState(false);
   const onSubmit = async ({ startActivityId, cancelActivityId, annotation }: MoveToken) => {
     if (startActivityId && cancelActivityId) {
       const payload: any = {
@@ -31,6 +38,7 @@ const MoveTokenForm: React.FC<InstancePluginParams> = ({ api, processInstanceId 
         ],
         annotation,
       };
+      setSubmitted(true);
       await post(api, `/process-instance/${processInstanceId}/modification`, {}, JSON.stringify(payload));
     }
   };
@@ -64,7 +72,9 @@ const MoveTokenForm: React.FC<InstancePluginParams> = ({ api, processInstanceId 
                   <Field className="form-control" name="annotation" component="input" />
                 </td>
                 <td>
-                  <button type="submit">Move</button>
+                  <button type="submit" disabled={submitted}>
+                    Move
+                  </button>
                 </td>
               </tr>
             </tbody>

@@ -21,6 +21,7 @@ import { ToggleHistoryViewButton } from './Components/ToggleHistoryViewButton';
 import VariablesTable from './Components/VariablesTable';
 import { DefinitionPluginParams, RoutePluginParams } from './types';
 import { get, post } from './utils/api';
+import { PluginSettings, loadSettings, saveSettings } from './utils/misc';
 
 class InstanceQueryAutoCompleteHandler extends GridDataAutoCompleteHandler {
   query = '';
@@ -245,6 +246,7 @@ export default [
       const hash = window?.location?.hash ?? '';
       const match = hash.match(/\/history\/process-instance\/([^\/]*)/);
       const processInstanceId = match ? match[1].split('?')[0] : null;
+      const settings = loadSettings();
       if (processInstanceId) {
         (async () => {
           const instance = await get(api, `/history/process-instance/${processInstanceId}`);
@@ -290,10 +292,26 @@ export default [
                   processInstanceId={processInstanceId}
                 />
                 <Container>
-                  <Allotment vertical={true}>
-                    <Allotment.Pane preferredSize="66%">
-                      <Allotment vertical={false}>
-                        <Allotment.Pane preferredSize="33%">
+                  <Allotment
+                    vertical={true}
+                    onChange={(numbers: number[]) => {
+                      saveSettings({
+                        ...loadSettings(),
+                        topPaneSize: numbers?.[0] || null,
+                      });
+                    }}
+                  >
+                    <Allotment.Pane preferredSize={settings.topPaneSize || '66%'}>
+                      <Allotment
+                        vertical={false}
+                        onChange={(numbers: number[]) => {
+                          saveSettings({
+                            ...loadSettings(),
+                            leftPaneSize: numbers?.[0] || null,
+                          });
+                        }}
+                      >
+                        <Allotment.Pane preferredSize={settings.leftPaneSize || '33%'}>
                           <div className="ctn-column">
                             <dl className="process-information">
                               <dt>
