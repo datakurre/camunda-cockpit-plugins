@@ -1,9 +1,11 @@
+import 'allotment/dist/style.css';
+
 import './instance-route-history.scss';
 
+import { Allotment } from 'allotment';
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Expression, GridDataAutoCompleteHandler } from 'react-filter-box';
-import SplitPane from 'react-split-pane';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
 import AuditLogTable from './Components/AuditLogTable';
@@ -19,6 +21,7 @@ import { ToggleHistoryViewButton } from './Components/ToggleHistoryViewButton';
 import VariablesTable from './Components/VariablesTable';
 import { DefinitionPluginParams, RoutePluginParams } from './types';
 import { get, post } from './utils/api';
+import { PluginSettings, loadSettings, saveSettings } from './utils/misc';
 
 class InstanceQueryAutoCompleteHandler extends GridDataAutoCompleteHandler {
   query = '';
@@ -190,11 +193,10 @@ export default [
     id: 'definitionHistoricInstancesPlugin',
     pluginPoint: 'cockpit.processDefinition.runtime.action',
     render: (node: Element, { api, processDefinitionId }: DefinitionPluginParams) => {
-      ReactDOM.render(
+      createRoot(node!).render(
         <React.StrictMode>
           <Plugin root={node} api={api} processDefinitionId={processDefinitionId} />
-        </React.StrictMode>,
-        node
+        </React.StrictMode>
       );
     },
   },
@@ -210,7 +212,7 @@ export default [
           top: 60px;
         `;
         viewer._container.appendChild(buttons);
-        ReactDOM.render(
+        createRoot(buttons!).render(
           <React.StrictMode>
             <ToggleHistoryViewButton
               onToggleHistoryView={(value: boolean) => {
@@ -225,8 +227,7 @@ export default [
               }}
               initial={false}
             />
-          </React.StrictMode>,
-          buttons
+          </React.StrictMode>
         );
       })();
     },
@@ -243,6 +244,7 @@ export default [
       const hash = window?.location?.hash ?? '';
       const match = hash.match(/\/history\/process-instance\/([^\/]*)/);
       const processInstanceId = match ? match[1].split('?')[0] : null;
+      const settings = loadSettings();
       if (processInstanceId) {
         (async () => {
           const instance = await get(api, `/history/process-instance/${processInstanceId}`);
@@ -279,7 +281,7 @@ export default [
             }
             return 0;
           });
-          ReactDOM.render(
+          createRoot(node!).render(
             <React.StrictMode>
               <Page version={version ? (version as string) : '7.15.0'} api={api}>
                 <BreadcrumbsPanel
@@ -288,62 +290,86 @@ export default [
                   processInstanceId={processInstanceId}
                 />
                 <Container>
-                  <SplitPane split="vertical" size={200}>
-                    <div className="ctn-column">
-                      <dl className="process-information">
-                        <dt>
-                          <Clippy value={instance.id}>Instance ID:</Clippy>
-                        </dt>
-                        <dd>{instance.id}</dd>
-                        <dt>
-                          <Clippy value={instance.businessKey || 'null'}>Business Key:</Clippy>
-                        </dt>
-                        <dd>{instance.businessKey || 'null'}</dd>
-                        <dt>
-                          <Clippy value={instance.processDefinitionVersion}>Definition Version:</Clippy>
-                        </dt>
-                        <dd>{instance.processDefinitionVersion}</dd>
-                        <dt>
-                          <Clippy value={instance.processdefinitionid}>Definition ID:</Clippy>
-                        </dt>
-                        <dd>{instance.processDefinitionId}</dd>
-                        <dt>
-                          <Clippy value={instance.processDefinitionKey}>Definition Key:</Clippy>
-                        </dt>
-                        <dd>{instance.processDefinitionKey}</dd>
-                        <dt>
-                          <Clippy value={instance.processDefinitionName}>Definition Name:</Clippy>
-                        </dt>
-                        <dd>{instance.processDefinitionName}</dd>
-                        <dt>
-                          <Clippy value={instance.tenantId || 'null'}>Tenant ID:</Clippy>
-                        </dt>
-                        <dd>{instance.tenantId || 'null'}</dd>
-                        <dt>
-                          <Clippy value={instance.superProcessInstanceId}>Super Process instance ID:</Clippy>
-                        </dt>
-                        <dd>
-                          {(instance.superProcessInstanceId && (
-                            <a href={`#/history/process-instance/${instance.superProcessInstanceId}`}>
-                              {instance.superProcessInstanceId}
-                            </a>
-                          )) ||
-                            'null'}
-                        </dd>
-                        <dt>
-                          <Clippy value={instance.state}>State</Clippy>
-                        </dt>
-                        <dd>{instance.state}</dd>
-                      </dl>
-                    </div>
-                    <SplitPane split="horizontal" size={300}>
-                      <BPMN
-                        activities={activities}
-                        diagramXML={diagram.bpmn20Xml}
-                        className="ctn-content"
-                        style={{ width: '100%' }}
-                        showRuntimeToggle={instance.state === 'ACTIVE'}
-                      />
+                  <Allotment
+                    vertical={true}
+                    onChange={(numbers: number[]) => {
+                      saveSettings({
+                        ...loadSettings(),
+                        topPaneSize: numbers?.[0] || null,
+                      });
+                    }}
+                  >
+                    <Allotment.Pane preferredSize={settings.topPaneSize || '66%'}>
+                      <Allotment
+                        vertical={false}
+                        onChange={(numbers: number[]) => {
+                          saveSettings({
+                            ...loadSettings(),
+                            leftPaneSize: numbers?.[0] || null,
+                          });
+                        }}
+                      >
+                        <Allotment.Pane preferredSize={settings.leftPaneSize || '33%'}>
+                          <div className="ctn-column">
+                            <dl className="process-information">
+                              <dt>
+                                <Clippy value={instance.id}>Instance ID:</Clippy>
+                              </dt>
+                              <dd>{instance.id}</dd>
+                              <dt>
+                                <Clippy value={instance.businessKey || 'null'}>Business Key:</Clippy>
+                              </dt>
+                              <dd>{instance.businessKey || 'null'}</dd>
+                              <dt>
+                                <Clippy value={instance.processDefinitionVersion}>Definition Version:</Clippy>
+                              </dt>
+                              <dd>{instance.processDefinitionVersion}</dd>
+                              <dt>
+                                <Clippy value={instance.processdefinitionid}>Definition ID:</Clippy>
+                              </dt>
+                              <dd>{instance.processDefinitionId}</dd>
+                              <dt>
+                                <Clippy value={instance.processDefinitionKey}>Definition Key:</Clippy>
+                              </dt>
+                              <dd>{instance.processDefinitionKey}</dd>
+                              <dt>
+                                <Clippy value={instance.processDefinitionName}>Definition Name:</Clippy>
+                              </dt>
+                              <dd>{instance.processDefinitionName}</dd>
+                              <dt>
+                                <Clippy value={instance.tenantId || 'null'}>Tenant ID:</Clippy>
+                              </dt>
+                              <dd>{instance.tenantId || 'null'}</dd>
+                              <dt>
+                                <Clippy value={instance.superProcessInstanceId}>Super Process instance ID:</Clippy>
+                              </dt>
+                              <dd>
+                                {(instance.superProcessInstanceId && (
+                                  <a href={`#/history/process-instance/${instance.superProcessInstanceId}`}>
+                                    {instance.superProcessInstanceId}
+                                  </a>
+                                )) ||
+                                  'null'}
+                              </dd>
+                              <dt>
+                                <Clippy value={instance.state}>State</Clippy>
+                              </dt>
+                              <dd>{instance.state}</dd>
+                            </dl>
+                          </div>
+                        </Allotment.Pane>
+                        <Allotment.Pane>
+                          <BPMN
+                            activities={activities}
+                            diagramXML={diagram.bpmn20Xml}
+                            className="ctn-content"
+                            style={{ width: '100%', height: '100%' }}
+                            showRuntimeToggle={instance.state === 'ACTIVE'}
+                          />
+                        </Allotment.Pane>
+                      </Allotment>
+                    </Allotment.Pane>
+                    <Allotment.Pane>
                       <Tabs className="ctn-row ctn-content-bottom ctn-tabbed" selectedTabClassName="active">
                         <TabList className="nav nav-tabs">
                           <Tab>
@@ -360,12 +386,11 @@ export default [
                           <VariablesTable instance={instance} activities={activityById} variables={variables} />
                         </TabPanel>
                       </Tabs>
-                    </SplitPane>
-                  </SplitPane>
+                    </Allotment.Pane>
+                  </Allotment>
                 </Container>
               </Page>
-            </React.StrictMode>,
-            node
+            </React.StrictMode>
           );
         })();
       }

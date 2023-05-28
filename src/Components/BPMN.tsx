@@ -1,10 +1,10 @@
 import ModelingModule from 'bpmn-js/lib/features/modeling';
 import BpmnViewer from 'bpmn-js/lib/NavigatedViewer';
-import camundaExtensionModule from 'camunda-bpmn-moddle/lib';
+import camundaPlatformBehaviors from 'camunda-bpmn-js-behaviors/lib/camunda-platform';
 import camundaModdle from 'camunda-bpmn-moddle/resources/camunda.json';
 import tooltips from 'diagram-js/lib/features/tooltips';
 import React, { useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import RobotModule from '../RobotModule';
 import { clearSequenceFlow, renderSequenceFlow } from '../utils/bpmn';
@@ -13,7 +13,7 @@ import { ToggleSequenceFlowButton } from './ToggleSequenceFlowButton';
 
 export const BPMNViewer = async (diagram: string) => {
   const model = new BpmnViewer({
-    additionalModules: [camundaExtensionModule, RobotModule, tooltips, ModelingModule],
+    additionalModules: [camundaPlatformBehaviors, RobotModule, tooltips, ModelingModule],
     moddleExtensions: {
       camunda: camundaModdle,
     },
@@ -90,7 +90,7 @@ const BPMN: React.FC<Props> = ({ activities, className, diagramXML, style, showR
         `;
         viewer._container.appendChild(buttons);
         let sequenceFlow: any[] = [];
-        ReactDOM.render(
+        createRoot(buttons!).render(
           <React.StrictMode>
             <ToggleSequenceFlowButton
               onToggleSequenceFlow={(value: boolean) => {
@@ -113,8 +113,7 @@ const BPMN: React.FC<Props> = ({ activities, className, diagramXML, style, showR
                 initial={true}
               />
             ) : null}
-          </React.StrictMode>,
-          buttons
+          </React.StrictMode>
         );
       }
     })();

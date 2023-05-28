@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import AuditLogTable from './Components/AuditLogTable';
 import { TaskListPluginParams } from './types';
@@ -33,11 +33,10 @@ export default [
           }
           return 0;
         });
-        ReactDOM.render(
+        createRoot(node!).render(
           <React.StrictMode>
             <AuditLogTable activities={activities} decisions={decisionByActivity} />
-          </React.StrictMode>,
-          node
+          </React.StrictMode>
         );
       })();
     },

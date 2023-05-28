@@ -8,7 +8,7 @@ interface Props {
   api: API;
 }
 
-const Page: React.FC<Props> = ({ version, api, children }) => {
+const Page: React.FC<React.PropsWithChildren<Props>> = ({ version, api, children }) => {
   return (
     <APIContext.Provider value={api}>
       <div

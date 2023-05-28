@@ -1,4 +1,4 @@
-import * as queryString from 'query-string';
+import queryString from 'query-string';
 
 export const asctime = (duration: number): string => {
   const milliseconds = parseInt(`${(duration % 1000) / 100}`, 10),
@@ -23,8 +23,11 @@ export const filter: <T>(iterable: T[], condition: (x: T) => boolean) => T[] = (
   return result;
 };
 
-interface PluginSettings {
+export interface PluginSettings {
+  showHistoricBadges: boolean;
   showSequenceFlow: boolean;
+  leftPaneSize: number | null;
+  topPaneSize: number | null;
 }
 
 const SETTINGS_KEY = 'minimal-history-plugin';
@@ -35,11 +38,17 @@ export const loadSettings = (): PluginSettings => {
   try {
     const raw: any = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
     return {
+      showHistoricBadges: !!raw?.showHistoricBadges || !!parsed.showHistoricBadges,
       showSequenceFlow: !!raw?.showSequenceFlow || !!parsed.showSequenceFlow,
+      leftPaneSize: !!raw?.leftPaneSize ? raw.leftPaneSize : null,
+      topPaneSize: !!raw?.topPaneSize ? raw.topPaneSize : null,
     };
   } catch (e) {
     return {
+      showHistoricBadges: false,
       showSequenceFlow: false,
+      leftPaneSize: null,
+      topPaneSize: null,
     };
   }
 };
