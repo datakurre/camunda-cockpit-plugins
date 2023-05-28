@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import AuditLogTable from './Components/AuditLogTable';
 import { ToggleSequenceFlowButton } from './Components/ToggleSequenceFlowButton';
@@ -55,7 +55,7 @@ export default [
         `;
         viewer._container.appendChild(toggleSequenceFlowButton);
         let sequenceFlow: any[] = [];
-        ReactDOM.render(
+        createRoot(toggleSequenceFlowButton!).render(
           <React.StrictMode>
             <ToggleSequenceFlowButton
               onToggleSequenceFlow={(value: boolean) => {
@@ -66,8 +66,7 @@ export default [
                 }
               }}
             />
-          </React.StrictMode>,
-          toggleSequenceFlowButton
+          </React.StrictMode>
         );
       })();
     },
@@ -98,11 +97,10 @@ export default [
           }
           return 0;
         });
-        ReactDOM.render(
+        createRoot(node!).render(
           <React.StrictMode>
             <AuditLogTable activities={activities} decisions={decisionByActivity} />
-          </React.StrictMode>,
-          node
+          </React.StrictMode>
         );
       })();
     },

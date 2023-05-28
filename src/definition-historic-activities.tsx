@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Expression, GridDataAutoCompleteHandler } from 'react-filter-box';
 
 import FilterBox from './Components/FilterBox';
@@ -138,15 +138,14 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinition
           top: 60px;
         `;
       viewer._container.appendChild(toggleHistoryStatisticsButton);
-      ReactDOM.render(
+      createRoot(toggleHistoryStatisticsButton!).render(
         <React.StrictMode>
           <ToggleHistoryStatisticsButton
             onToggleHistoryStatistics={(value: boolean) => {
               setShowTokens(value);
             }}
           />
-        </React.StrictMode>,
-        toggleHistoryStatisticsButton
+        </React.StrictMode>
       );
     }
   }, [viewer]);
@@ -240,11 +239,10 @@ export default [
     id: 'definitionHistoricActivitiesPlugin',
     pluginPoint: 'cockpit.processDefinition.runtime.action',
     render: (node: Element, { api, processDefinitionId }: DefinitionPluginParams) => {
-      ReactDOM.render(
+      createRoot(node!).render(
         <React.StrictMode>
           <Plugin root={node} api={api} processDefinitionId={processDefinitionId} />
-        </React.StrictMode>,
-        node
+        </React.StrictMode>
       );
     },
   },

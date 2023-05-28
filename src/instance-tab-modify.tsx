@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Field, Form } from 'react-final-form';
 
 import { InstancePluginParams } from './types';
@@ -95,11 +95,10 @@ export default [
     },
     render: (node: Element, { api, processInstanceId }: InstancePluginParams) => {
       (async () => {
-        ReactDOM.render(
+        createRoot(node!).render(
           <React.StrictMode>
             <MoveTokenForm api={api} processInstanceId={processInstanceId} />
-          </React.StrictMode>,
-          node
+          </React.StrictMode>
         );
       })();
     },

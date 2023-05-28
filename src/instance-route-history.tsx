@@ -4,7 +4,7 @@ import './instance-route-history.scss';
 
 import { Allotment } from 'allotment';
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Expression, GridDataAutoCompleteHandler } from 'react-filter-box';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 
@@ -193,11 +193,10 @@ export default [
     id: 'definitionHistoricInstancesPlugin',
     pluginPoint: 'cockpit.processDefinition.runtime.action',
     render: (node: Element, { api, processDefinitionId }: DefinitionPluginParams) => {
-      ReactDOM.render(
+      createRoot(node!).render(
         <React.StrictMode>
           <Plugin root={node} api={api} processDefinitionId={processDefinitionId} />
-        </React.StrictMode>,
-        node
+        </React.StrictMode>
       );
     },
   },
@@ -213,7 +212,7 @@ export default [
           top: 60px;
         `;
         viewer._container.appendChild(buttons);
-        ReactDOM.render(
+        createRoot(buttons!).render(
           <React.StrictMode>
             <ToggleHistoryViewButton
               onToggleHistoryView={(value: boolean) => {
@@ -228,8 +227,7 @@ export default [
               }}
               initial={false}
             />
-          </React.StrictMode>,
-          buttons
+          </React.StrictMode>
         );
       })();
     },
@@ -283,7 +281,7 @@ export default [
             }
             return 0;
           });
-          ReactDOM.render(
+          createRoot(node!).render(
             <React.StrictMode>
               <Page version={version ? (version as string) : '7.15.0'} api={api}>
                 <BreadcrumbsPanel
@@ -392,8 +390,7 @@ export default [
                   </Allotment>
                 </Container>
               </Page>
-            </React.StrictMode>,
-            node
+            </React.StrictMode>
           );
         })();
       }
