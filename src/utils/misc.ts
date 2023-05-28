@@ -24,6 +24,7 @@ export const filter: <T>(iterable: T[], condition: (x: T) => boolean) => T[] = (
 };
 
 export interface PluginSettings {
+  showHistoricBadges: boolean;
   showSequenceFlow: boolean;
   leftPaneSize: number | null;
   topPaneSize: number | null;
@@ -37,12 +38,14 @@ export const loadSettings = (): PluginSettings => {
   try {
     const raw: any = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
     return {
+      showHistoricBadges: !!raw?.showHistoricBadges || !!parsed.showHistoricBadges,
       showSequenceFlow: !!raw?.showSequenceFlow || !!parsed.showSequenceFlow,
       leftPaneSize: !!raw?.leftPaneSize ? raw.leftPaneSize : null,
       topPaneSize: !!raw?.topPaneSize ? raw.topPaneSize : null,
     };
   } catch (e) {
     return {
+      showHistoricBadges: false,
       showSequenceFlow: false,
       leftPaneSize: null,
       topPaneSize: null,
