@@ -494,7 +494,14 @@ function checkDCE() {
 }
 
 var reactDomExports = reactDom.exports;
-var ReactDOM = /*@__PURE__*/getDefaultExportFromCjs(reactDomExports);
+
+var createRoot;
+
+var m = reactDomExports;
+{
+  createRoot = m.createRoot;
+  m.hydrateRoot;
+}
 
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function (target) {
@@ -2727,8 +2734,14 @@ var post = function (api, path, params, payload) { return __awaiter(void 0, void
     });
 }); };
 
+// TODO:
+// * get available activitity Ids
+// * option list instead of input field
+// * check activity Ids have token
+// * only allow submit once
 var MoveTokenForm = function (_a) {
     var api = _a.api, processInstanceId = _a.processInstanceId;
+    var _b = reactExports.useState(false), submitted = _b[0], setSubmitted = _b[1];
     var onSubmit = function (_a) {
         var startActivityId = _a.startActivityId, cancelActivityId = _a.cancelActivityId, annotation = _a.annotation;
         return __awaiter(void 0, void 0, void 0, function () {
@@ -2754,6 +2767,7 @@ var MoveTokenForm = function (_a) {
                             ],
                             annotation: annotation,
                         };
+                        setSubmitted(true);
                         return [4 /*yield*/, post(api, "/process-instance/".concat(processInstanceId, "/modification"), {}, JSON.stringify(payload))];
                     case 1:
                         _b.sent();
@@ -2784,7 +2798,7 @@ var MoveTokenForm = function (_a) {
                             React.createElement("td", null,
                                 React.createElement(Field, { className: "form-control", name: "annotation", component: "input" })),
                             React.createElement("td", null,
-                                React.createElement("button", { type: "submit" }, "Move"))))),
+                                React.createElement("button", { type: "submit", disabled: submitted }, "Move"))))),
                 React.createElement("p", null, "Warning! Use with extreme care. This form could be used to terminate process inadvertently.")));
         } }));
 };
@@ -2799,8 +2813,8 @@ var instanceTabModify = [
             var api = _a.api, processInstanceId = _a.processInstanceId;
             (function () { return __awaiter(void 0, void 0, void 0, function () {
                 return __generator(this, function (_a) {
-                    ReactDOM.render(React.createElement(React.StrictMode, null,
-                        React.createElement(MoveTokenForm, { api: api, processInstanceId: processInstanceId })), node);
+                    createRoot(node).render(React.createElement(React.StrictMode, null,
+                        React.createElement(MoveTokenForm, { api: api, processInstanceId: processInstanceId })));
                     return [2 /*return*/];
                 });
             }); })();

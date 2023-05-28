@@ -517,7 +517,14 @@ function checkDCE() {
 }
 
 var reactDomExports = reactDom.exports;
-var ReactDOM = /*@__PURE__*/getDefaultExportFromCjs(reactDomExports);
+
+var createRoot;
+
+var m = reactDomExports;
+{
+  createRoot = m.createRoot;
+  m.hydrateRoot;
+}
 
 function commonjsRequire(path) {
 	throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
@@ -6993,12 +7000,18 @@ var loadSettings = function () {
     try {
         var raw = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
         return {
+            showHistoricBadges: !!(raw === null || raw === void 0 ? void 0 : raw.showHistoricBadges) || !!parsed.showHistoricBadges,
             showSequenceFlow: !!(raw === null || raw === void 0 ? void 0 : raw.showSequenceFlow) || !!parsed.showSequenceFlow,
+            leftPaneSize: !!(raw === null || raw === void 0 ? void 0 : raw.leftPaneSize) ? raw.leftPaneSize : null,
+            topPaneSize: !!(raw === null || raw === void 0 ? void 0 : raw.topPaneSize) ? raw.topPaneSize : null,
         };
     }
     catch (e) {
         return {
+            showHistoricBadges: false,
             showSequenceFlow: false,
+            leftPaneSize: null,
+            topPaneSize: null,
         };
     }
 };
@@ -8708,7 +8721,7 @@ var instanceHistoricActivities = [
                             toggleSequenceFlowButton.style.cssText = "\n          position: absolute;\n          right: 15px;\n          top: 15px;\n        ";
                             viewer._container.appendChild(toggleSequenceFlowButton);
                             sequenceFlow = [];
-                            ReactDOM.render(React.createElement(React.StrictMode, null,
+                            createRoot(toggleSequenceFlowButton).render(React.createElement(React.StrictMode, null,
                                 React.createElement(ToggleSequenceFlowButton, { onToggleSequenceFlow: function (value) {
                                         if (value) {
                                             sequenceFlow = renderSequenceFlow(viewer, activities !== null && activities !== void 0 ? activities : []);
@@ -8716,7 +8729,7 @@ var instanceHistoricActivities = [
                                         else {
                                             clearSequenceFlow(sequenceFlow);
                                         }
-                                    } })), toggleSequenceFlowButton);
+                                    } })));
                             return [2 /*return*/];
                     }
                 });
@@ -8753,8 +8766,8 @@ var instanceHistoricActivities = [
                                 }
                                 return 0;
                             });
-                            ReactDOM.render(React.createElement(React.StrictMode, null,
-                                React.createElement(AuditLogTable, { activities: activities, decisions: decisionByActivity })), node);
+                            createRoot(node).render(React.createElement(React.StrictMode, null,
+                                React.createElement(AuditLogTable, { activities: activities, decisions: decisionByActivity })));
                             return [2 /*return*/];
                     }
                 });

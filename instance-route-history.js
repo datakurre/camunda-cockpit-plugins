@@ -216,7 +216,7 @@ h$1 = {
 }();
 var l$1 = c$1,
   f$1 = /^\s+|\s+$/g,
-  m$1 = /^[-+]0x[0-9a-f]+$/i,
+  m$2 = /^[-+]0x[0-9a-f]+$/i,
   d$1 = /^0b[01]+$/i,
   p$1 = /^0o[0-7]+$/i,
   v$2 = parseInt,
@@ -239,7 +239,7 @@ function b$1(e) {
   if ("string" != typeof e) return 0 === e ? e : +e;
   e = e.replace(f$1, "");
   var i = d$1.test(e);
-  return i || p$1.test(e) ? v$2(e.slice(2), i ? 2 : 8) : m$1.test(e) ? NaN : +e;
+  return i || p$1.test(e) ? v$2(e.slice(2), i ? 2 : 8) : m$2.test(e) ? NaN : +e;
 }
 var z$1 = function z(e, t, i) {
     return void 0 === i && (i = t, t = void 0), void 0 !== i && (i = (i = b$1(i)) == i ? i : 0), void 0 !== t && (t = (t = b$1(t)) == t ? t : 0), function (e, t, i) {
@@ -2209,6 +2209,14 @@ function checkDCE() {
 
 var reactDomExports = reactDom$1.exports;
 var ReactDOM = /*@__PURE__*/getDefaultExportFromCjs(reactDomExports);
+
+var createRoot$2;
+
+var m$1 = reactDomExports;
+{
+  createRoot$2 = m$1.createRoot;
+  m$1.hydrateRoot;
+}
 
 var reactFilterBox = {exports: {}};
 
@@ -9338,12 +9346,18 @@ var loadSettings = function () {
     try {
         var raw = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
         return {
+            showHistoricBadges: !!(raw === null || raw === void 0 ? void 0 : raw.showHistoricBadges) || !!parsed.showHistoricBadges,
             showSequenceFlow: !!(raw === null || raw === void 0 ? void 0 : raw.showSequenceFlow) || !!parsed.showSequenceFlow,
+            leftPaneSize: !!(raw === null || raw === void 0 ? void 0 : raw.leftPaneSize) ? raw.leftPaneSize : null,
+            topPaneSize: !!(raw === null || raw === void 0 ? void 0 : raw.topPaneSize) ? raw.topPaneSize : null,
         };
     }
     catch (e) {
         return {
+            showHistoricBadges: false,
             showSequenceFlow: false,
+            leftPaneSize: null,
+            topPaneSize: null,
         };
     }
 };
@@ -59706,7 +59720,7 @@ var BPMN = function (_a) {
                             buttons.style.cssText = "\n          position: absolute;\n          right: 15px;\n          top: 15px;\n        ";
                             viewer._container.appendChild(buttons);
                             sequenceFlow_1 = [];
-                            ReactDOM.render(React.createElement(React.StrictMode, null,
+                            createRoot$2(buttons).render(React.createElement(React.StrictMode, null,
                                 React.createElement(ToggleSequenceFlowButton, { onToggleSequenceFlow: function (value) {
                                         if (value) {
                                             sequenceFlow_1 = renderSequenceFlow(viewer, activities !== null && activities !== void 0 ? activities : []);
@@ -59721,7 +59735,7 @@ var BPMN = function (_a) {
                                                 window.location.href.split('#')[0] +
                                                     window.location.hash.split('?')[0].replace(/^#\/history\/process-instance/, '#/process-instance');
                                         }
-                                    }, initial: true })) : null), buttons);
+                                    }, initial: true })) : null));
                         }
                         return [2 /*return*/];
                 }
@@ -71594,8 +71608,8 @@ var instanceRouteHistory = [
         pluginPoint: 'cockpit.processDefinition.runtime.action',
         render: function (node, _a) {
             var api = _a.api, processDefinitionId = _a.processDefinitionId;
-            ReactDOM.render(React.createElement(React.StrictMode, null,
-                React.createElement(Plugin, { root: node, api: api, processDefinitionId: processDefinitionId })), node);
+            createRoot$2(node).render(React.createElement(React.StrictMode, null,
+                React.createElement(Plugin, { root: node, api: api, processDefinitionId: processDefinitionId })));
         },
     },
     {
@@ -71608,7 +71622,7 @@ var instanceRouteHistory = [
                     buttons = document.createElement('div');
                     buttons.style.cssText = "\n          position: absolute;\n          right: 15px;\n          top: 60px;\n        ";
                     viewer._container.appendChild(buttons);
-                    ReactDOM.render(React.createElement(React.StrictMode, null,
+                    createRoot$2(buttons).render(React.createElement(React.StrictMode, null,
                         React.createElement(ToggleHistoryViewButton, { onToggleHistoryView: function (value) {
                                 if (value) {
                                     window.location.href =
@@ -71618,7 +71632,7 @@ var instanceRouteHistory = [
                                                 .replace(/^#\/process-instance/, '#/history/process-instance')
                                                 .replace(/\/runtime/, '/');
                                 }
-                            }, initial: false })), buttons);
+                            }, initial: false })));
                     return [2 /*return*/];
                 });
             }); })();
@@ -71637,6 +71651,7 @@ var instanceRouteHistory = [
             var hash = (_c = (_b = window === null || window === void 0 ? void 0 : window.location) === null || _b === void 0 ? void 0 : _b.hash) !== null && _c !== void 0 ? _c : '';
             var match = hash.match(/\/history\/process-instance\/([^\/]*)/);
             var processInstanceId = match ? match[1].split('?')[0] : null;
+            var settings = loadSettings();
             if (processInstanceId) {
                 (function () { return __awaiter(void 0, void 0, void 0, function () {
                     var instance, _a, version, diagram, activities, variables, decisions, decisionByActivity, activityById;
@@ -71678,14 +71693,18 @@ var instanceRouteHistory = [
                                     }
                                     return 0;
                                 });
-                                ReactDOM.render(React.createElement(React.StrictMode, null,
+                                createRoot$2(node).render(React.createElement(React.StrictMode, null,
                                     React.createElement(Page, { version: version ? version : '7.15.0', api: api },
                                         React.createElement(BreadcrumbsPanel, { processDefinitionId: instance.processDefinitionId, processDefinitionName: instance.processDefinitionName, processInstanceId: processInstanceId }),
                                         React.createElement(Container, null,
-                                            React.createElement(Ae$2, { vertical: true },
-                                                React.createElement(Ae$2.Pane, { preferredSize: "66%" },
-                                                    React.createElement(Ae$2, { vertical: false },
-                                                        React.createElement(Ae$2.Pane, { preferredSize: "33%" },
+                                            React.createElement(Ae$2, { vertical: true, onChange: function (numbers) {
+                                                    saveSettings(__assign$1(__assign$1({}, loadSettings()), { topPaneSize: (numbers === null || numbers === void 0 ? void 0 : numbers[0]) || null }));
+                                                } },
+                                                React.createElement(Ae$2.Pane, { preferredSize: settings.topPaneSize || '66%' },
+                                                    React.createElement(Ae$2, { vertical: false, onChange: function (numbers) {
+                                                            saveSettings(__assign$1(__assign$1({}, loadSettings()), { leftPaneSize: (numbers === null || numbers === void 0 ? void 0 : numbers[0]) || null }));
+                                                        } },
+                                                        React.createElement(Ae$2.Pane, { preferredSize: settings.leftPaneSize || '33%' },
                                                             React.createElement("div", { className: "ctn-column" },
                                                                 React.createElement("dl", { className: "process-information" },
                                                                     React.createElement("dt", null,
@@ -71728,7 +71747,7 @@ var instanceRouteHistory = [
                                                         React.createElement(TabPanel, { className: "ctn-tabbed-content ctn-scroll" },
                                                             React.createElement(AuditLogTable, { activities: activities, decisions: decisionByActivity })),
                                                         React.createElement(TabPanel, { className: "ctn-tabbed-content ctn-scroll" },
-                                                            React.createElement(VariablesTable, { instance: instance, activities: activityById, variables: variables })))))))), node);
+                                                            React.createElement(VariablesTable, { instance: instance, activities: activityById, variables: variables })))))))));
                                 return [2 /*return*/];
                         }
                     });

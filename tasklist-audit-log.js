@@ -507,7 +507,14 @@ function checkDCE() {
 }
 
 var reactDomExports = reactDom.exports;
-var ReactDOM = /*@__PURE__*/getDefaultExportFromCjs(reactDomExports);
+
+var createRoot;
+
+var m = reactDomExports;
+{
+  createRoot = m.createRoot;
+  m.hydrateRoot;
+}
 
 function commonjsRequire(path) {
 	throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
@@ -6811,8 +6818,8 @@ var tasklistAuditLog = [
                                 }
                                 return 0;
                             });
-                            ReactDOM.render(React.createElement(React.StrictMode, null,
-                                React.createElement(AuditLogTable, { activities: activities, decisions: decisionByActivity })), node);
+                            createRoot(node).render(React.createElement(React.StrictMode, null,
+                                React.createElement(AuditLogTable, { activities: activities, decisions: decisionByActivity })));
                             return [2 /*return*/];
                     }
                 });
