@@ -59421,7 +59421,7 @@ var getConnections = function (activities, elementRegistry) {
     var connectionDenyList = new Set();
     for (var _i = 0, activities_1 = activities; _i < activities_1.length; _i++) {
         var activity = activities_1[_i];
-        if (activity.endTime && !activity.canceled) {
+        if (activity.endTime && !(activity.canceled && !activity.activityType.endsWith('Gateway'))) {
             validActivity.set(activity.activityId, true);
         }
         if (endTimesById.has(activity.activityId)) {
