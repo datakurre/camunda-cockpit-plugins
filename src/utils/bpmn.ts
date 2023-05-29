@@ -17,7 +17,7 @@ const getConnections = (activities: any[], elementRegistry: any): Activity[] => 
   const endTimesById: Map<string, any[]> = new Map();
   const connectionDenyList: Set<string> = new Set();
   for (const activity of activities) {
-    if (activity.endTime && !activity.canceled) {
+    if (activity.endTime && !(activity.canceled && !activity.activityType.endsWith('Gateway'))) {
       validActivity.set(activity.activityId, true);
     }
     if (endTimesById.has(activity.activityId)) {
