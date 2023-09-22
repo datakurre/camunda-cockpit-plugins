@@ -6,7 +6,7 @@ Minimal "history plugins" for Camunda Cockpit
 Breaking changes
 ----------------
 
-* [2021-08-13](https://github.com/datakurre/camunda-cockpit-plugins/tree/66888bcb36f351880835b007b5e75dc44c732fb9): Change definition view plugins (historic acticities and instances) to only show data for the current definition version
+* [2021-08-13](https://github.com/datakurre/camunda-cockpit-plugins/tree/66888bcb36f351880835b007b5e75dc44c732fb9): Change definition view plugins (historic activities and instances) to only show data for the current definition version
 
 * [the last version before this changelog](https://github.com/datakurre/camunda-cockpit-plugins/tree/608f7f1d2c240c810dac466890decb91f4da5688)
 
