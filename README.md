@@ -57,7 +57,10 @@ src/main/resources/
 │   │                       ├── definition-historic-activities.js
 │   │                       ├── instance-historic-activities.js
 │   │                       ├── instance-route-history.js
-│   │                       └── robot-module.js
+│   │                       ├── instance-tab-modify.js
+│   │                       ├── robot-module.js
+│   │                       ├── tasklist-audit-log.js
+│   │                       └── tasklist-config.js
 ```
 After this you can start the project and the plugin should be loaded. Usually, you customize config.js per project and define there which plugins are included and where the browser should find them. You may use a browser network inspector to check that Cockpit loads your version of config.js and also the plugin JavaScript files get loaded.
 
