@@ -22,6 +22,7 @@ import VariablesTable from './Components/VariablesTable';
 import { DefinitionPluginParams, RoutePluginParams } from './types';
 import { get, post } from './utils/api';
 import { PluginSettings, loadSettings, saveSettings } from './utils/misc';
+import Pagination from "./Components/Pagination";
 
 class InstanceQueryAutoCompleteHandler extends GridDataAutoCompleteHandler {
   query = '';
@@ -47,9 +48,6 @@ class InstanceQueryAutoCompleteHandler extends GridDataAutoCompleteHandler {
     if (parsedCategory === 'finished') {
       return ['before'];
     }
-    if (parsedCategory === 'maxResults') {
-      return ['is'];
-    }
     if (parsedCategory === 'key') {
       return ['==', 'like'];
     }
@@ -74,10 +72,6 @@ const InstanceQueryOptions = [
     type: 'date',
   },
   {
-    columnField: 'maxResults',
-    type: 'text',
-  },
-  {
     columnField: 'key',
     type: 'string',
   },
@@ -94,25 +88,29 @@ const hooks: Record<string, any> = {
 const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinitionId }) => {
   const [autoCompleteHandler] = useState(new InstanceQueryAutoCompleteHandler([], InstanceQueryOptions));
   const [expressions, setExpressions] = useState([] as Expression[]);
-  const [query, setQuery] = useState({} as Record<string, string | null>);
+  const [query, setQuery] = useState({} as Record<string, string | number | null>);
   const [historyTabNode, setHistoryTabNode] = useState(initialState.historyTabNode);
 
   hooks.setHistoryTabNode = setHistoryTabNode;
 
   const [instances, setInstances]: any = useState([] as any[]);
-
+  const [instancesCount, setInstancesCount] = useState(0);
+  const [currentPage, setCurrentPage]  = useState(1);
+  const [perPage, setPerPage] = useState(50);
+  const [firstResult, setFirstResult] = useState(0);
   // FETCH
 
   useEffect(() => {
     (async () => {
-      const maxResults: number = !isNaN(parseInt(`${query.maxResults}`, 10))
-        ? parseInt(`${query.maxResults}`, 10)
-        : 1000;
+      setInstancesCount(
+        (await get(api, '/history/process-instance/count', { processDefinitionId })).count
+      )
+
       setInstances(
         await post(
           api,
           '/history/process-instance',
-          { maxResults: `${maxResults}` },
+          { maxResults: `${perPage}`, firstResult: `${firstResult}` },
           JSON.stringify({
             sortBy: 'endTime',
             sortOrder: 'desc',
@@ -122,7 +120,7 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinition
         )
       );
     })();
-  }, [query]);
+  }, [query, firstResult]);
 
   useEffect(() => {
     const query: any = {};
@@ -132,8 +130,6 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinition
         query['startedAfter'] = `${value}T00:00:00.000+0000`;
       } else if (category === 'finished' && operator === 'before' && !isNaN(new Date(`${value}`).getTime())) {
         query['finishedBefore'] = `${value}T00:00:00.000+0000`;
-      } else if (category === 'maxResults' && operator == 'is' && !isNaN(parseInt(`${value}`, 10))) {
-        query['maxResults'] = parseInt(`${value}`, 10);
       } else if (category === 'key' && operator === '==') {
         query.processInstanceBusinessKey = value;
       } else if (category === 'key' && operator === 'like') {
@@ -167,6 +163,11 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinition
     historyTabNode.appendChild(root);
   }
 
+  const pageClicked = (firstResult: number, page: number) => {
+    setCurrentPage(page);
+    setFirstResult(firstResult)
+  };
+
   return historyTabNode ? (
     <Portal node={root}>
       <FilterBox
@@ -176,6 +177,7 @@ const Plugin: React.FC<DefinitionPluginParams> = ({ root, api, processDefinition
         defaultQuery={(): string => ''}
       />
       {instances.length ? <HistoryTable instances={instances} /> : null}
+      <Pagination currentPage={currentPage} perPage={perPage} total={instancesCount} onPage={pageClicked}></Pagination>
     </Portal>
   ) : null;
 };
@@ -345,10 +347,10 @@ export default [
                               </dt>
                               <dd>
                                 {(instance.superProcessInstanceId && (
-                                  <a href={`#/history/process-instance/${instance.superProcessInstanceId}`}>
-                                    {instance.superProcessInstanceId}
-                                  </a>
-                                )) ||
+                                    <a href={`#/history/process-instance/${instance.superProcessInstanceId}`}>
+                                      {instance.superProcessInstanceId}
+                                    </a>
+                                  )) ||
                                   'null'}
                               </dd>
                               <dt>
