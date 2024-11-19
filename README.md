@@ -14,14 +14,14 @@ Breaking changes
 Try it
 ------
 
-With Camunda Platform 7.14.0:
+With Camunda Platform 7.14.0 and 7.20.0 or later:
 
 ```bash
 $ git clone https://github.com/datakurre/camunda-cockpit-plugins.git
 $ docker run --rm -p 8080:8080 -v $(pwd)/camunda-cockpit-plugins:/camunda/webapps/camunda/app/cockpit/scripts/:ro camunda/camunda-bpm-platform:7.14.0
 ```
 
-With Camunda Platform 7.15.0 (works also with 7.16.0 or 7.17.0):
+With Camunda Platform 7.15.0 to 7.19.0:
 
 ```bash
 $ git clone https://github.com/datakurre/camunda-cockpit-plugins.git
