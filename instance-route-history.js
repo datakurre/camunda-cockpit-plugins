@@ -71450,6 +71450,50 @@ var VariablesTable = function (_a) {
         }))));
 };
 
+var PageLink = function (_a) {
+    var label = _a.label, page = _a.page, isDisabled = _a.isDisabled, isActive = _a.isActive, onPage = _a.onPage;
+    var pageClicked = function (e, page) {
+        e.preventDefault();
+        if (!isDisabled) {
+            onPage(page);
+        }
+    };
+    return (React.createElement("li", { role: "menuitem", className: "pagination-page ".concat(isActive ? "active" : "", " ").concat(isDisabled ? "disabled" : ""), key: label },
+        React.createElement("a", { href: "#", className: isDisabled ? "disabled" : "", onClick: function (e) { return pageClicked(e, page); } }, label)));
+};
+
+var Pagination = function (_a) {
+    var currentPage = _a.currentPage, total = _a.total, perPage = _a.perPage, onPage = _a.onPage, _b = _a.showPages, showPages = _b === void 0 ? 7 : _b;
+    var range = function (start, end) {
+        var length = end - start + 1;
+        return Array.from({ length: length }, function (_, idx) { return idx + start; });
+    };
+    var pageCount = React.useMemo(function () {
+        return Math.ceil(total / perPage);
+    }, [total, perPage]);
+    var paginationRange = React.useMemo(function () {
+        if (pageCount < showPages) {
+            return range(1, pageCount);
+        }
+        if (currentPage > pageCount - Math.floor(showPages / 2)) {
+            return range((pageCount - showPages) + 1, pageCount);
+        }
+        if (currentPage > Math.floor(showPages / 2)) {
+            return range(currentPage - Math.floor(showPages / 2), currentPage + Math.floor(showPages / 2));
+        }
+        return range(1, showPages);
+    }, [total, perPage, showPages, currentPage, pageCount]);
+    var pageClicked = function (page) {
+        onPage((page - 1) * perPage, page);
+    };
+    return (React.createElement("nav", null, pageCount > 1 && React.createElement("ul", { className: "pagination-sm pagination", role: "menu" },
+        React.createElement(PageLink, { label: "First", page: 1, isActive: false, isDisabled: currentPage === 1, onPage: pageClicked }),
+        React.createElement(PageLink, { label: "Previous", page: currentPage - 1, isActive: false, isDisabled: currentPage === 1, onPage: pageClicked }),
+        paginationRange.map(function (page) { return (React.createElement(PageLink, { label: "".concat(page), page: page, isActive: currentPage === page, isDisabled: false, onPage: pageClicked })); }),
+        React.createElement(PageLink, { label: "Next", page: currentPage + 1, isActive: false, isDisabled: currentPage === pageCount, onPage: pageClicked }),
+        React.createElement(PageLink, { label: "Last", page: pageCount, isActive: false, isDisabled: currentPage === pageCount, onPage: pageClicked }))));
+};
+
 var InstanceQueryAutoCompleteHandler = /** @class */ (function (_super) {
     __extends(InstanceQueryAutoCompleteHandler, _super);
     function InstanceQueryAutoCompleteHandler() {
@@ -71475,9 +71519,6 @@ var InstanceQueryAutoCompleteHandler = /** @class */ (function (_super) {
         if (parsedCategory === 'finished') {
             return ['before'];
         }
-        if (parsedCategory === 'maxResults') {
-            return ['is'];
-        }
         if (parsedCategory === 'key') {
             return ['==', 'like'];
         }
@@ -71501,10 +71542,6 @@ var InstanceQueryOptions = [
         type: 'date',
     },
     {
-        columnField: 'maxResults',
-        type: 'text',
-    },
-    {
         columnField: 'key',
         type: 'string',
     },
@@ -71523,25 +71560,30 @@ var Plugin = function (_a) {
     var _d = reactExports.useState(initialState.historyTabNode), historyTabNode = _d[0], setHistoryTabNode = _d[1];
     hooks.setHistoryTabNode = setHistoryTabNode;
     var _e = reactExports.useState([]), instances = _e[0], setInstances = _e[1];
+    var _f = reactExports.useState(0), instancesCount = _f[0], setInstancesCount = _f[1];
+    var _g = reactExports.useState(1), currentPage = _g[0], setCurrentPage = _g[1];
+    var _h = reactExports.useState(50), perPage = _h[0]; _h[1];
+    var _j = reactExports.useState(0), firstResult = _j[0], setFirstResult = _j[1];
     // FETCH
     reactExports.useEffect(function () {
         (function () { return __awaiter(void 0, void 0, void 0, function () {
-            var maxResults, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0:
-                        maxResults = !isNaN(parseInt("".concat(query.maxResults), 10))
-                            ? parseInt("".concat(query.maxResults), 10)
-                            : 1000;
-                        _a = setInstances;
-                        return [4 /*yield*/, post(api, '/history/process-instance', { maxResults: "".concat(maxResults) }, JSON.stringify(__assign$1({ sortBy: 'endTime', sortOrder: 'desc', processDefinitionId: processDefinitionId }, query)))];
+                        _a = setInstancesCount;
+                        return [4 /*yield*/, get(api, '/history/process-instance/count', { processDefinitionId: processDefinitionId })];
                     case 1:
-                        _a.apply(void 0, [_b.sent()]);
+                        _a.apply(void 0, [(_c.sent()).count]);
+                        _b = setInstances;
+                        return [4 /*yield*/, post(api, '/history/process-instance', { maxResults: "".concat(perPage), firstResult: "".concat(firstResult) }, JSON.stringify(__assign$1({ sortBy: 'endTime', sortOrder: 'desc', processDefinitionId: processDefinitionId }, query)))];
+                    case 2:
+                        _b.apply(void 0, [_c.sent()]);
                         return [2 /*return*/];
                 }
             });
         }); })();
-    }, [query]);
+    }, [query, firstResult]);
     reactExports.useEffect(function () {
         var query = {};
         var variables = [];
@@ -71552,9 +71594,6 @@ var Plugin = function (_a) {
             }
             else if (category === 'finished' && operator === 'before' && !isNaN(new Date("".concat(value)).getTime())) {
                 query['finishedBefore'] = "".concat(value, "T00:00:00.000+0000");
-            }
-            else if (category === 'maxResults' && operator == 'is' && !isNaN(parseInt("".concat(value), 10))) {
-                query['maxResults'] = parseInt("".concat(value), 10);
             }
             else if (category === 'key' && operator === '==') {
                 query.processInstanceBusinessKey = value;
@@ -71590,9 +71629,14 @@ var Plugin = function (_a) {
     if (historyTabNode && !Array.from(historyTabNode.children).includes(root)) {
         historyTabNode.appendChild(root);
     }
+    var pageClicked = function (firstResult, page) {
+        setCurrentPage(page);
+        setFirstResult(firstResult);
+    };
     return historyTabNode ? (React.createElement(Portal, { node: root },
         React.createElement(FilterBox, { options: InstanceQueryOptions, autoCompleteHandler: autoCompleteHandler, onParseOk: setExpressions, defaultQuery: function () { return ''; } }),
-        instances.length ? React.createElement(HistoryTable, { instances: instances }) : null)) : null;
+        instances.length ? React.createElement(HistoryTable, { instances: instances }) : null,
+        React.createElement(Pagination, { currentPage: currentPage, perPage: perPage, total: instancesCount, onPage: pageClicked }))) : null;
 };
 var instanceRouteHistory = [
     {
